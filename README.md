@@ -1,2 +1,2 @@
-# SmartHome
-Webes Okosház projekt Node-RED és 3D vizualizációval
+# SmartSphere
+Webes Okosház projekt Node-RED 
