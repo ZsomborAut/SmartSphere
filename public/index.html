@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
+    <title>Welcome to SmartSphere</title>
+    <link rel="icon" type="image/png" href="ikon.png">
+
 
     <!-- update the version number as needed -->
     <script defer src="/__/firebase/12.3.0/firebase-app-compat.js"></script>
@@ -80,46 +82,208 @@
   </body>
 </html>
 
+
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>SmartSphere Login</title>
-    <link rel="stylesheet" href="style.css">
-    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>SmartSphere Login / Register / Reset</title>
+  <link rel="stylesheet" href="style.css">
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
-    <div class="hero"></div>
-    <div class="wrapper">
-      <form action="">
-        <h1>Login<h1>
+  <div class="hero"></div>
+  <div class="wrapper">
 
-        <div class="input-box">
-          <input type="text" placeholder="Username" required>
-          <i class="bx bx-user"></i>
-        </div>
+    <!-- LOGIN -->
+    <form id="loginForm">
+      <h1>Login</h1>
 
-        <div class="input-box">
-          <input type="password" placeholder="Password" required>
-          <i class="bx bx-key-alt"></i>
-        </div>
+      <div class="input-box">
+        <input type="text" placeholder="Email" required>
+        <i class="bx bx-user"></i>
+      </div>
 
-        <div class="remember-forgot">
-          <label><input type="checkbox"> Remember me</label>
-          <br>
-          <a href="#">Forgot password?</a>
-        </div>
+      <div class="input-box">
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <i class="bx bx-key-alt"></i>
+        <i id="togglePassword" class="bx bx-eye"></i>
+      </div>
 
-        <button type="submit" class="btn">Login</button>
+      <div class="remember-forgot">
+        <label><input type="checkbox"> Remember me</label><br>
+        <a href="javascript:void(0)" onclick="showForgot()">Forgot password?</a>
+      </div>
 
-        <div class="register-link">
-          <p>Don't have an account?<a href="#">Register</a></p>
-        </div>
-      </form>
-    </div> 
+      <button type="submit" class="btn">Login</button>
+
+      <div class="register-link">
+        <p>Don't have an account? 
+          <a href="javascript:void(0)" onclick="showRegister()">Register</a>
+        </p>
+      </div>
+    </form>
+
+    <!-- REGISTER -->
+    <form id="registerForm" style="display:none;">
+      <h1>Register</h1>
+
+      <div class="input-box">
+        <input type="email" placeholder="Email" required>
+        <i class="bx bx-envelope"></i>
+      </div>
+
+      <div class="input-box">
+        <input type="password" placeholder="Password" required>
+        <i class="bx bx-key-alt"></i>
+      </div>
+
+      <div class="input-box">
+        <input type="password" placeholder="Confirm Password" required>
+        <i class="bx bx-key"></i>
+      </div>
+
+      <button type="submit" class="btn">Register</button>
+
+      <div class="register-link">
+        <p>Already have an account? 
+          <a href="javascript:void(0)" onclick="showLogin()">Login</a>
+        </p>
+      </div>
+    </form>
+
+    <!-- FORGOT PASSWORD -->
+    <form id="forgotForm" style="display:none;">
+      <h1>Reset Password</h1>
+
+      <p>Enter your email address and we'll send you a reset link.</p>
+
+      <div class="input-box">
+        <input type="email" placeholder="Email" required>
+        <i class="bx bx-envelope"></i>
+      </div>
+
+      <button type="submit" class="btn">Send Reset Link</button>
+
+      <div class="register-link">
+        <p>Remembered your password? 
+          <a href="javascript:void(0)" onclick="showLogin()">Back to Login</a>
+        </p>
+      </div>
+    </form>
+
+  </div>
+
+  
+  <script>
+    const passwordInput = document.getElementById('loginPassword');
+    const togglePassword = document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';  
+        togglePassword.classList.remove('bx-eye');
+        togglePassword.classList.add('bx-eye-slash'); // ikonváltas
+      } else {
+        passwordInput.type = 'password';  // vissza rejtett
+        togglePassword.classList.remove('bx-eye-slash');
+        togglePassword.classList.add('bx-eye'); // vissza sima szem
+      }
+    });
+  </script>  
+
+
+  <script>
+    function showRegister() {
+      hideAll();
+      document.getElementById('registerForm').style.display = 'block';
+    }
+
+    function showLogin() {
+      hideAll();
+      document.getElementById('loginForm').style.display = 'block';
+    }
+
+    function showForgot() {
+      hideAll();
+      document.getElementById('forgotForm').style.display = 'block';
+    }
+
+    function hideAll() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('registerForm').style.display = 'none';
+      document.getElementById('forgotForm').style.display = 'none';
+    }
+  </script>
+
+  <script type="module">
+  // Firebase importálás
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } 
+    from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc, collection, query, where, getDocs } 
+    from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  // Saját Firebase config 
+  const firebaseConfig = {
+  apiKey: "AIzaSyBrBgJxquWszDj8nZA0890Rh8p1TKgOYA0",
+  authDomain: "smarthome-4f03c.firebaseapp.com",
+  databaseURL: "https://smarthome-4f03c-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "smarthome-4f03c",
+  storageBucket: "smarthome-4f03c.firebasestorage.app",
+  messagingSenderId: "736696687935",
+  appId: "1:736696687935:web:39e79846ddb12d674e478a",
+  measurementId: "G-F21FLLGCSM"
+};
+
+  // Inicializálás
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Regisztráció
+  document.querySelector('#registerForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = e.target.querySelector('input[type="email"]').value;
+    const password = e.target.querySelector('input[type="password"]').value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert('🎉 Sikeres regisztráció! Most már be tudsz jelentkezni!');
+        showLogin(); // átirányítás a login formhoz
+      })
+      .catch(err => alert('X' + err.message));
+  });
+
+  // Bejelentkezés
+  document.querySelector('#loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const inputs = e.target.querySelectorAll('input');
+    const email = inputs[0].value;
+    const password = inputs[1].value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        // Sikeres bejelentkezés --> átirányítás a dashboard.html-re Amivel Szabi jelenleg foglalkozik
+        window.location.href = "dashboard.html";
+      })
+      .catch(err => alert('X' + err.message));
+  });
+
+  // Jelszó visszaállítás 
+  document.querySelector('#forgotForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = e.target.querySelector('input[type="email"]').value;
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => alert('Jelszó-visszaállító email elküldve!'))
+      .catch(err => alert(err.message));
+  });
+</script>
+  
 </body>
 </html>
+
 
