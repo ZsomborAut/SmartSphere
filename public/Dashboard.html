@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SmartHome</title>
+    <style>
+      body 
+      {
+        margin: 0;
+        height: 100vh;
+        background-color: black; /* alap háttérszín betöltés közben */
+        background-image: url("images/bckgnd-Modern House.jpg");
+        background-size: cover;
+        background-position: center 23%;
+        background-repeat: no-repeat;
+        background-attachment: fixed; /* 🔹 ne mozduljon el */
+        font-family: Arial, sans-serif;
+      }
+      body.outside
+      {
+        margin: 0;
+        height: 100vh;
+        background-image: url("images/bckgnd-Modern House.jpg");
+        background-size: cover;
+        background-position: center 23%;
+        background-repeat: no-repeat;
+        font-family: Arial, sans-serif;
+      }
+
+      body.inside
+      {
+        background-image: url("images/bckg-House Plan.jpg");
+        background-size: cover;
+        background-position: 60% 40%;
+        background-repeat: no-repeat;
+      }
+
+      /* Kör gomb */
+      .btn-circle {
+        position: absolute;
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        border: 5px solid rgb(0, 0, 100);
+        background: radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.133), rgba(0, 0, 0, 0.267));
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.333);
+        cursor: pointer;
+        transition: box-shadow 0.25s ease, transform 0.25s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Hoverre csak fényesebb lesz, nem forog */
+      .btn-circle:hover {
+        box-shadow: 0 0 25px rgba(0, 255, 255, 0.667), 0 0 50px rgba(0, 255, 255, 0.333) inset;
+        transform: scale(1.1); /* enyhe nagyítás, hogy reagáljon */
+      }
+
+      /* Ikon a közepén */
+      .btn-circle img {
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+        pointer-events: none;
+      }
+
+      /* Tooltip (felirat) */
+      .btn-circle span {
+        position: absolute;
+        left: auto;
+        right: 50px;
+        top: 50%;
+        transform: translateY(-50%) translateX(-10px);
+        color: rgb(0, 255, 255);
+        font-size: 16px;
+        background: rgb(0, 0, 0);
+        padding: 4px 10px;
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.25s ease, transform 0.25s ease;
+        pointer-events: none;
+        white-space: nowrap;
+      }
+
+      /* Hoverkor megjelenik a felirat */
+      .btn-circle:hover span {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+      }
+
+      .hidden
+      {
+        display: none;
+      }
+
+      .btn-circle.tooltip-left span 
+      {
+        left: 60px;
+        right: auto;
+        transform: translateY(-50%) translateX(-10px);
+      }
+
+      #Settings { top: 1%; right: 1%; }
+      #Garage { top: 55%; right: 16%; }
+      #Entrence { top: 54%; right: 48.5%; }
+      #Watering { bottom: 10%; right: 35%; }
+      #Roller_Shutter { top: 35%; right: 48.5% }
+      #Gate { bottom: 10%; left: 9% }
+      #Security { top: 10%; right: 48.5% }
+      #External_Lighting { bottom: 25.5%; left: 25% }
+      #Back { bottom: 2%; left: 1% }
+    </style>
+  </head>
+  <body>
+    <div class="btn-circle" id="Settings">
+      <img src="images/Settings.png" alt="Settings">
+      <span>Settings</span>
+    </div>
+
+    <div class="btn-circle" id="Garage">
+      <img src="images/Garage.png" alt="Garage">
+      <span>Garage</span>
+    </div>
+
+    <div class="btn-circle" id="Entrence">
+      <img src="images/Entrence.png" alt="Entrence">
+      <span>Entrence</span>
+    </div>
+
+    <div class="btn-circle" id="Watering">
+      <img src="images/Watering.png" alt="Watering">
+      <span>Watering</span>
+    </div>
+
+    <div class="btn-circle" id="Roller_Shutter">
+      <img src="images/Roller_Shutter.png" alt="RollerShutter">
+      <span>Roller Shutter</span>
+    </div>
+
+    <div class="btn-circle" id="Gate">
+      <img src="images/Gate.png" alt="Gate">
+      <span>Gate</span>
+    </div>
+
+    <div class="btn-circle" id="Security">
+      <img src="images/Security.png" alt="Security">
+      <span>Security</span>
+    </div>
+
+    <div class="btn-circle" id="External_Lighting">
+      <img src="images/External_Lighting.png" alt="ExternalLighting">
+      <span>External Lighting</span>
+    </div>
+
+    <div class="btn-circle hidden tooltip-left" id="Back">
+      <img src="images/Back.png" alt="Back">
+      <span>Back</span>
+    </div>
+
+    <script>
+      const Settings = document.getElementById("Settings");
+      const Garage = document.getElementById("Garage");
+      const Entrence = document.getElementById("Entrence");
+      const Watering = document.getElementById("Watering");
+      const Roller_Shutter = document.getElementById("Roller_Shutter");
+      const Gate = document.getElementById("Gate");
+      const Security = document.getElementById("Security");
+      const External_Lighting = document.getElementById("External_Lighting");
+      const Back = document.getElementById("Back");
+
+      // Példa: ha a "Garage" gombot megnyomod, új háttér + új gombok
+      Entrence.addEventListener
+      ("click", () => 
+      {
+        document.body.classList.remove("outside");
+        document.body.classList.add("inside");
+
+        // Régi gombok eltűnnek
+        Garage.classList.add("hidden");
+        Entrence.classList.add("hidden");
+        Watering.classList.add("hidden");
+        Roller_Shutter.classList.add("hidden");
+        Gate.classList.add("hidden");
+        Security.classList.add("hidden");
+        External_Lighting.classList.add("hidden");
+
+        // Új gombok megjelennek
+        Back.classList.remove("hidden");
+      });
+
+      Back.addEventListener
+      ("click", () => 
+      {
+        document.body.classList.remove("inside");
+        document.body.classList.add("outside");
+
+        Back.classList.add("hidden");
+
+        Garage.classList.remove("hidden");
+        Entrence.classList.remove("hidden");
+        Watering.classList.remove("hidden");
+        Roller_Shutter.classList.remove("hidden");
+        Gate.classList.remove("hidden");
+        Security.classList.remove("hidden");
+        External_Lighting.classList.remove("hidden");
+      });
+    </script>
+  </body>
+</html>
