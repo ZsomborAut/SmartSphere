@@ -1,4 +1,6 @@
 # SmartSphere
+!!!Használni Lucidchart-ot RendszerArchitektúrára
+
 Webes Okosház projekt Node-RED 
 
 Leiras:
