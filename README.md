@@ -1,4 +1,5 @@
 # SmartSphere
+WireFrame-t csinálni
 !!!Használni Lucidchart-ot RendszerArchitektúrára
 
 Webes Okosház projekt Node-RED 
