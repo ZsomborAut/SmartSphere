@@ -9,7 +9,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100vh;
     background: url(img.jpg);
     background-size: cover;        
     background-position: center;   
@@ -21,7 +21,7 @@ body {
     width: 420px;
     background: transparent;
     border: 2px solid rgba(255,255,255,.2);
-    backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
     box-shadow: 0 0 10px rgba(0,0,0,.9);
     color: #fff;
     border-radius: 10px;
@@ -57,6 +57,7 @@ body {
 .wrapper h1{
     font-size: 36px;
     text-align: center;
+    min-height: 55px;
 }
 
 .wrapper.input-box{
@@ -139,3 +140,30 @@ body {
 .register-link p a:hover{
     text-decoration: underline;
 }
+
+/*Animáció */
+form {
+    opacity: 0;
+    transform: translateX(30px);
+    pointer-events: none;
+    transition: all 0.4s ease;
+    position: absolute;
+    width: 100%;
+}
+
+form.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+    position: relative;
+}
+
+.wrapper {
+    position: relative;
+    overflow: hidden;
+    min-height: 350px;
+}
+
+
+/*Interaktiv hatter*/
+

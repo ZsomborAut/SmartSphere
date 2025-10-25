@@ -131,7 +131,7 @@
       <h1>Register</h1>
 
       <div class="input-box">
-        <input type="email" placeholder="Email" required>
+        <input type="email" id="email" placeholder="Email" required>
         <i class="bx bx-envelope"></i>
       </div>
 
@@ -161,7 +161,7 @@
       <p>Enter your email address and we'll send you a reset link.</p>
 
       <div class="input-box">
-        <input type="email" placeholder="Email" required>
+        <input type="email" id="resetEmail" placeholder="Email" required>
         <i class="bx bx-envelope"></i>
       </div>
 
@@ -278,9 +278,86 @@
     const email = e.target.querySelector('input[type="email"]').value;
 
     sendPasswordResetEmail(auth, email)
-      .then(() => alert('Jelszó-visszaállító email elküldve!'))
-      .catch(err => alert(err.message));
+    .then(() => alert('📧 Jelszó-visszaállító e-mail elküldve!'))
+    .catch(err => {
+      console.error('🔥 Hiba:', err.code, err.message);
+      alert(`Hiba: ${err.code} - ${err.message}`);
+     });
   });
+</script>
+
+<!--Animáció script-->
+<script>
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const forgotForm = document.getElementById("forgotForm");
+
+  function showForm(targetForm) {
+    // az összes űrlapot elrejtjük
+    [loginForm, registerForm, forgotForm].forEach(form => {
+      form.classList.remove("active");
+      form.style.display = "none";
+    });
+
+    // kis várakozás, majd az új formot megjelenítjük és aktiváljuk
+    targetForm.style.display = "block";
+    setTimeout(() => targetForm.classList.add("active"), 50);
+  }
+
+  function showLogin() { showForm(loginForm); }
+  function showRegister() { showForm(registerForm); }
+  function showForgot() { showForm(forgotForm); }
+
+  // induláskor a login form látszódjon
+  showLogin();
+</script>
+
+<script>
+  document.addEventListener('mousemove', e => {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.style.left = e.pageX + 'px';
+  particle.style.top = e.pageY + 'px';
+  document.body.appendChild(particle);
+
+  setTimeout(() => {
+    particle.remove();
+  }, 1000);
+});
+</script>
+
+<!--Email mentese-->
+<script>
+    const emailInput = document.getElementById("email");
+    const rememberMeCheckbox = document.getElementById("rememberMe");
+
+    // Oldal betöltésekor visszatöltjük az emailt, ha korábban mentve volt
+    window.onload = () => {
+        const savedEmail = localStorage.getItem("email");
+        const remember = localStorage.getItem("rememberMe");
+
+        if (remember === "true" && savedEmail) {
+            emailInput.value = savedEmail;
+            rememberMeCheckbox.checked = true;
+        }
+    }
+
+    // Bejelentkezéskor
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // csak teszt miatt
+
+        if (rememberMeCheckbox.checked) {
+            // Csak az email mentése
+            localStorage.setItem("email", emailInput.value);
+            localStorage.setItem("rememberMe", true);
+        } else {
+            // Adatok törlése, ha nincs pipa
+            localStorage.removeItem("email");
+            localStorage.removeItem("rememberMe");
+        }
+
+        alert("Bejelentkezés megtörtént!");
+    });
 </script>
   
 </body>
