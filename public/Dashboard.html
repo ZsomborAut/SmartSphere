@@ -45,7 +45,7 @@
         background: radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.133), rgba(0, 0, 0, 0.267));
         box-shadow: 0 0 15px rgba(0, 255, 255, 0.333);
         cursor: pointer;
-        transition: box-shadow 0.25s ease, transform 0.25s ease;
+        transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -117,6 +117,13 @@
       #Bedroom03_Lighting {bottom: 14%; left: 53%}
 
       #Back { bottom: 2%; left: 1% }
+
+      /*  világító állapot stílusa */
+      .btn-circle.active {
+        border-color: rgb(0, 200, 0);
+        box-shadow: 0 0 25px rgba(0, 255, 0, 0.7),
+                    0 0 40px rgba(0, 255, 0, 0.4) inset;
+      }
     </style>
   </head>
   <body>
@@ -188,7 +195,15 @@
       const Living_Lighting = document.getElementById("Living_Lighting");
       const Bedroom03_Lighting = document.getElementById("Bedroom03_Lighting");
 
-      // We enter in the HOUSE
+      // minden gombra kattintásra váltogatja az 'active' osztályt
+      const toggleButtons = [Garage, Watering, Roller_Shutter, Gate, Security, External_Lighting];
+      toggleButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("active");
+        });
+      });
+
+      // 🔹 Ez a te eredeti részed
       Entrence.addEventListener
       ("click", () => 
       {
@@ -232,5 +247,210 @@
         External_Lighting.classList.remove("hidden");
       });
     </script>
+
+
+
+      
+
+ <style>
+  /* --- háttér és panel --- */
+  .settings-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none;
+    place-items: center;
+    z-index: 1000;
+  }
+  .settings-backdrop.show { display: grid; }
+
+  .settings-modal {
+    position: relative;
+    background: #ffffff;
+    color: #0f172a;
+    padding: 16px;
+    border-radius: 8px;
+    width: 300px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .settings-close {
+    position: absolute;
+    top: 8px; right: 8px;
+    background: none; border: 0;
+    font-size: 20px; cursor: pointer;
+  }
+  .settings-row {
+    margin-top: 10px;
+    display: flex; gap: 10px;
+    align-items: center;
+  }
+  html[data-theme="dark"] .settings-modal {
+    background: #0f172a;
+    color: #e5e7eb;
+    border: 1px solid #1f2937;
+    box-shadow: 0 8px 24px rgba(0,0,0,.6);
+  }
+
+  /* --- csúszka --- */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+  }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; inset: 0;
+    cursor: pointer;
+    background-color: #f87171;
+    border-radius: 26px;
+    transition: 0.3s;
+  }
+  .slider::before {
+    content: ""; position: absolute;
+    height: 20px; width: 20px;
+    left: 3px; bottom: 3px;
+    background: #fff; border-radius: 50%;
+    transition: 0.3s;
+  }
+  .switch input:checked + .slider {
+    background-color: #4ade80;
+  }
+  .switch input:checked + .slider::before {
+    transform: translateX(24px);
+  }
+
+  /* --- logout --- */
+  .logout-row {
+    margin-top: 16px;
+    padding-top: 10px;
+    border-top: 1px solid #e5e7eb;
+    text-align: center;
+  }
+  .logout-btn {
+    color: #dc2626;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    background: none;
+    font-size: 15px;
+    transition: color 0.2s;
+  }
+  .logout-btn:hover { color: #b91c1c; }
+</style>
+
+<div id="settingsBackdrop" class="settings-backdrop">
+  <div class="settings-modal">
+    <button id="settingsClose" class="settings-close">×</button>
+    <h3>Settings</h3>
+
+    <!-- Theme -->
+    <div class="settings-row">
+      <strong>Theme:</strong>
+      <label><input type="radio" name="theme" value="light" checked> Light</label>
+      <label><input type="radio" name="theme" value="dark"> Dark</label>
+    </div>
+
+    <hr>
+
+    <!-- Presets -->
+    <div class="settings-row" style="flex-direction:column; align-items:flex-start; gap:12px;">
+      <strong>Presets</strong>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+        <span>Preset 1 – Morning</span>
+        <label class="switch">
+          <input id="presetMorning" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
+        <span>Preset 2 – Evening</span>
+        <label class="switch">
+          <input id="presetEvening" type="checkbox">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Logout -->
+    <div class="logout-row">
+      <button id="logoutBtn" class="logout-btn">Log out</button>
+    </div>
+  </div>
+</div>
+
+    <script>
+      const backdrop = document.getElementById('settingsBackdrop');
+      const closeBtn = document.getElementById('settingsClose');
+      const Settingss = document.getElementById('Settings'); // a jobb felső fogaskerék
+      const themeRadios = document.querySelectorAll('input[name="theme"]');
+      const presetMorning = document.getElementById('presetMorning');
+      const presetEvening = document.getElementById('presetEvening');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      // Megnyitás
+      Settingss.addEventListener('click', () => {
+        backdrop.classList.add('show');
+        loadPresets();
+      });
+      // Bezárás
+      closeBtn.addEventListener('click', () => backdrop.classList.remove('show'));
+      backdrop.addEventListener('click', e => { if (e.target === backdrop) backdrop.classList.remove('show'); });
+
+      // Téma váltás
+      themeRadios.forEach(radio => {
+        radio.addEventListener('change', e => {
+          document.documentElement.setAttribute('data-theme', e.target.value);
+          localStorage.setItem('theme', e.target.value);
+        });
+      });
+
+      // Preset mentés / betöltés
+      function savePresets() {
+        localStorage.setItem('presets', JSON.stringify({
+          morning: presetMorning.checked,
+          evening: presetEvening.checked
+        }));
+      }
+      function loadPresets() {
+        try {
+          const p = JSON.parse(localStorage.getItem('presets') || '{}');
+          presetMorning.checked = !!p.morning;
+          presetEvening.checked = !!p.evening;
+        } catch {
+          presetMorning.checked = presetEvening.checked = false;
+        }
+      }
+
+      // kölcsönös kizárás
+      presetMorning.addEventListener('change', () => {
+        if (presetMorning.checked) presetEvening.checked = false;
+        savePresets();
+      });
+      presetEvening.addEventListener('change', () => {
+        if (presetEvening.checked) presetMorning.checked = false;
+        savePresets();
+      });
+
+      // Log out gomb
+      logoutBtn.addEventListener('click', () => {
+        if (confirm("Biztosan ki szeretnél jelentkezni?")) {
+          localStorage.clear(); // törölheted csak a useradatokat is
+          alert("Sikeresen kijelentkeztél!");
+        }
+      });
+
+      // induló beállítás
+      (function init() {
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        document.querySelector(`input[name="theme"][value="${theme}"]`).checked = true;
+        loadPresets();
+      })();
+    </script>
+
   </body>
 </html>
