@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to SmartSphere</title>
+    <link rel="icon" type="image/png" href="ikon.png">
+
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/12.3.0/firebase-app-compat.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/12.3.0/firebase-auth-compat.js"></script>
+    <script defer src="/__/firebase/12.3.0/firebase-database-compat.js"></script>
+    <script defer src="/__/firebase/12.3.0/firebase-firestore-compat.js"></script>
+    <script defer src="/__/firebase/12.3.0/firebase-functions-compat.js"></script>
+    <script defer src="/__/firebase/12.3.0/firebase-messaging-compat.js"></script>
+    <script defer src="/__/firebase/12.3.0/firebase-storage-compat.js"></script>
+    <script defer src="/__/firebase/12.3.0/firebase-analytics-compat.js"></script>
+    <script defer src="/__/firebase/12.3.0/firebase-remote-config-compat.js"></script>
+    <script defer src="/__/firebase/12.3.0/firebase-performance-compat.js"></script>
+    <!-- 
+      initialize the SDK after all desired features are loaded, set useEmulator to false
+      to avoid connecting the SDK to running emulators.
+    -->
+    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+  </head>
+  <body>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const loadEl = document.querySelector('#load');
+        try {
+          let app = firebase.app();
+          let features = [
+            'auth', 
+            'database', 
+            'firestore',
+            'functions',
+            'messaging', 
+            'storage', 
+            'analytics', 
+            'remoteConfig',
+            'performance',
+          ].filter(feature => typeof app[feature] === 'function');
+          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+          console.error(e);
+          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+    </script>
+  </body>
+</html>
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>SmartSphere Login / Register / Reset</title>
+  <link rel="stylesheet" href="style.css">
+  <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+  <div class="hero"></div>
+  <div class="wrapper">
+
+    <!-- LOGIN -->
+    <form id="loginForm">
+      <h1>Login</h1>
+
+      <div class="input-box">
+        <input type="text" placeholder="Email" required>
+        <i class="bx bx-user"></i>
+      </div>
+
+      <div class="input-box">
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <i class="bx bx-key-alt"></i>
+        <i id="togglePassword" class="bx bx-eye"></i>
+      </div>
+
+      <div class="remember-forgot">
+        <label><input type="checkbox"> Remember me</label><br>
+        <a href="javascript:void(0)" onclick="showForgot()">Forgot password?</a>
+      </div>
+
+      <button type="submit" class="btn">Login</button>
+
+      <div class="register-link">
+        <p>Don't have an account? 
+          <a href="javascript:void(0)" onclick="showRegister()">Register</a>
+        </p>
+      </div>
+    </form>
+
+    <!-- REGISTER -->
+    <form id="registerForm" style="display:none;">
+      <h1>Register</h1>
+
+      <div class="input-box">
+        <input type="email" id="email" placeholder="Email" required>
+        <i class="bx bx-envelope"></i>
+      </div>
+
+      <div class="input-box">
+        <input type="password" placeholder="Password" required>
+        <i class="bx bx-key-alt"></i>
+      </div>
+
+      <div class="input-box">
+        <input type="password" placeholder="Confirm Password" required>
+        <i class="bx bx-key"></i>
+      </div>
+
+      <button type="submit" class="btn">Register</button>
+
+      <div class="register-link">
+        <p>Already have an account? 
+          <a href="javascript:void(0)" onclick="showLogin()">Login</a>
+        </p>
+      </div>
+    </form>
+
+    <!-- FORGOT PASSWORD -->
+    <form id="forgotForm" style="display:none;">
+      <h1>Reset Password</h1>
+
+      <p>Enter your email address and we'll send you a reset link.</p>
+
+      <div class="input-box">
+        <input type="email" id="resetEmail" placeholder="Email" required>
+        <i class="bx bx-envelope"></i>
+      </div>
+
+      <button type="submit" class="btn">Send Reset Link</button>
+
+      <div class="register-link">
+        <p>Remembered your password? 
+          <a href="javascript:void(0)" onclick="showLogin()">Back to Login</a>
+        </p>
+      </div>
+    </form>
+
+  </div>
+
+  
+  <script>
+    const passwordInput = document.getElementById('loginPassword');
+    const togglePassword = document.getElementById('togglePassword');
+
+    togglePassword.addEventListener('click', () => {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';  
+        togglePassword.classList.remove('bx-eye');
+        togglePassword.classList.add('bx-eye-slash'); // ikonváltas
+      } else {
+        passwordInput.type = 'password';  // vissza rejtett
+        togglePassword.classList.remove('bx-eye-slash');
+        togglePassword.classList.add('bx-eye'); // vissza sima szem
+      }
+    });
+  </script>  
+
+
+  <script>
+    function showRegister() {
+      hideAll();
+      document.getElementById('registerForm').style.display = 'block';
+    }
+
+    function showLogin() {
+      hideAll();
+      document.getElementById('loginForm').style.display = 'block';
+    }
+
+    function showForgot() {
+      hideAll();
+      document.getElementById('forgotForm').style.display = 'block';
+    }
+
+    function hideAll() {
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('registerForm').style.display = 'none';
+      document.getElementById('forgotForm').style.display = 'none';
+    }
+  </script>
+
+  <script type="module">
+  // Firebase importálás
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } 
+    from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+  import { getFirestore, doc, setDoc, collection, query, where, getDocs } 
+    from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  // Saját Firebase config 
+  const firebaseConfig = {
+  apiKey: "AIzaSyBrBgJxquWszDj8nZA0890Rh8p1TKgOYA0",
+  authDomain: "smarthome-4f03c.firebaseapp.com",
+  databaseURL: "https://smarthome-4f03c-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "smarthome-4f03c",
+  storageBucket: "smarthome-4f03c.firebasestorage.app",
+  messagingSenderId: "736696687935",
+  appId: "1:736696687935:web:39e79846ddb12d674e478a",
+  measurementId: "G-F21FLLGCSM"
+};
+
+  // Inicializálás
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Regisztráció
+  document.querySelector('#registerForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = e.target.querySelector('input[type="email"]').value;
+    const password = e.target.querySelector('input[type="password"]').value;
+
+    createUserWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert('🎉 Sikeres regisztráció! Most már be tudsz jelentkezni!');
+        showLogin(); // átirányítás a login formhoz
+      })
+      .catch(err => alert('X' + err.message));
+  });
+
+  // Bejelentkezés
+  document.querySelector('#loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const inputs = e.target.querySelectorAll('input');
+    const email = inputs[0].value;
+    const password = inputs[1].value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        // Sikeres bejelentkezés --> átirányítás a dashboard.html-re Amivel Szabi jelenleg foglalkozik
+        window.location.href = "Dashboard.html";
+      })
+      .catch(err => alert('X' + err.message));
+  });
+
+  // Jelszó visszaállítás 
+  document.querySelector('#forgotForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = e.target.querySelector('input[type="email"]').value;
+
+    sendPasswordResetEmail(auth, email)
+    .then(() => alert('📧 Jelszó-visszaállító e-mail elküldve!'))
+    .catch(err => {
+      console.error('🔥 Hiba:', err.code, err.message);
+      alert(`Hiba: ${err.code} - ${err.message}`);
+     });
+  });
+</script>
+
+<!--Animáció script-->
+<script>
+  const loginForm = document.getElementById("loginForm");
+  const registerForm = document.getElementById("registerForm");
+  const forgotForm = document.getElementById("forgotForm");
+
+  function showForm(targetForm) {
+    // az összes űrlapot elrejtjük
+    [loginForm, registerForm, forgotForm].forEach(form => {
+      form.classList.remove("active");
+      form.style.display = "none";
+    });
+
+    // kis várakozás, majd az új formot megjelenítjük és aktiváljuk
+    targetForm.style.display = "block";
+    setTimeout(() => targetForm.classList.add("active"), 50);
+  }
+
+  function showLogin() { showForm(loginForm); }
+  function showRegister() { showForm(registerForm); }
+  function showForgot() { showForm(forgotForm); }
+
+  // induláskor a login form látszódjon
+  showLogin();
+</script>
+
+<script>
+  document.addEventListener('mousemove', e => {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.style.left = e.pageX + 'px';
+  particle.style.top = e.pageY + 'px';
+  document.body.appendChild(particle);
+
+  setTimeout(() => {
+    particle.remove();
+  }, 1000);
+});
+</script>
+
+<!--Email mentese,nem müködik megfelelően-->
+<script>
+    const emailInput = document.getElementById("email");
+    const rememberMeCheckbox = document.getElementById("rememberMe");
+
+    // Oldal betöltésekor visszatöltjük az emailt, ha korábban mentve volt
+    window.onload = () => {
+        const savedEmail = localStorage.getItem("email");
+        const remember = localStorage.getItem("rememberMe");
+
+        if (remember === "true" && savedEmail) {
+            emailInput.value = savedEmail;
+            rememberMeCheckbox.checked = true;
+        }
+    }
+
+    // Bejelentkezéskor
+    document.getElementById("loginForm").addEventListener("submit", function (e) {
+        e.preventDefault(); // csak teszt miatt
+
+        if (rememberMeCheckbox.checked) {
+            // Csak az email mentése
+            localStorage.setItem("email", emailInput.value);
+            localStorage.setItem("rememberMe", true);
+        } else {
+            // Adatok törlése, ha nincs pipa
+            localStorage.removeItem("email");
+            localStorage.removeItem("rememberMe");
+        }
+
+        alert("Bejelentkezés megtörtént!");
+    });
+</script>
+  
+</body>
+</html>

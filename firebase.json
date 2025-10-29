@@ -9,7 +9,7 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/Dashboard.html"
+        "destination": "/Login_Reg.html"
       }
     ]
   },
