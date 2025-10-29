@@ -109,6 +109,13 @@
       #Gate { bottom: 10%; left: 9% }
       #Security { top: 10%; right: 48.5% }
       #External_Lighting { bottom: 25.5%; left: 25% }
+
+      /* I N T E R I O R */
+
+      /*Lighting*/
+      #Living_Lighting {top: 35%; left: 60%}
+      #Bedroom03_Lighting {bottom: 14%; left: 53%}
+
       #Back { bottom: 2%; left: 1% }
     </style>
   </head>
@@ -149,13 +156,23 @@
     </div>
 
     <div class="btn-circle" id="External_Lighting">
-      <img src="images/External_Lighting.png" alt="ExternalLighting">
+      <img src="images/Light.png" alt="ExternalLighting">
       <span>External Lighting</span>
     </div>
 
     <div class="btn-circle hidden tooltip-left" id="Back">
       <img src="images/Back.png" alt="Back">
       <span>Back</span>
+    </div>
+
+    <div class="btn-circle hidden tooltip-left" id="Living_Lighting">
+      <img src="images/Light.png" alt="Living_Lighting">
+      <span>Living Lighting</span>
+    </div>
+
+    <div class="btn-circle hidden tooltip-left" id="Bedroom03_Lighting">
+      <img src="images/Light.png" alt="Bedroom03_Lighting">
+      <span>Bedroom03 Lighting</span>
     </div>
 
     <script>
@@ -168,15 +185,17 @@
       const Security = document.getElementById("Security");
       const External_Lighting = document.getElementById("External_Lighting");
       const Back = document.getElementById("Back");
+      const Living_Lighting = document.getElementById("Living_Lighting");
+      const Bedroom03_Lighting = document.getElementById("Bedroom03_Lighting");
 
-      // Példa: ha a "Garage" gombot megnyomod, új háttér + új gombok
+      // We enter in the HOUSE
       Entrence.addEventListener
       ("click", () => 
       {
         document.body.classList.remove("outside");
         document.body.classList.add("inside");
 
-        // Régi gombok eltűnnek
+        // Hide old buttons
         Garage.classList.add("hidden");
         Entrence.classList.add("hidden");
         Watering.classList.add("hidden");
@@ -185,18 +204,25 @@
         Security.classList.add("hidden");
         External_Lighting.classList.add("hidden");
 
-        // Új gombok megjelennek
+        // Show new buttons
+        Living_Lighting.classList.remove("hidden");
+        Bedroom03_Lighting.classList.remove("hidden");
         Back.classList.remove("hidden");
       });
 
+      // We go back to the Exterior view
       Back.addEventListener
       ("click", () => 
       {
         document.body.classList.remove("inside");
         document.body.classList.add("outside");
-
+        
+        // Hide old buttons
         Back.classList.add("hidden");
+        Living_Lighting.classList.add("hidden");
+        Bedroom03_Lighting.classList.add("hidden");
 
+        // Show new buttons
         Garage.classList.remove("hidden");
         Entrence.classList.remove("hidden");
         Watering.classList.remove("hidden");
