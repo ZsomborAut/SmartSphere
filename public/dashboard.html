@@ -113,16 +113,24 @@
       /* I N T E R I O R */
 
       /*Lighting*/
-      #Living_Lighting {top: 35%; left: 60%}
-      #Bedroom03_Lighting {bottom: 14%; left: 53%}
+      #Living_Lighting {top: 35%; left: 65%}
+      #Bedroom03_Lighting {bottom: 25%; left: 53%}
+      #Bedroom04_Lighting {bottom: 25%; left: 30%}
+      #Kitchen_Lighting {top: 30%; left: 55%}
+      #Bathroom_Lighting {bottom: 22%; left: 41%}
+      #Toalett_Lighting {bottom: 42%; left: 43%}
+      #Garage_Lighting {top: 28%; left: 25%}
 
       #Back { bottom: 2%; left: 1% }
 
-      /*  világító állapot stílusa */
+      /* világító állapot stílusa – nagyobb fénykörrel */
       .btn-circle.active {
         border-color: rgb(0, 200, 0);
-        box-shadow: 0 0 25px rgba(0, 255, 0, 0.7),
-                    0 0 40px rgba(0, 255, 0, 0.4) inset;
+        box-shadow: 
+          0 0 35px rgba(0, 255, 0, 0.8),      /* erősebb közeli fény */
+          0 0 50px rgba(0, 255, 0, 0.5) inset,/* belső ragyogás */
+          0 0 120px rgba(0, 255, 0, 0.4),     /* külső fény */
+          0 0 200px rgba(0, 255, 0, 0.25);    /* távolabbra szórt halvány fény */
       }
     </style>
   </head>
@@ -177,10 +185,39 @@
       <span>Living Lighting</span>
     </div>
 
-    <div class="btn-circle hidden tooltip-left" id="Bedroom03_Lighting">
+    <div class="btn-circle hidden tooltip-left" id="Bedroom03_Lighting">     <!--Innen kell vegyem a mintat-->
       <img src="images/Light.png" alt="Bedroom03_Lighting">
       <span>Bedroom03 Lighting</span>
     </div>
+
+    <!--Innen irtam-->
+    <div class="btn-circle hidden tooltip-left" id="Bedroom04_Lighting">     
+      <img src="images/Light.png" alt="Bedroom04_Lighting">
+      <span>Bedroom04 Lighting</span>
+    </div>
+
+    <div class="btn-circle hidden tooltip-left" id="Kitchen_Lighting">     
+      <img src="images/Light.png" alt="Kitchen_Lighting">
+      <span>Kitchen Lighting</span>
+    </div>
+
+    <div class="btn-circle hidden tooltip-left" id="Bathroom_Lighting">     
+      <img src="images/Light.png" alt="Bathroom_Lighting">
+      <span>Bathroom Lighting</span>
+    </div>
+
+    <div class="btn-circle hidden tooltip-left" id="Garage_Lighting">     
+      <img src="images/Light.png" alt="Garage_Lighting">
+      <span>Garage Lighting</span>
+    </div>
+
+    <div class="btn-circle hidden tooltip-left" id="Toalett_Lighting">     
+      <img src="images/Light.png" alt="Toalett_Lighting">
+      <span>Toalett Lighting</span>
+    </div>
+
+    <!--Idaig-->
+
 
     <script>
       const Settings = document.getElementById("Settings");
@@ -194,8 +231,13 @@
       const Back = document.getElementById("Back");
       const Living_Lighting = document.getElementById("Living_Lighting");
       const Bedroom03_Lighting = document.getElementById("Bedroom03_Lighting");
+      const Bedroom04_Lighting = document.getElementById("Bedroom04_Lighting"); //Ezt adtam hozza
+      const Kitchen = document.getElementById("Kitchen_Lighting"); //Ezt adtam hozza
+      const Bathroom = document.getElementById("Bathroom_Lighting"); //Ezt adtam hozza
+      const Garage_Lighting = document.getElementById("Garage_Lighting"); //Ezt adtam hozza
+      const Toalett = document.getElementById("Toalett_Lighting"); //Ezt adtam hozza
 
-      const toggleButtons = [Garage, Watering, Roller_Shutter, Gate, Security, External_Lighting];
+      const toggleButtons = [Garage, Watering, Roller_Shutter, Gate, Security, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen_Lighting, Bathroom_Lighting, Garage_Lighting, Toalett_Lighting];
       toggleButtons.forEach(btn => {
         btn.addEventListener("click", () => {
           btn.classList.toggle("active");
@@ -220,6 +262,11 @@
         // Show new buttons
         Living_Lighting.classList.remove("hidden");
         Bedroom03_Lighting.classList.remove("hidden");
+        Bedroom04_Lighting.classList.remove("hidden"); //Ezt adtam hozza
+        Kitchen.classList.remove("hidden"); //Ezt adtam hozza
+        Bathroom.classList.remove("hidden"); //Ezt adtam hozza
+        Garage_Lighting.classList.remove("hidden"); //Ezt adtam hozza
+        Toalett.classList.remove("hidden"); //Ezt adtam hozza
         Back.classList.remove("hidden");
       });
 
@@ -233,7 +280,13 @@
         // Hide old buttons
         Back.classList.add("hidden");
         Living_Lighting.classList.add("hidden");
-        Bedroom03_Lighting.classList.add("hidden");
+        Bedroom03_Lighting.classList.add("hidden"); 
+        Bedroom04_Lighting.classList.add("hidden"); //Ezt adtam hozza
+        Kitchen.classList.add("hidden"); //Ezt adtam hozza
+        Bathroom.classList.add("hidden"); //Ezt adtam hozza
+        Garage_Lighting.classList.add("hidden"); //Ezt adtam hozza
+        Toalett.classList.add("hidden"); //Ezt adtam hozza
+        
 
         // Show new buttons
         Garage.classList.remove("hidden");
