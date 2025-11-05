@@ -298,155 +298,212 @@
         External_Lighting.classList.remove("hidden");
       });
     </script>
- <style>
-  /* --- háttér és panel --- */
-  .settings-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: none;
-    place-items: center;
-    z-index: 1000;
-  }
-  .settings-backdrop.show { display: grid; }
 
-  .settings-modal {
-    position: relative;
-    background: #ffffff;
-    color: #0f172a;
-    padding: 16px;
-    border-radius: 8px;
-    width: 300px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-    transition: background 0.2s ease, color 0.2s ease;
-  }
-  .settings-close {
-    position: absolute;
-    top: 8px; right: 8px;
-    background: none; border: 0;
-    font-size: 20px; cursor: pointer;
-  }
-  .settings-row {
-    margin-top: 10px;
-    display: flex; gap: 10px;
-    align-items: center;
-  }
-  html[data-theme="dark"] .settings-modal {
-    background: #0f172a;
-    color: #e5e7eb;
-    border: 1px solid #1f2937;
-    box-shadow: 0 8px 24px rgba(0,0,0,.6);
-  }
+    
+    <style>
+      /* --- háttér és panel --- */
+      .settings-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        place-items: center;
+        z-index: 1000;
+      }
+      .settings-backdrop.show { display: grid; }
 
-  /* --- csúszka --- */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 26px;
-  }
-  .switch input { opacity: 0; width: 0; height: 0; }
-  .slider {
-    position: absolute; inset: 0;
-    cursor: pointer;
-    background-color: #f87171;
-    border-radius: 26px;
-    transition: 0.3s;
-  }
-  .slider::before {
-    content: ""; position: absolute;
-    height: 20px; width: 20px;
-    left: 3px; bottom: 3px;
-    background: #fff; border-radius: 50%;
-    transition: 0.3s;
-  }
-  .switch input:checked + .slider {
-    background-color: #4ade80;
-  }
-  .switch input:checked + .slider::before {
-    transform: translateX(24px);
-  }
+      .settings-modal {
+        position: relative;
+        background: #ffffff;
+        color: #0f172a;
+        padding: 16px;
+        border-radius: 12px;
+        width: 340px;
+        max-height: 90vh;
+        overflow: auto;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.24);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      .settings-close {
+        position: absolute;
+        top: 8px; right: 8px;
+        background: none; border: 0;
+        font-size: 20px; cursor: pointer;
+      }
+      .settings-row {
+        margin-top: 10px;
+        display: flex; gap: 10px;
+        align-items: center;
+      }
+      html[data-theme="dark"] .settings-modal {
+        background: #0f172a;
+        color: #e5e7eb;
+        border: 1px solid #1f2937;
+        box-shadow: 0 8px 24px rgba(0,0,0,.6);
+      }
+      .hr { height: 1px; background: #e5e7eb; margin: 12px 0; }
+      html[data-theme="dark"] .hr { background: #1f2937; }
 
-  /* --- logout --- */
-  .logout-row {
-    margin-top: 16px;
-    padding-top: 10px;
-    border-top: 1px solid #e5e7eb;
-    text-align: center;
-  }
-  .logout-btn {
-    color: #dc2626;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    background: none;
-    font-size: 15px;
-    transition: color 0.2s;
-  }
-  .logout-btn:hover { color: #b91c1c; }
-</style>
+      /* --- csúszka --- */
+      .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+      .switch input { opacity: 0; width: 0; height: 0; }
+      .slider { position: absolute; inset: 0; cursor: pointer; background-color: #f87171; border-radius: 26px; transition: 0.3s; }
+      .slider::before { content: ""; position: absolute; height: 20px; width: 20px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.3s; }
+      .switch input:checked + .slider { background-color: #4ade80; }
+      .switch input:checked + .slider::before { transform: translateX(24px); }
 
-<div id="settingsBackdrop" class="settings-backdrop">
-  <div class="settings-modal">
-    <button id="settingsClose" class="settings-close">×</button>
-    <h3>Settings</h3>
+      /* --- gombok --- */
+      .btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        gap: 6px; border: 1px solid #e5e7eb; padding: 6px 10px; border-radius: 8px;
+        background: #f8fafc; color: #0f172a; cursor: pointer; font-weight: 600; font-size: 14px;
+        transition: background .2s, border-color .2s, transform .05s;
+      }
+      .btn:hover { background: #f1f5f9; }
+      .btn:active { transform: translateY(1px); }
+      html[data-theme="dark"] .btn { background: #0b1220; color: #e5e7eb; border-color: #1f2937; }
+      html[data-theme="dark"] .btn:hover { background: #0e1729; }
 
-    <!-- Theme -->
-    <div class="settings-row">
-      <strong>Theme:</strong>
-      <label><input type="radio" name="theme" value="light" checked> Light</label>
-      <label><input type="radio" name="theme" value="dark"> Dark</label>
-    </div>
+      .btn-danger { color: #dc2626; border-color: #fecaca; background: #fff1f2; }
+      .btn-danger:hover { background: #ffe4e6; }
+      html[data-theme="dark"] .btn-danger { color: #fca5a5; border-color: #7f1d1d; background: #1b0b0b; }
+      html[data-theme="dark"] .btn-danger:hover { background: #260f0f; }
 
-    <hr>
+      /* --- Preset lista --- */
+      .preset-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+      .preset-list { display: grid; gap: 8px; margin-top: 8px; }
+      .preset-item {
+        display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 8px;
+        padding: 8px; border: 1px solid #e5e7eb; border-radius: 10px; background: #ffffff;
+      }
+      html[data-theme="dark"] .preset-item { border-color: #1f2937; background: #0b1220; }
+      .preset-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .icon-btn { background: none; border: 0; cursor: pointer; font-size: 16px; padding: 4px; }
+      .icon-btn[title="Szerkesztés"] { color: #2563eb; }
+      .icon-btn[title="Törlés"] { color: #dc2626; }
 
-    <!-- Presets -->
-    <div class="settings-row" style="flex-direction:column; align-items:flex-start; gap:12px;">
-      <strong>Presets</strong>
+      /* --- szerkesztő panel --- */
+      .editor { margin-top: 10px; padding: 10px; border: 1px dashed #cbd5e1; border-radius: 10px; display: none; }
+      html[data-theme="dark"] .editor { border-color: #334155; }
+      .editor.show { display: block; }
+      .editor-grid { display: grid; gap: 12px; }
+      .editor-row { display: grid; gap: 8px; }
+      .editor-group { border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px; }
+      html[data-theme="dark"] .editor-group { border-color: #1f2937; }
+      .group-title { font-weight: 700; margin-bottom: 6px; }
+      .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; }
+      .field {
+        display: grid; gap: 6px;
+      }
+      .input { padding: 8px 10px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; color: inherit; }
+      html[data-theme="dark"] .input { background: #0b1220; border-color: #1f2937; color: #e5e7eb; }
 
-      <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-        <span>Preset 1 – Morning</span>
-        <label class="switch">
-          <input id="presetMorning" type="checkbox">
-          <span class="slider"></span>
-        </label>
+      /* --- logout --- */
+      .logout-row { margin-top: 16px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; }
+      .logout-btn { color: #dc2626; font-weight: 600; cursor: pointer; border: none; background: none; font-size: 15px; transition: color 0.2s; }
+      .logout-btn:hover { color: #b91c1c; }
+    </style>
+  </head>
+
+  <body>
+    <div id="settingsBackdrop" class="settings-backdrop">
+      <div class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <button id="settingsClose" class="settings-close" aria-label="Bezárás">×</button>
+
+        <!-- Téma -->
+        <div class="settings-row" role="group" aria-label="Theme">
+          <strong>Theme:</strong>
+          <label><input type="radio" name="theme" value="light" checked> Light</label>
+          <label><input type="radio" name="theme" value="dark"> Dark</label>
+        </div>
+
+        <div class="hr"></div>
+
+        <!-- Presetek -->
+        <div class="preset-header">
+          <strong>Presets</strong>
+          <button id="addPreset" class="btn">＋ New preset</button>
+        </div>
+        <div id="presetList" class="preset-list" aria-live="polite"></div>
+
+        <!-- Szerkesztő -->
+        <div id="presetEditor" class="editor" aria-live="polite">
+          <div class="editor-grid">
+            <div class="field">
+              <label for="presetName"><strong>Preset name</strong></label>
+              <input id="presetName" class="input" type="text" placeholder="E.g. Morning routine" maxlength="40" />
+            </div>
+
+            <div class="editor-group">
+              <div class="group-title">Outdoor equipment</div>
+              <div class="toggle-row"><span>Gate</span> <label class="switch"><input data-key="Gate" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>External Lighting</span> <label class="switch"><input data-key="External Lighting" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Watering</span> <label class="switch"><input data-key="Watering" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Roller Shutter</span> <label class="switch"><input data-key="Roller Shutter" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Security</span> <label class="switch"><input data-key="Security" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Garage door</span> <label class="switch"><input data-key="Garage door" type="checkbox"><span class="slider"></span></label></div>
+            </div>
+
+            <div class="editor-group">
+              <div class="group-title">Indoor lighting</div>
+              <div class="toggle-row"><span>Bedroom03</span> <label class="switch"><input data-key="Bedroom03" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Bedroom04</span> <label class="switch"><input data-key="Bedroom04" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Living room</span> <label class="switch"><input data-key="Living room" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Kitchen</span> <label class="switch"><input data-key="Kitchen" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage (inside)" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Bathroom</span> <label class="switch"><input data-key="Bathroom" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Toalett</span> <label class="switch"><input data-key="Toalett" type="checkbox"><span class="slider"></span></label></div>
+            </div>
+
+            <div style="display:flex; gap:8px; justify-content:flex-end;">
+              <button id="cancelEdit" class="btn">Cancel</button>
+              <button id="savePreset" class="btn">💾 Save</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Logout -->
+        <div class="logout-row">
+          <button id="logoutBtn" class="logout-btn">Log out</button>
+        </div>
       </div>
-
-      <div style="display:flex; align-items:center; justify-content:space-between; width:100%;">
-        <span>Preset 2 – Evening</span>
-        <label class="switch">
-          <input id="presetEvening" type="checkbox">
-          <span class="slider"></span>
-        </label>
-      </div>
     </div>
-
-    <!-- Logout -->
-    <div class="logout-row">
-      <button id="logoutBtn" class="logout-btn">Log out</button>
-    </div>
-  </div>
-</div>
 
     <script>
+      // ===== Elem hivatkozások =====
       const backdrop = document.getElementById('settingsBackdrop');
       const closeBtn = document.getElementById('settingsClose');
-      const Settingss = document.getElementById('Settings'); // a jobb felső fogaskerék
+      const settingsBtn = document.getElementById('Settings'); // jobb felső fogaskerék
       const themeRadios = document.querySelectorAll('input[name="theme"]');
-      const presetMorning = document.getElementById('presetMorning');
-      const presetEvening = document.getElementById('presetEvening');
+
+      const presetList = document.getElementById('presetList');
+      const addPresetBtn = document.getElementById('addPreset');
+
+      const editor = document.getElementById('presetEditor');
+      const presetNameInput = document.getElementById('presetName');
+      const savePresetBtn = document.getElementById('savePreset');
+      const cancelEditBtn = document.getElementById('cancelEdit');
+
       const logoutBtn = document.getElementById('logoutBtn');
 
-      // Megnyitás
-      Settingss.addEventListener('click', () => {
+      // Editor állapot
+      let editingId = null; // null = új preset
+
+      // Alap kulcsok (felülethez kötve data-key alapján)
+      function allDeviceKeys() {
+        return Array.from(editor.querySelectorAll('input[type="checkbox"][data-key]')).map(i => i.getAttribute('data-key'));
+      }
+
+      // ===== Modal megnyitás / zárás =====
+      settingsBtn && settingsBtn.addEventListener('click', () => {
         backdrop.classList.add('show');
-        loadPresets();
+        renderPresetList();
       });
-      // Bezárás
       closeBtn.addEventListener('click', () => backdrop.classList.remove('show'));
       backdrop.addEventListener('click', e => { if (e.target === backdrop) backdrop.classList.remove('show'); });
 
-      // Téma váltás
+      // ===== Téma váltás =====
       themeRadios.forEach(radio => {
         radio.addEventListener('change', e => {
           document.documentElement.setAttribute('data-theme', e.target.value);
@@ -454,49 +511,175 @@
         });
       });
 
-      // Preset mentés / betöltés
-      function savePresets() {
-        localStorage.setItem('presets', JSON.stringify({
-          morning: presetMorning.checked,
-          evening: presetEvening.checked
-        }));
-      }
+      // ===== Preset CRUD a localStorage-ben =====
+      const LS_KEY = 'userPresets';
+      const LS_ACTIVE = 'activePresetId';
+
       function loadPresets() {
-        try {
-          const p = JSON.parse(localStorage.getItem('presets') || '{}');
-          presetMorning.checked = !!p.morning;
-          presetEvening.checked = !!p.evening;
-        } catch {
-          presetMorning.checked = presetEvening.checked = false;
+        try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); } catch { return []; }
+      }
+      function savePresets(list) {
+        localStorage.setItem(LS_KEY, JSON.stringify(list));
+      }
+      function activePresetId() { return localStorage.getItem(LS_ACTIVE) || null; }
+      function setActivePresetId(id) { if (id === null) localStorage.removeItem(LS_ACTIVE); else localStorage.setItem(LS_ACTIVE, id); }
+
+      function ensureDefaults() {
+        // Ha nincs semmi, létrehozunk két mintát, hogy legyen mit látni
+        const items = loadPresets();
+        if (items.length === 0) {
+          const keys = allDeviceKeys();
+          const sample1 = { id: crypto.randomUUID(), name: 'Reggel', devices: Object.fromEntries(keys.map(k => [k, false])) };
+          const sample2 = { id: crypto.randomUUID(), name: 'Este', devices: Object.fromEntries(keys.map(k => [k, false])) };
+          // Példa: este külső világítás és Security bekapcsolva
+          sample2.devices['External Lighting'] = true;
+          sample2.devices['Security'] = true;
+          savePresets([sample1, sample2]);
+          setActivePresetId(sample2.id);
         }
       }
 
-      // kölcsönös kizárás
-      presetMorning.addEventListener('change', () => {
-        if (presetMorning.checked) presetEvening.checked = false;
-        savePresets();
-      });
-      presetEvening.addEventListener('change', () => {
-        if (presetEvening.checked) presetMorning.checked = false;
-        savePresets();
+      // ===== Lista render =====
+      function renderPresetList() {
+       ///ensureDefaults();
+        const items = loadPresets();
+        const activeId = activePresetId();
+        if (items.length === 0) { presetList.innerHTML = '<em>There are no presets yet. Click on the "New preset" button!.</em>'; return; }
+        presetList.innerHTML = '';
+        for (const p of items) {
+          const row = document.createElement('div');
+          row.className = 'preset-item';
+          row.dataset.id = p.id;
+          row.innerHTML = `
+            <div class="preset-name" title="${p.name}">${p.name}</div>
+            <label class="switch" title="Activation">
+              <input type="checkbox" ${p.id === activeId ? 'checked' : ''} aria-label="Activation">
+              <span class="slider"></span>
+            </label>
+            <button class="icon-btn" title="Edit">✎</button>
+            <button class="icon-btn" title="Delete">🗑</button>
+          `;
+          presetList.appendChild(row);
+        }
+      }
+
+      // ===== Preset szerkesztő =====
+      function openEditor(preset) {
+        editingId = preset ? preset.id : null;
+        // Név
+        presetNameInput.value = preset ? preset.name : '';
+        // Kapcsolók
+        const allKeys = allDeviceKeys();
+        const devices = preset ? preset.devices : Object.fromEntries(allKeys.map(k => [k, false]));
+        for (const input of editor.querySelectorAll('input[type="checkbox"][data-key]')) {
+          const key = input.getAttribute('data-key');
+          input.checked = !!devices[key];
+        }
+        editor.classList.add('show');
+        presetNameInput.focus();
+      }
+
+      function closeEditor() {
+        editor.classList.remove('show');
+        editingId = null;
+      }
+
+      function collectEditorData() {
+        const name = (presetNameInput.value || '').trim();
+        const devices = {};
+        for (const input of editor.querySelectorAll('input[type="checkbox"][data-key]')) {
+          devices[input.getAttribute('data-key')] = input.checked;
+        }
+        return { name, devices };
+      }
+
+      // ===== Események =====
+      addPresetBtn.addEventListener('click', () => openEditor(null));
+      cancelEditBtn.addEventListener('click', closeEditor);
+
+      savePresetBtn.addEventListener('click', () => {
+        const { name, devices } = collectEditorData();
+        if (!name) { alert('Give the preset a name!'); return; }
+        const list = loadPresets();
+        if (editingId) {
+          const idx = list.findIndex(p => p.id === editingId);
+          if (idx !== -1) list[idx] = { ...list[idx], name, devices };
+        } else {
+          list.push({ id: crypto.randomUUID(), name, devices });
+        }
+        savePresets(list);
+        renderPresetList();
+        closeEditor();
       });
 
-      // Log out gomb
-      logoutBtn.addEventListener('click', () => {
-        if (confirm("Biztosan ki szeretnél jelentkezni?")) {
-          localStorage.clear(); // törölheted csak a useradatokat is
-          alert("Sikeresen kijelentkeztél!");
+      // Lista gombjai (delegáció)
+      presetList.addEventListener('click', (e) => {
+        const row = e.target.closest('.preset-item');
+        if (!row) return;
+        const id = row.dataset.id;
+        const list = loadPresets();
+        const preset = list.find(p => p.id === id);
+
+        // Aktiválás kapcsoló
+        if (e.target.matches('input[type="checkbox"]')) {
+          const checked = e.target.checked;
+          // Csak egy lehet aktív: ha bekapcsoljuk, a többiről levesszük
+          if (checked) {
+            setActivePresetId(id);
+            // Itt lehet külső rendszert értesíteni:
+            dispatchPresetApplied(preset);
+          } else {
+            setActivePresetId(null);
+          }
+          renderPresetList();
+          return;
+        }
+
+        // Szerkesztés
+        if (e.target.matches('.icon-btn[title="Edit"]')) {
+          openEditor(preset);
+          return;
+        }
+
+        // Törlés
+        if (e.target.matches('.icon-btn[title="Delete"]')) {
+          if (confirm('Are you sure you want to delete the preset?')) {
+            const newList = list.filter(p => p.id !== id);
+            savePresets(newList);
+            if (activePresetId() === id) setActivePresetId(null);
+            renderPresetList();
+          }
+          return;
         }
       });
 
-      // induló beállítás
+      // Egységes értesítés – itt kötheted be a valódi vezérlést
+      function dispatchPresetApplied(preset) {
+        const event = new CustomEvent('presetApplied', { detail: { preset } });
+        window.dispatchEvent(event);
+        // Példa: konzolra kiírjuk az állapotot
+        console.log('Preset applied:', preset.name, preset.devices);
+      }
+
+      // ===== Log out gomb =====
+      logoutBtn.addEventListener('click', () => {
+        if (confirm('Are you sure you want to log out?')) {
+          // Ha csak a user adatokat akarod törölni, azokat célozd – itt most minden beállítást ürítünk
+          localStorage.clear();
+          alert('You have successfully logged out!');
+          renderPresetList();
+        }
+      });
+
+      // ===== Induló beállítás =====
       (function init() {
         const theme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', theme);
-        document.querySelector(`input[name="theme"][value="${theme}"]`).checked = true;
-        loadPresets();
+        const themeRadio = document.querySelector(`input[name="theme"][value="${theme}"]`);
+        if (themeRadio) themeRadio.checked = true;
+        renderPresetList();
       })();
     </script>
-
+    
   </body>
 </html>
