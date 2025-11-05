@@ -199,18 +199,6 @@
       toggleButtons.forEach(btn => {
         btn.addEventListener("click", () => {
           btn.classList.toggle("active");
-          External_Lighting.addEventListener("click", () => {
-          External_Lighting.classList.toggle("active");
-
-          // Küldés Node-RED felé
-          fetch("http://127.0.0.1:1880/external-lighting", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ status: External_Lighting.classList.contains("active") })
-          })
-          .then(response => response.text())
-          .then(data => console.log("Node-RED válasz:", data));
-        });
         });
       });
 

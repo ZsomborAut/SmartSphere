@@ -251,7 +251,7 @@
 
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        // Sikeres bejelentkezés --> átirányítás a dashboard.html-re Amivel Szabi jelenleg foglalkozik
+        // Sikeres bejelentkezés --> átirányítás a dashboard.html-re
         window.location.href = "Dashboard.html";
       })
       .catch(err => alert('X' + err.message));
