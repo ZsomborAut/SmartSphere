@@ -1,0 +1,26 @@
+{
+    "name": "smartsphere",
+    "version": "1.0.0",
+    "description": "Webes Okosház projekt Node-RED",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ZsomborAut/SmartSphere.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/ZsomborAut/SmartSphere/issues"
+    },
+    "homepage": "https://github.com/ZsomborAut/SmartSphere#readme",
+    "node-red": {
+        "settings": {
+            "flowFile": "flows_SmartSphere.json",
+            "credentialsFile": "flows_SmartSphere_cred.json"
+        }
+    }
+}
