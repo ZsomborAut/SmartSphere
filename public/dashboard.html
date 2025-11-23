@@ -93,6 +93,7 @@
       {
         display: none;
       }
+      
 
       .btn-circle.tooltip-left span 
       {
@@ -132,6 +133,13 @@
           0 0 120px rgba(0, 255, 0, 0.4),     /* külső fény */
           0 0 200px rgba(0, 255, 0, 0.25);    /* távolabbra szórt halvány fény */
       }
+      
+      /*Securityhez*/
+      .disabled {
+        opacity: 0.4;
+        pointer-events: none;
+      }
+
     </style>
   </head>
   <body>
@@ -237,10 +245,48 @@
       const Garage_Lighting = document.getElementById("Garage_Lighting"); //Ezt adtam hozza
       const Toalett = document.getElementById("Toalett_Lighting"); //Ezt adtam hozza
 
-      const toggleButtons = [Garage, Watering, Roller_Shutter, Gate, Security, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen_Lighting, Bathroom_Lighting, Garage_Lighting, Toalett_Lighting];
+      const toggleButtons = [Garage, Watering, Roller_Shutter, Gate, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen_Lighting, Bathroom_Lighting, Garage_Lighting, Toalett_Lighting];
+
       toggleButtons.forEach(btn => {
         btn.addEventListener("click", () => {
           btn.classList.toggle("active");
+        });
+      });
+
+      // SECURITY LOGIKA
+      Security.addEventListener("click", () => {
+        
+        // Security saját állapotát átváltjuk
+        Security.classList.toggle("active");
+
+        if (Security.classList.contains("active")) {
+
+          // 🔒 SECURITY BEKAPCSOLVA:
+          // minden más gomb kapcsoljon ki és legyen tiltva
+          toggleButtons.forEach(btn => {
+            if (btn !== Security) {
+              btn.classList.remove("active");  // kikapcsoljuk
+              btn.classList.add("disabled");   // nem lehet rá kattintani
+            }
+          });
+
+        } else {
+
+          // 🔓 SECURITY KIKAPCSOLVA:
+          // minden gomb ismét működhet
+          toggleButtons.forEach(btn => {
+            btn.classList.remove("disabled");
+          });
+        }
+      });
+
+
+      // ⛔ A tiltott gombokat blokkoljuk
+      toggleButtons.forEach(btn => {
+        btn.addEventListener("click", (event) => {
+          if (btn.classList.contains("disabled")) {
+            event.stopImmediatePropagation(); // ne kapcsoljon be
+          }
         });
       });
 
