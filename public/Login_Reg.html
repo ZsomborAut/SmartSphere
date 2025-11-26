@@ -252,7 +252,7 @@
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         // Sikeres bejelentkezés --> átirányítás a dashboard.html-re
-        window.location.href = "Dashboard.html";
+        window.location.href = "dashboard.html";
       })
       .catch(err => alert('X' + err.message));
   });
