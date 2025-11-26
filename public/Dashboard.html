@@ -113,14 +113,8 @@
       /* I N T E R I O R */
 
       /*Lighting*/
-      #Living_Lighting {top: 35%; left: 65%}
-      #Bedroom03_Lighting {bottom: 25%; left: 53%}
-      #Bedroom04_Lighting {bottom: 25%; left: 30%}
-      #Kitchen_Lighting {top: 30%; left: 55%}
-      #Bathroom_Lighting {bottom: 22%; left: 41%}
-      #Toalett_Lighting {bottom: 42%; left: 43%}
-      #Garage_Lighting {top: 28%; left: 25%}
-      #Heating { bottom: 42%; left: 19%; }
+      #Living_Lighting {top: 35%; left: 60%}
+      #Bedroom03_Lighting {bottom: 14%; left: 53%}
 
       #Back { bottom: 2%; left: 1% }
 
@@ -201,7 +195,7 @@
       const Living_Lighting = document.getElementById("Living_Lighting");
       const Bedroom03_Lighting = document.getElementById("Bedroom03_Lighting");
 
-      const toggleButtons = [Watering, Roller_Shutter, Gate, Security, External_Lighting];
+      const toggleButtons = [Garage, Watering, Roller_Shutter, Gate, Security, External_Lighting];
       toggleButtons.forEach(btn => {
         btn.addEventListener("click", () => {
           btn.classList.toggle("active");
