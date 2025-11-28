@@ -1,280 +1,389 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>SmartHome</title>
-    <style>
-      body 
-      {
-        margin: 0;
-        height: 100vh;
-        background-color: black; /* alap háttérszín betöltés közben */
-        background-image: url("images/bckgnd-Modern House.jpg");
-        background-size: cover;
-        background-position: center 23%;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        font-family: Arial, sans-serif;
-      }
-      body.outside
-      {
-        margin: 0;
-        height: 100vh;
-        background-image: url("images/bckgnd-Modern House.jpg");
-        background-size: cover;
-        background-position: center 23%;
-        background-repeat: no-repeat;
-        font-family: Arial, sans-serif;
-      }
 
-      body.inside
-      {
-        background-image: url("images/bckg-House Plan.jpg");
-        background-size: cover;
-        background-position: 60% 40%;
-        background-repeat: no-repeat;
-      }
+<head>
+  <meta charset="UTF-8">
+  <title>SmartHome</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: black;
+      /* alap háttérszín betöltés közben */
+      background-image: url("images/bckgnd-Modern House.jpg");
+      background-size: cover;
+      background-position: center 23%;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      font-family: Arial, sans-serif;
+    }
 
-      /* Kör gomb */
-      .btn-circle {
-        position: absolute;
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        border: 5px solid rgb(0, 0, 100);
-        background: radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.133), rgba(0, 0, 0, 0.267));
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.333);
-        cursor: pointer;
-        transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
+    body.outside {
+      margin: 0;
+      height: 100vh;
+      background-image: url("images/bckgnd-Modern House.jpg");
+      background-size: cover;
+      background-position: center 23%;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+    }
 
-      /* Hoverre csak fényesebb lesz, nem forog */
-      .btn-circle:hover {
-        box-shadow: 0 0 25px rgba(0, 255, 255, 0.667), 0 0 50px rgba(0, 255, 255, 0.333) inset;
-        transform: scale(1.1); /* enyhe nagyítás, hogy reagáljon */
-      }
+    body.inside {
+      background-image: url("images/bckg-House Plan.jpg");
+      background-size: cover;
+      background-position: 60% 40%;
+      background-repeat: no-repeat;
+    }
 
-      /* Ikon a közepén */
-      .btn-circle img {
-        width: 70%;
-        height: 70%;
-        object-fit: contain;
-        pointer-events: none;
-      }
+    /* Kör gomb */
+    .btn-circle {
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 5px solid rgb(0, 0, 100);
+      background: radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.133), rgba(0, 0, 0, 0.267));
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.333);
+      cursor: pointer;
+      transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-      /* Tooltip (felirat) */
-      .btn-circle span {
-        position: absolute;
-        left: auto;
-        right: 50px;
-        top: 50%;
-        transform: translateY(-50%) translateX(-10px);
-        color: rgb(0, 255, 255);
-        font-size: 16px;
-        background: rgb(0, 0, 0);
-        padding: 4px 10px;
-        border-radius: 8px;
-        opacity: 0;
-        transition: opacity 0.25s ease, transform 0.25s ease;
-        pointer-events: none;
-        white-space: nowrap;
-      }
+    /* Hoverre csak fényesebb lesz, nem forog */
+    .btn-circle:hover {
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.667), 0 0 50px rgba(0, 255, 255, 0.333) inset;
+      transform: scale(1.1);
+      /* enyhe nagyítás, hogy reagáljon */
+    }
 
-      /* Hoverkor megjelenik a felirat */
-      .btn-circle:hover span {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-      }
+    /* Ikon a közepén */
+    .btn-circle img {
+      width: 70%;
+      height: 70%;
+      object-fit: contain;
+      pointer-events: none;
+    }
 
-      .hidden
-      {
-        display: none;
-      }
+    /* Tooltip (felirat) */
+    .btn-circle span {
+      position: absolute;
+      left: auto;
+      right: 50px;
+      top: 50%;
+      transform: translateY(-50%) translateX(-10px);
+      color: rgb(0, 255, 255);
+      font-size: 16px;
+      background: rgb(0, 0, 0);
+      padding: 4px 10px;
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
 
-      .btn-circle.tooltip-left span 
-      {
-        left: 60px;
-        right: auto;
-        transform: translateY(-50%) translateX(-10px);
-      }
+    /* Hoverkor megjelenik a felirat */
+    .btn-circle:hover span {
+      opacity: 1;
+      transform: translateY(-50%) translateX(0);
+    }
 
-      #Settings { top: 1%; right: 1%; }
-      #Garage { top: 55%; right: 16%; }
-      #Entrence { top: 54%; right: 48.5%; }
-      #Watering { bottom: 10%; right: 35%; }
-      #Roller_Shutter { top: 35%; right: 48.5% }
-      #Gate { bottom: 10%; left: 9% }
-      #Security { top: 10%; right: 48.5% }
-      #External_Lighting { bottom: 25.5%; left: 25% }
+    .hidden {
+      display: none;
+    }
 
-      /* I N T E R I O R */
+    .btn-circle.tooltip-left span {
+      left: 60px;
+      right: auto;
+      transform: translateY(-50%) translateX(-10px);
+    }
 
-      /*Lighting*/
-      #Living_Lighting {top: 35%; left: 65%}
-      #Bedroom03_Lighting {bottom: 25%; left: 53%}
-      #Bedroom04_Lighting {bottom: 25%; left: 30%}
-      #Kitchen_Lighting {top: 30%; left: 55%}
-      #Bathroom_Lighting {bottom: 22%; left: 41%}
-      #Toalett_Lighting {bottom: 42%; left: 43%}
-      #Garage_Lighting {top: 28%; left: 25%}
-      #Heating { bottom: 42%; left: 19%; }
+    #Settings {
+      top: 1%;
+      right: 1%;
+    }
 
-      #Back { bottom: 2%; left: 1% }
+    #Garage {
+      top: 55%;
+      right: 16%;
+    }
 
-      /* világító állapot stílusa – nagyobb fénykörrel */
-      .btn-circle.active {
-        border-color: rgb(0, 200, 0);
-        box-shadow: 
-          0 0 35px rgba(0, 255, 0, 0.8),      /* erősebb közeli fény */
-          0 0 50px rgba(0, 255, 0, 0.5) inset,/* belső ragyogás */
-          0 0 120px rgba(0, 255, 0, 0.4),     /* külső fény */
-          0 0 200px rgba(0, 255, 0, 0.25);    /* távolabbra szórt halvány fény */
-      }
-    </style>
-  </head>
-  <body>
-    <div class="btn-circle" id="Settings">
-      <img src="images/Settings.png" alt="Settings">
-      <span>Settings</span>
-    </div>
+    #Entrence {
+      top: 54%;
+      right: 48.5%;
+    }
 
-    <div class="btn-circle" id="Garage">
-      <img src="images/Garage.png" alt="Garage">
-      <span>Garage</span>
-    </div>
+    #Watering {
+      bottom: 10%;
+      right: 35%;
+    }
 
-    <div class="btn-circle" id="Entrence">
-      <img src="images/Entrence.png" alt="Entrence">
-      <span>Entrence</span>
-    </div>
+    #Roller_Shutter {
+      top: 35%;
+      right: 48.5%
+    }
 
-    <div class="btn-circle" id="Watering">
-      <img src="images/Watering.png" alt="Watering">
-      <span>Watering</span>
-    </div>
+    #Gate {
+      bottom: 10%;
+      left: 9%
+    }
 
-    <div class="btn-circle" id="Roller_Shutter">
-      <img src="images/Roller_Shutter.png" alt="RollerShutter">
-      <span>Roller Shutter</span>
-    </div>
+    #Security {
+      top: 10%;
+      right: 48.5%
+    }
 
-    <div class="btn-circle" id="Gate">
-      <img src="images/Gate.png" alt="Gate">
-      <span>Gate</span>
-    </div>
+    #External_Lighting {
+      bottom: 25.5%;
+      left: 25%
+    }
 
-    <div class="btn-circle" id="Security">
-      <img src="images/Security.png" alt="Security">
-      <span>Security</span>
-    </div>
+    /* I N T E R I O R */
 
-    <div class="btn-circle" id="External_Lighting">
-      <img src="images/Light.png" alt="ExternalLighting">
-      <span>External Lighting</span>
-    </div>
+    /*Lighting*/
+    #Living_Lighting {
+      top: 35%;
+      left: 65%
+    }
 
-    <div class="btn-circle hidden tooltip-left" id="Back">
-      <img src="images/Back.png" alt="Back">
-      <span>Back</span>
-    </div>
+    #Bedroom03_Lighting {
+      bottom: 25%;
+      left: 53%
+    }
 
-    <div class="btn-circle hidden tooltip-left" id="Living_Lighting">
-      <img src="images/Light.png" alt="Living_Lighting">
-      <span>Living Lighting</span>
-    </div>
+    #Bedroom04_Lighting {
+      bottom: 25%;
+      left: 30%
+    }
 
-    <div class="btn-circle hidden tooltip-left" id="Bedroom03_Lighting">     <!--Innen kell vegyem a mintat-->
-      <img src="images/Light.png" alt="Bedroom03_Lighting">
-      <span>Bedroom03 Lighting</span>
-    </div>
+    #Kitchen_Lighting {
+      top: 30%;
+      left: 55%
+    }
 
-    <!--Innen irtam-->
-    <div class="btn-circle hidden tooltip-left" id="Bedroom04_Lighting">     
-      <img src="images/Light.png" alt="Bedroom04_Lighting">
-      <span>Bedroom04 Lighting</span>
-    </div>
+    #Bathroom_Lighting {
+      bottom: 22%;
+      left: 41%
+    }
 
-    <div class="btn-circle hidden tooltip-left" id="Kitchen_Lighting">     
-      <img src="images/Light.png" alt="Kitchen_Lighting">
-      <span>Kitchen Lighting</span>
-    </div>
+    #Toalett_Lighting {
+      bottom: 42%;
+      left: 43%
+    }
 
-    <div class="btn-circle hidden tooltip-left" id="Bathroom_Lighting">     
-      <img src="images/Light.png" alt="Bathroom_Lighting">
-      <span>Bathroom Lighting</span>
-    </div>
+    #Garage_Lighting {
+      top: 28%;
+      left: 25%
+    }
 
-    <div class="btn-circle hidden tooltip-left" id="Garage_Lighting">     
-      <img src="images/Light.png" alt="Garage_Lighting">
-      <span>Garage Lighting</span>
-    </div>
+    #Heating {
+      bottom: 42%;
+      left: 19%;
+    }
 
-    <div class="btn-circle hidden tooltip-left" id="Toalett_Lighting">     
-      <img src="images/Light.png" alt="Toalett_Lighting">
-      <span>Toalett Lighting</span>
-    </div>
+    #Back {
+      bottom: 2%;
+      left: 1%
+    }
 
-    <div class="btn-circle hidden tooltip-left" id="Heating">
-      <img src="images/heating.png" alt="Heating">
-      <span>Heating</span>
-    </div>
+    /* világító állapot stílusa – nagyobb fénykörrel */
+    .btn-circle.active {
+      border-color: rgb(0, 200, 0);
+      box-shadow:
+        0 0 35px rgba(0, 255, 0, 0.8),
+        /* erősebb közeli fény */
+        0 0 50px rgba(0, 255, 0, 0.5) inset,
+        /* belső ragyogás */
+        0 0 120px rgba(0, 255, 0, 0.4),
+        /* külső fény */
+        0 0 200px rgba(0, 255, 0, 0.25);
+      /* távolabbra szórt halvány fény */
+    }
 
-    <!--Idaig-->
+    .disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="btn-circle" id="Settings">
+    <img src="images/Settings.png" alt="Settings">
+    <span>Settings</span>
+  </div>
+
+  <div class="btn-circle" id="Garage">
+    <img src="images/Garage.png" alt="Garage">
+    <span>Garage</span>
+  </div>
+
+  <div class="btn-circle" id="Entrence">
+    <img src="images/Entrence.png" alt="Entrence">
+    <span>Entrence</span>
+  </div>
+
+  <div class="btn-circle" id="Watering">
+    <img src="images/Watering.png" alt="Watering">
+    <span>Watering</span>
+  </div>
+
+  <div class="btn-circle" id="Roller_Shutter">
+    <img src="images/Roller_Shutter.png" alt="RollerShutter">
+    <span>Roller Shutter</span>
+  </div>
+
+  <div class="btn-circle" id="Gate">
+    <img src="images/Gate.png" alt="Gate">
+    <span>Gate</span>
+  </div>
+
+  <div class="btn-circle" id="Security">
+    <img src="images/Security.png" alt="Security">
+    <span>Security</span>
+  </div>
+
+  <div class="btn-circle" id="External_Lighting">
+    <img src="images/Light.png" alt="ExternalLighting">
+    <span>External Lighting</span>
+  </div>
+
+  <div class="btn-circle hidden tooltip-left" id="Back">
+    <img src="images/Back.png" alt="Back">
+    <span>Back</span>
+  </div>
+
+  <div class="btn-circle hidden tooltip-left" id="Living_Lighting">
+    <img src="images/Light.png" alt="Living_Lighting">
+    <span>Living Lighting</span>
+  </div>
+
+  <div class="btn-circle hidden tooltip-left" id="Bedroom03_Lighting"> <!--Innen kell vegyem a mintat-->
+    <img src="images/Light.png" alt="Bedroom03_Lighting">
+    <span>Bedroom03 Lighting</span>
+  </div>
+
+  <!--Innen irtam-->
+  <div class="btn-circle hidden tooltip-left" id="Bedroom04_Lighting">
+    <img src="images/Light.png" alt="Bedroom04_Lighting">
+    <span>Bedroom04 Lighting</span>
+  </div>
+
+  <div class="btn-circle hidden tooltip-left" id="Kitchen_Lighting">
+    <img src="images/Light.png" alt="Kitchen_Lighting">
+    <span>Kitchen Lighting</span>
+  </div>
+
+  <div class="btn-circle hidden tooltip-left" id="Bathroom_Lighting">
+    <img src="images/Light.png" alt="Bathroom_Lighting">
+    <span>Bathroom Lighting</span>
+  </div>
+
+  <div class="btn-circle hidden tooltip-left" id="Garage_Lighting">
+    <img src="images/Light.png" alt="Garage_Lighting">
+    <span>Garage Lighting</span>
+  </div>
+
+  <div class="btn-circle hidden tooltip-left" id="Toalett_Lighting">
+    <img src="images/Light.png" alt="Toalett_Lighting">
+    <span>Toalett Lighting</span>
+  </div>
+
+  <div class="btn-circle hidden tooltip-left" id="Heating">
+    <img src="images/heating.png" alt="Heating">
+    <span>Heating</span>
+  </div>
+
+  <!--Idaig-->
 
 
-    <script>
-      const Settings = document.getElementById("Settings");
-      const Garage = document.getElementById("Garage");
-      const Entrence = document.getElementById("Entrence");
-      const Watering = document.getElementById("Watering");
-      const Roller_Shutter = document.getElementById("Roller_Shutter");
-      const Gate = document.getElementById("Gate");
-      const Security = document.getElementById("Security");
-      const External_Lighting = document.getElementById("External_Lighting");
-      const Back = document.getElementById("Back");
-      const Living_Lighting = document.getElementById("Living_Lighting");
-      const Bedroom03_Lighting = document.getElementById("Bedroom03_Lighting");
-      const Bedroom04_Lighting = document.getElementById("Bedroom04_Lighting"); //Ezt adtam hozza
-      const Kitchen = document.getElementById("Kitchen_Lighting"); //Ezt adtam hozza
-      const Bathroom = document.getElementById("Bathroom_Lighting"); //Ezt adtam hozza
-      const Garage_Lighting = document.getElementById("Garage_Lighting"); //Ezt adtam hozza
-      const Toalett = document.getElementById("Toalett_Lighting"); //Ezt adtam hozza
-      const Heating = document.getElementById("Heating");
+  <script>
+    function saveUserState() {
+      console.log("Saving user state...");
+    }
 
-      const toggleButtons = [Garage, Heating, Watering, Roller_Shutter, Gate, Security, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen_Lighting, Bathroom_Lighting, Garage_Lighting, Toalett_Lighting];
-      toggleButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          const currentPresetId = activePresetId && activePresetId();
+    const Settings = document.getElementById("Settings");
+    const Garage = document.getElementById("Garage");
+    const Entrence = document.getElementById("Entrence");
+    const Watering = document.getElementById("Watering");
+    const Roller_Shutter = document.getElementById("Roller_Shutter");
+    const Gate = document.getElementById("Gate");
+    const Security = document.getElementById("Security");
+    const External_Lighting = document.getElementById("External_Lighting");
+    const Back = document.getElementById("Back");
+    const Living_Lighting = document.getElementById("Living_Lighting");
+    const Bedroom03_Lighting = document.getElementById("Bedroom03_Lighting");
+    const Bedroom04_Lighting = document.getElementById("Bedroom04_Lighting");
+    const Kitchen = document.getElementById("Kitchen_Lighting");
+    const Bathroom = document.getElementById("Bathroom_Lighting");
+    const Garage_Lighting = document.getElementById("Garage_Lighting");
+    const Toalett = document.getElementById("Toalett_Lighting");
+    const Heating = document.getElementById("Heating");
 
-          // Ha van aktív preset, és valaki manuálisan megnyom egy ikont:
-          if (currentPresetId) {
-            const presets = loadPresets();
-            const preset = presets.find(p => p.id === currentPresetId);
+    // ÚJ: A Security funkció 
+    const securityControllableButtons = [Garage, Watering, Roller_Shutter, Gate, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
+    const toggleButtons = [Garage, Heating, Watering, Roller_Shutter, Gate, Settings, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
 
-            // 1) mindent OFF-ra teszünk, ami a presetben volt
-            if (preset) {
-              clearPresetFromUiAndNodeRed(preset);
-            }
+    toggleButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
 
-            // 2) töröljük az aktív presetet
-            setActivePresetId(null);
-            renderPresetList();
+        // ÚJ: Ha a gomb le van tiltva, ne történjen semmi. (A felhasználó logikája)
+        if (btn.classList.contains("disabled")) {
+          return;
+        }
 
-            // 3) itt NEM kapcsoljuk át a gombot – első katt csak "preset törlés"
-            return;
+        const currentPresetId = activePresetId && activePresetId();
+
+        // Ha van aktív preset, és valaki manuálisan megnyom egy ikont:
+        if (currentPresetId) {
+          const presets = loadPresets();
+          const preset = presets.find(p => p.id === currentPresetId);
+
+
+          // 1) mindent OFF-ra teszünk, ami a presetben volt
+          if (preset) {
+            clearPresetFromUiAndNodeRed(preset);
           }
 
-          // Ha nincs aktív preset → sima toggle mehet
-          btn.classList.toggle("active");
-        });
-      });
+          // 2) töröljük az aktív presetet
+          setActivePresetId(null);
+          renderPresetList();
 
-      Entrence.addEventListener
-      ("click", () => 
-      {
+          // 3) itt NEM kapcsoljuk át a gombot – első katt csak "preset törlés"
+          return;
+        }
+
+        // Ha nincs aktív preset → sima toggle mehet
+        btn.classList.toggle("active");
+        saveUserState(); // ÚJ: Minden változás mentése (a felhasználó kérése alapján)
+      });
+    });
+
+    // ÚJ: SECURITY LOGIKA (a felhasználó által küldött)
+    Security.addEventListener("click", () => {
+      // Security saját állapotát átváltjuk
+      Security.classList.toggle("active");
+      if (Security.classList.contains("active")) {
+        // SECURITY BEKAPCSOLVA:
+        // minden más gomb kapcsoljon ki és legyen tiltva
+        securityControllableButtons.forEach(btn => {
+          btn.classList.remove("active");  // kikapcsoljuk
+          btn.classList.add("disabled");   // nem lehet rá kattintani
+        });
+      } else {
+        // 🔓 SECURITY KIKAPCSOLVA:
+        // minden gomb ismét működhet
+        securityControllableButtons.forEach(btn => {
+          btn.classList.remove("disabled");
+        });
+      }
+      saveUserState(); // Security állapot mentése
+    });
+
+    Entrence.addEventListener
+      ("click", () => {
         document.body.classList.remove("outside");
         document.body.classList.add("inside");
 
@@ -300,23 +409,22 @@
         Heating.classList.remove("hidden");
       });
 
-      // We go back to the Exterior view
-      Back.addEventListener
-      ("click", () => 
-      {
+    // We go back to the Exterior view
+    Back.addEventListener
+      ("click", () => {
         document.body.classList.remove("inside");
         document.body.classList.add("outside");
-        
+
         // Hide old buttons
         Back.classList.add("hidden");
         Living_Lighting.classList.add("hidden");
-        Bedroom03_Lighting.classList.add("hidden"); 
+        Bedroom03_Lighting.classList.add("hidden");
         Bedroom04_Lighting.classList.add("hidden"); //Ezt adtam hozza
         Kitchen.classList.add("hidden"); //Ezt adtam hozza
         Bathroom.classList.add("hidden"); //Ezt adtam hozza
         Garage_Lighting.classList.add("hidden"); //Ezt adtam hozza
         Toalett.classList.add("hidden"); //Ezt adtam hozza
-        
+
 
         // Show new buttons
         Garage.classList.remove("hidden");
@@ -327,112 +435,312 @@
         Security.classList.remove("hidden");
         External_Lighting.classList.remove("hidden");
       });
-    </script>
+  </script>
 
-    
-    <style>
-      /* --- háttér és panel --- */
-      .settings-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: none;
-        place-items: center;
-        z-index: 1000;
-      }
-      .settings-backdrop.show { display: grid; }
 
-      .settings-modal {
-        position: relative;
-        background: #ffffff;
-        color: #0f172a;
-        padding: 16px;
-        border-radius: 12px;
-        width: 340px;
-        max-height: 90vh;
-        overflow: auto;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.24);
-        transition: background 0.2s ease, color 0.2s ease;
-      }
-      .settings-close {
-        position: absolute;
-        top: 8px; right: 8px;
-        background: none; border: 0;
-        font-size: 20px; cursor: pointer;
-      }
-      .settings-row {
-        margin-top: 10px;
-        display: flex; gap: 10px;
-        align-items: center;
-      }
-      html[data-theme="dark"] .settings-modal {
-        background: #0f172a;
-        color: #e5e7eb;
-        border: 1px solid #1f2937;
-        box-shadow: 0 8px 24px rgba(0,0,0,.6);
-      }
-      .hr { height: 1px; background: #e5e7eb; margin: 12px 0; }
-      html[data-theme="dark"] .hr { background: #1f2937; }
+  <style>
+    /* --- háttér és panel --- */
+    .settings-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      place-items: center;
+      z-index: 1000;
+    }
 
-      /* --- csúszka --- */
-      .switch { position: relative; display: inline-block; width: 50px; height: 26px; }
-      .switch input { opacity: 0; width: 0; height: 0; }
-      .slider { position: absolute; inset: 0; cursor: pointer; background-color: #f87171; border-radius: 26px; transition: 0.3s; }
-      .slider::before { content: ""; position: absolute; height: 20px; width: 20px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.3s; }
-      .switch input:checked + .slider { background-color: #4ade80; }
-      .switch input:checked + .slider::before { transform: translateX(24px); }
+    .settings-backdrop.show {
+      display: grid;
+    }
 
-      /* --- gombok --- */
-      .btn {
-        display: inline-flex; align-items: center; justify-content: center;
-        gap: 6px; border: 1px solid #e5e7eb; padding: 6px 10px; border-radius: 8px;
-        background: #f8fafc; color: #0f172a; cursor: pointer; font-weight: 600; font-size: 14px;
-        transition: background .2s, border-color .2s, transform .05s;
-      }
-      .btn:hover { background: #f1f5f9; }
-      .btn:active { transform: translateY(1px); }
-      html[data-theme="dark"] .btn { background: #0b1220; color: #e5e7eb; border-color: #1f2937; }
-      html[data-theme="dark"] .btn:hover { background: #0e1729; }
+    .settings-modal {
+      position: relative;
+      background: #ffffff;
+      color: #0f172a;
+      padding: 16px;
+      border-radius: 12px;
+      width: 340px;
+      max-height: 90vh;
+      overflow: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+      transition: background 0.2s ease, color 0.2s ease;
+    }
 
-      .btn-danger { color: #dc2626; border-color: #fecaca; background: #fff1f2; }
-      .btn-danger:hover { background: #ffe4e6; }
-      html[data-theme="dark"] .btn-danger { color: #fca5a5; border-color: #7f1d1d; background: #1b0b0b; }
-      html[data-theme="dark"] .btn-danger:hover { background: #260f0f; }
+    .settings-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: none;
+      border: 0;
+      font-size: 20px;
+      cursor: pointer;
+    }
 
-      /* --- Preset lista --- */
-      .preset-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-      .preset-list { display: grid; gap: 8px; margin-top: 8px; }
-      .preset-item {
-        display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 8px;
-        padding: 8px; border: 1px solid #e5e7eb; border-radius: 10px; background: #ffffff;
-      }
-      html[data-theme="dark"] .preset-item { border-color: #1f2937; background: #0b1220; }
-      .preset-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-      .icon-btn { background: none; border: 0; cursor: pointer; font-size: 16px; padding: 4px; }
-      .icon-btn[title="Szerkesztés"] { color: #2563eb; }
-      .icon-btn[title="Törlés"] { color: #dc2626; }
+    .settings-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
 
-      /* --- szerkesztő panel --- */
-      .editor { margin-top: 10px; padding: 10px; border: 1px dashed #cbd5e1; border-radius: 10px; display: none; }
-      html[data-theme="dark"] .editor { border-color: #334155; }
-      .editor.show { display: block; }
-      .editor-grid { display: grid; gap: 12px; }
-      .editor-row { display: grid; gap: 8px; }
-      .editor-group { border: 1px solid #e5e7eb; border-radius: 8px; padding: 8px; }
-      html[data-theme="dark"] .editor-group { border-color: #1f2937; }
-      .group-title { font-weight: 700; margin-bottom: 6px; }
-      .toggle-row { display: flex; align-items: center; justify-content: space-between; padding: 6px 0; }
-      .field {
-        display: grid; gap: 6px;
-      }
-      .input { padding: 8px 10px; border: 1px solid #e5e7eb; border-radius: 8px; background: #fff; color: inherit; }
-      html[data-theme="dark"] .input { background: #0b1220; border-color: #1f2937; color: #e5e7eb; }
+    html[data-theme="dark"] .settings-modal {
+      background: #0f172a;
+      color: #e5e7eb;
+      border: 1px solid #1f2937;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, .6);
+    }
 
-      /* --- logout --- */
-      .logout-row { margin-top: 16px; padding-top: 10px; border-top: 1px solid #e5e7eb; text-align: center; }
-      .logout-btn { color: #dc2626; font-weight: 600; cursor: pointer; border: none; background: none; font-size: 15px; transition: color 0.2s; }
-      .logout-btn:hover { color: #b91c1c; }
-    </style>
+    .hr {
+      height: 1px;
+      background: #e5e7eb;
+      margin: 12px 0;
+    }
+
+    html[data-theme="dark"] .hr {
+      background: #1f2937;
+    }
+
+    /* --- csúszka --- */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      inset: 0;
+      cursor: pointer;
+      background-color: #f87171;
+      border-radius: 26px;
+      transition: 0.3s;
+    }
+
+    .slider::before {
+      content: "";
+      position: absolute;
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.3s;
+    }
+
+    .switch input:checked+.slider {
+      background-color: #4ade80;
+    }
+
+    .switch input:checked+.slider::before {
+      transform: translateX(24px);
+    }
+
+    /* --- gombok --- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid #e5e7eb;
+      padding: 6px 10px;
+      border-radius: 8px;
+      background: #f8fafc;
+      color: #0f172a;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background .2s, border-color .2s, transform .05s;
+    }
+
+    .btn:hover {
+      background: #f1f5f9;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+    }
+
+    html[data-theme="dark"] .btn {
+      background: #0b1220;
+      color: #e5e7eb;
+      border-color: #1f2937;
+    }
+
+    html[data-theme="dark"] .btn:hover {
+      background: #0e1729;
+    }
+
+    .btn-danger {
+      color: #dc2626;
+      border-color: #fecaca;
+      background: #fff1f2;
+    }
+
+    .btn-danger:hover {
+      background: #ffe4e6;
+    }
+
+    html[data-theme="dark"] .btn-danger {
+      color: #fca5a5;
+      border-color: #7f1d1d;
+      background: #1b0b0b;
+    }
+
+    html[data-theme="dark"] .btn-danger:hover {
+      background: #260f0f;
+    }
+
+    /* --- Preset lista --- */
+    .preset-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .preset-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .preset-item {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      align-items: center;
+      gap: 8px;
+      padding: 8px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      background: #ffffff;
+    }
+
+    html[data-theme="dark"] .preset-item {
+      border-color: #1f2937;
+      background: #0b1220;
+    }
+
+    .preset-name {
+      font-weight: 600;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .icon-btn {
+      background: none;
+      border: 0;
+      cursor: pointer;
+      font-size: 16px;
+      padding: 4px;
+    }
+
+    .icon-btn[title="Szerkesztés"] {
+      color: #2563eb;
+    }
+
+    .icon-btn[title="Törlés"] {
+      color: #dc2626;
+    }
+
+    /* --- szerkesztő panel --- */
+    .editor {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px dashed #cbd5e1;
+      border-radius: 10px;
+      display: none;
+    }
+
+    html[data-theme="dark"] .editor {
+      border-color: #334155;
+    }
+
+    .editor.show {
+      display: block;
+    }
+
+    .editor-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .editor-row {
+      display: grid;
+      gap: 8px;
+    }
+
+    .editor-group {
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
+    html[data-theme="dark"] .editor-group {
+      border-color: #1f2937;
+    }
+
+    .group-title {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .input {
+      padding: 8px 10px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      background: #fff;
+      color: inherit;
+    }
+
+    html[data-theme="dark"] .input {
+      background: #0b1220;
+      border-color: #1f2937;
+      color: #e5e7eb;
+    }
+
+    /* --- logout --- */
+    .logout-row {
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    .logout-btn {
+      color: #dc2626;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+
+    .logout-btn:hover {
+      color: #b91c1c;
+    }
+  </style>
   </head>
 
   <body>
@@ -474,24 +782,38 @@
 
             <div class="editor-group">
               <div class="group-title">Outdoor equipment</div>
-              <div class="toggle-row"><span>Gate</span> <label class="switch"><input data-key="Gate" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>External Lighting</span> <label class="switch"><input data-key="External Lighting" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Watering</span> <label class="switch"><input data-key="Watering" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Roller Shutter</span> <label class="switch"><input data-key="Roller Shutter" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Security</span> <label class="switch"><input data-key="Security" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Gate</span> <label class="switch"><input data-key="Gate"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>External Lighting</span> <label class="switch"><input
+                    data-key="External Lighting" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Watering</span> <label class="switch"><input data-key="Watering"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Roller Shutter</span> <label class="switch"><input data-key="Roller Shutter"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Security</span> <label class="switch"><input data-key="Security"
+                    type="checkbox"><span class="slider"></span></label></div>
             </div>
 
             <div class="editor-group">
               <div class="group-title">Indoor lighting</div>
-              <div class="toggle-row"><span>Bedroom03</span> <label class="switch"><input data-key="Bedroom03" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Bedroom04</span> <label class="switch"><input data-key="Bedroom04" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Living room</span> <label class="switch"><input data-key="Living room" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Kitchen</span> <label class="switch"><input data-key="Kitchen" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage (inside)" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Bathroom</span> <label class="switch"><input data-key="Bathroom" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Toalett</span> <label class="switch"><input data-key="Toalett" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Heating</span> <label class="switch"><input data-key="Heating" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Bedroom03</span> <label class="switch"><input data-key="Bedroom03"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Bedroom04</span> <label class="switch"><input data-key="Bedroom04"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Living room</span> <label class="switch"><input data-key="Living room"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Kitchen</span> <label class="switch"><input data-key="Kitchen"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage (inside)"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Bathroom</span> <label class="switch"><input data-key="Bathroom"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Toalett</span> <label class="switch"><input data-key="Toalett"
+                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Heating</span> <label class="switch"><input data-key="Heating"
+                    type="checkbox"><span class="slider"></span></label></div>
             </div>
 
             <div style="display:flex; gap:8px; justify-content:flex-end;">
@@ -518,7 +840,7 @@
         "Garage": "garage",
         "Roller Shutter": "Roller_Shutter",
         "Security": "Security",
-        
+
         "Heating": "Heating",
         "Bedroom03": "Bedroom03_Lighting",
         "Bedroom04": "Bedroom04_Lighting",
@@ -569,9 +891,9 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ state })
             })
-            .then(res => res.json())
-            .then(data => console.log(`Preset → ${key} = ${state}`, data))
-            .catch(err => console.error(`Preset hiba: ${key}`, err));
+              .then(res => res.json())
+              .then(data => console.log(`Preset → ${key} = ${state}`, data))
+              .catch(err => console.error(`Preset hiba: ${key}`, err));
           }
         }
       }
@@ -600,9 +922,9 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ state })
             })
-            .then(res => res.json())
-            .then(data => console.log(`Preset OFF → ${key}`, data))
-            .catch(err => console.error(`Preset OFF hiba: ${key}`, err));
+              .then(res => res.json())
+              .then(data => console.log(`Preset OFF → ${key}`, data))
+              .catch(err => console.error(`Preset OFF hiba: ${key}`, err));
           }
         }
       }
@@ -678,7 +1000,7 @@
 
       // ===== Lista render =====
       function renderPresetList() {
-       ///ensureDefaults();
+        ///ensureDefaults();
         const items = loadPresets();
         const activeId = activePresetId();
         if (items.length === 0) { presetList.innerHTML = '<em>There are no presets yet. Click on the "New preset" button!.</em>'; return; }
@@ -758,26 +1080,26 @@
         const preset = list.find(p => p.id === id);
 
         // Aktiválás kapcsoló
-      // Aktiválás kapcsoló
-      if (e.target.matches('input[type="checkbox"]')) {
-        const checked = e.target.checked;
+        // Aktiválás kapcsoló
+        if (e.target.matches('input[type="checkbox"]')) {
+          const checked = e.target.checked;
 
-        if (checked) {
-          // BEKAPCSOLT PRESET
-          setActivePresetId(id);
-          dispatchPresetApplied(preset);   // ez ON-ra teszi, amit kell
-        } else {
-          // KIKAPCSOLT PRESET → mindent OFF-ra teszünk, ami benne volt
-          const activeId = activePresetId();
-          if (activeId === id) {
-            clearPresetFromUiAndNodeRed(preset);
-            setActivePresetId(null);
+          if (checked) {
+            // BEKAPCSOLT PRESET
+            setActivePresetId(id);
+            dispatchPresetApplied(preset);   // ez ON-ra teszi, amit kell
+          } else {
+            // KIKAPCSOLT PRESET → mindent OFF-ra teszünk, ami benne volt
+            const activeId = activePresetId();
+            if (activeId === id) {
+              clearPresetFromUiAndNodeRed(preset);
+              setActivePresetId(null);
+            }
           }
-        }
 
-        renderPresetList();
-        return;
-      }
+          renderPresetList();
+          return;
+        }
 
         // Szerkesztés
         if (e.target.matches('.icon-btn[title="Edit"]')) {
@@ -811,12 +1133,12 @@
         if (!confirm('Are you sure you want to log out?')) return;
 
         // Bejelentkezéssel kapcsolatos dolgok törlése
-        localStorage.removeItem('loggedIn');        
-        localStorage.removeItem('loggedInUser');    
-        localStorage.removeItem('authToken');       
-        localStorage.removeItem('userPresets');     
-        localStorage.removeItem('activePresetId');  
-        localStorage.removeItem('theme');           
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('loggedInUser');
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userPresets');
+        localStorage.removeItem('activePresetId');
+        localStorage.removeItem('theme');
 
         sessionStorage.clear();
 
@@ -834,10 +1156,10 @@
       })();
     </script>
     <script>
-      
+
       // Node-RED nek kuldes:
       // Settings
-      
+
       Settings.addEventListener("click", () => {
         Settings.classList.toggle("active");
         const state = Settings.classList.contains("active") ? "on" : "off";
@@ -852,9 +1174,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ state })
         })
-        .then(res => res.json())  // <-- JSON kell!
-        .then(data => console.log('Node-RED válasz:', data))
-        .catch(err => console.error('Hiba a Node-RED hívásban:', err));
+          .then(res => res.json())  // <-- JSON kell!
+          .then(data => console.log('Node-RED válasz:', data))
+          .catch(err => console.error('Hiba a Node-RED hívásban:', err));
       });
 
       function closeSettings() {
@@ -870,9 +1192,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ state: "off" })
         })
-        .then(res => res.json())
-        .then(data => console.log("Settings OFF:", data))
-        .catch(err => console.error("OFF hiba:", err));
+          .then(res => res.json())
+          .then(data => console.log("Settings OFF:", data))
+          .catch(err => console.error("OFF hiba:", err));
       }
 
       // Bezáró X gomb
@@ -903,20 +1225,20 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ state })
         })
-        .then(res => res.json())
-        .then(data => console.log('Node-RED válasz:', data))
-        .catch(err => console.error('Hiba a Node-RED hívásban:', err));
+          .then(res => res.json())
+          .then(data => console.log('Node-RED válasz:', data))
+          .catch(err => console.error('Hiba a Node-RED hívásban:', err));
       });
 
       Entrence.addEventListener("click", () => {
-          Entrence.classList.toggle("active");
-          const state = Entrence.classList.contains("active") ? "on" : "off";
+        Entrence.classList.toggle("active");
+        const state = Entrence.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Entrence', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Entrence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Node-RED válasz:', data))
           .catch(err => console.error('Fetch hiba:', err));
@@ -928,9 +1250,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action: 'pressed' })
         })
-        .then(res => res.json())
-        .then(data => console.log('Node-RED válasz:', data))
-        .catch(err => console.error('Fetch hiba:', err));
+          .then(res => res.json())
+          .then(data => console.log('Node-RED válasz:', data))
+          .catch(err => console.error('Fetch hiba:', err));
       });
 
       Roller_Shutter.addEventListener("click", () => {
@@ -941,9 +1263,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ state })
         })
-        .then(res => res.json())
-        .then(data => console.log('Node-RED válasz:', data))
-        .catch(err => console.error('Hiba a Node-RED hívásban:', err));
+          .then(res => res.json())
+          .then(data => console.log('Node-RED válasz:', data))
+          .catch(err => console.error('Hiba a Node-RED hívásban:', err));
       });
 
       Gate.addEventListener("click", () => {
@@ -954,9 +1276,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ state })
         })
-        .then(res => res.json())
-        .then(data => console.log('Gate válasz:', data))
-        .catch(err => console.error('Gate hiba:', err));
+          .then(res => res.json())
+          .then(data => console.log('Gate válasz:', data))
+          .catch(err => console.error('Gate hiba:', err));
       });
 
       Security.addEventListener("click", () => {
@@ -968,9 +1290,9 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ state })
         })
-        .then(res => res.json())
-        .then(data => console.log('Security válasz:', data))
-        .catch(err => console.error('Security hiba:', err));
+          .then(res => res.json())
+          .then(data => console.log('Security válasz:', data))
+          .catch(err => console.error('Security hiba:', err));
       });
 
       External_Lighting.addEventListener("click", () => {
@@ -982,146 +1304,147 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ state })
         })
-        .then(res => res.json())
-        .then(data => console.log('External Lighting válasz:', data))
-        .catch(err => console.error('External Lighting hiba:', err));
+          .then(res => res.json())
+          .then(data => console.log('External Lighting válasz:', data))
+          .catch(err => console.error('External Lighting hiba:', err));
       });
 
-        document.getElementById('Back').addEventListener('click', () => {
-          // 1) UI: Entrence gomb kikapcsolása
-          Entrence.classList.remove("active");
+      document.getElementById('Back').addEventListener('click', () => {
+        // 1) UI: Entrence gomb kikapcsolása
+        Entrence.classList.remove("active");
 
-          // 2) Node-RED-nek szólunk, hogy Entrence = OFF
-          fetch('http://127.0.0.1:1880/Entrence', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state: 'off' })
-          })
+        // 2) Node-RED-nek szólunk, hogy Entrence = OFF
+        fetch('http://127.0.0.1:1880/Entrence', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state: 'off' })
+        })
           .then(res => res.json())
           .then(data => console.log('Entrence OFF válasz:', data))
           .catch(err => console.error('Entrence OFF hiba:', err));
 
-          // 3) Megy a saját Back endpoint is (navigáció, egyebek)
-          fetch('http://127.0.0.1:1880/Back', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'pressed' })
-          })
+        // 3) Megy a saját Back endpoint is (navigáció, egyebek)
+        fetch('http://127.0.0.1:1880/Back', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'pressed' })
+        })
           .then(res => res.json())
           .then(data => console.log('Back válasz:', data))
           .catch(err => console.error('Back hiba:', err));
-        });
+      });
 
-        // LIVING LIGHTING
-        Living_Lighting.addEventListener("click", () => {
-          const state = Living_Lighting.classList.contains("active") ? "on" : "off";
+      // LIVING LIGHTING
+      Living_Lighting.addEventListener("click", () => {
+        const state = Living_Lighting.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Living_Lighting', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Living_Lighting', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Living_Lighting válasz:', data))
           .catch(err => console.error('Living_Lighting hiba:', err));
-        });
+      });
 
-        // BEDROOM03 LIGHTING
-        Bedroom03_Lighting.addEventListener("click", () => {
-          const state = Bedroom03_Lighting.classList.contains("active") ? "on" : "off";
+      // BEDROOM03 LIGHTING
+      Bedroom03_Lighting.addEventListener("click", () => {
+        const state = Bedroom03_Lighting.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Bedroom03_Lighting', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Bedroom03_Lighting', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Bedroom03_Lighting válasz:', data))
           .catch(err => console.error('Bedroom03_Lighting hiba:', err));
-        });
+      });
 
-        // BEDROOM04 LIGHTING
-        Bedroom04_Lighting.addEventListener("click", () => {
-          const state = Bedroom04_Lighting.classList.contains("active") ? "on" : "off";
+      // BEDROOM04 LIGHTING
+      Bedroom04_Lighting.addEventListener("click", () => {
+        const state = Bedroom04_Lighting.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Bedroom04_Lighting', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Bedroom04_Lighting', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Bedroom04_Lighting válasz:', data))
           .catch(err => console.error('Bedroom04_Lighting hiba:', err));
-        });
+      });
 
-        // KITCHEN LIGHTING
-        Kitchen_Lighting.addEventListener("click", () => {
-          const state = Kitchen_Lighting.classList.contains("active") ? "on" : "off";
+      // KITCHEN LIGHTING
+      Kitchen_Lighting.addEventListener("click", () => {
+        const state = Kitchen_Lighting.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Kitchen_Lighting', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Kitchen_Lighting', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Kitchen_Lighting válasz:', data))
           .catch(err => console.error('Kitchen_Lighting hiba:', err));
-        });
+      });
 
-        // BATHROOM LIGHTING
-        Bathroom_Lighting.addEventListener("click", () => {
-          const state = Bathroom_Lighting.classList.contains("active") ? "on" : "off";
+      // BATHROOM LIGHTING
+      Bathroom_Lighting.addEventListener("click", () => {
+        const state = Bathroom_Lighting.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Bathroom_Lighting', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Bathroom_Lighting', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Bathroom_Lighting válasz:', data))
           .catch(err => console.error('Bathroom_Lighting hiba:', err));
-        });
+      });
 
-        // GARAGE (INSIDE) LIGHTING
-        Garage_Lighting.addEventListener("click", () => {
-          const state = Garage_Lighting.classList.contains("active") ? "on" : "off";
+      // GARAGE (INSIDE) LIGHTING
+      Garage_Lighting.addEventListener("click", () => {
+        const state = Garage_Lighting.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Garage_Lighting', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Garage_Lighting', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Garage_Lighting válasz:', data))
           .catch(err => console.error('Garage_Lighting hiba:', err));
-        });
+      });
 
-        // TOALETT LIGHTING
-        Toalett_Lighting.addEventListener("click", () => {
-          const state = Toalett_Lighting.classList.contains("active") ? "on" : "off";
+      // TOALETT LIGHTING
+      Toalett_Lighting.addEventListener("click", () => {
+        const state = Toalett_Lighting.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Toalett_Lighting', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Toalett_Lighting', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Toalett_Lighting válasz:', data))
           .catch(err => console.error('Toalett_Lighting hiba:', err));
-        });
+      });
 
-        Heating.addEventListener("click", () => {
-          const state = Heating.classList.contains("active") ? "on" : "off";
+      Heating.addEventListener("click", () => {
+        const state = Heating.classList.contains("active") ? "on" : "off";
 
-          fetch('http://127.0.0.1:1880/Heating', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ state })
-          })
+        fetch('http://127.0.0.1:1880/Heating', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
           .then(res => res.json())
           .then(data => console.log('Heating válasz:', data))
           .catch(err => console.error('Heating hiba:', err));
-        });
+      });
     </script>
   </body>
+
 </html>
