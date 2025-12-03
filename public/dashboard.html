@@ -168,13 +168,6 @@
       left: 41%
     }
 
-<<<<<<< HEAD
-      const toggleButtons = [Garage, Watering, Roller_Shutter, Gate, Security, External_Lighting];
-      toggleButtons.forEach(btn => {
-        btn.addEventListener("click", () => {
-          btn.classList.toggle("active");
-        });
-=======
     #Toalett_Lighting {
       bottom: 42%;
       left: 43%
@@ -365,7 +358,6 @@
         // Ha nincs aktív preset → sima toggle mehet
         btn.classList.toggle("active");
         saveUserState(); // ÚJ: Minden változás mentése (a felhasználó kérése alapján)
->>>>>>> Legujabb-node-web
       });
     });
 
@@ -403,16 +395,15 @@
         Gate.classList.add("hidden");
         Security.classList.add("hidden");
         External_Lighting.classList.add("hidden");
-        Heating.classList.add("hidden");
 
         // Show new buttons
         Living_Lighting.classList.remove("hidden");
         Bedroom03_Lighting.classList.remove("hidden");
-        Bedroom04_Lighting.classList.remove("hidden"); //Ezt adtam hozza
-        Kitchen.classList.remove("hidden"); //Ezt adtam hozza
-        Bathroom.classList.remove("hidden"); //Ezt adtam hozza
-        Garage_Lighting.classList.remove("hidden"); //Ezt adtam hozza
-        Toalett.classList.remove("hidden"); //Ezt adtam hozza
+        Bedroom04_Lighting.classList.remove("hidden");
+        Kitchen.classList.remove("hidden");
+        Bathroom.classList.remove("hidden");
+        Garage_Lighting.classList.remove("hidden");
+        Toalett.classList.remove("hidden");
         Back.classList.remove("hidden");
         Heating.classList.remove("hidden");
       });
@@ -427,11 +418,12 @@
         Back.classList.add("hidden");
         Living_Lighting.classList.add("hidden");
         Bedroom03_Lighting.classList.add("hidden");
-        Bedroom04_Lighting.classList.add("hidden"); //Ezt adtam hozza
-        Kitchen.classList.add("hidden"); //Ezt adtam hozza
-        Bathroom.classList.add("hidden"); //Ezt adtam hozza
-        Garage_Lighting.classList.add("hidden"); //Ezt adtam hozza
-        Toalett.classList.add("hidden"); //Ezt adtam hozza
+        Bedroom04_Lighting.classList.add("hidden");
+        Kitchen.classList.add("hidden");
+        Bathroom.classList.add("hidden");
+        Garage_Lighting.classList.add("hidden"); 
+        Toalett.classList.add("hidden");
+        Heating.classList.add("hidden");
 
 
         // Show new buttons
@@ -498,7 +490,6 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, .6);
     }
 
-<<<<<<< HEAD
   /* --- logout --- */
   .logout-row {
     margin-top: 16px;
@@ -516,8 +507,6 @@
     transition: color 0.2s;
   }
   .logout-btn:hover { color: #b91c1c; }
-</style>
-=======
     .hr {
       height: 1px;
       background: #e5e7eb;
@@ -769,7 +758,6 @@
       color: #b91c1c;
     }
   </style>
->>>>>>> c8454a896ec79dd66b92977e77f777ed726c0a26
   </head>
 
   <body>
@@ -1184,10 +1172,6 @@
         renderPresetList();
       })();
     </script>
-<<<<<<< HEAD
-
-  </body>
-=======
     <script>
 
       // Node-RED nek kuldes:
@@ -1480,5 +1464,4 @@
     </script>
   </body>
 
->>>>>>> Legujabb-node-web
 </html>
