@@ -2,7 +2,6 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Welcome to SmartSphere</title>
     <link rel="icon" type="image/png" href="ikon.png">
 
@@ -71,6 +70,7 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--Oldal egységre hozása-->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
   <title>SmartSphere Login / Register / Reset</title>
@@ -252,7 +252,7 @@
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         // Sikeres bejelentkezés --> átirányítás a dashboard.html-re
-        window.location.href = "Dashboard.html";
+        window.location.href = "dashboard.html";
       })
       .catch(err => alert('X' + err.message));
   });
