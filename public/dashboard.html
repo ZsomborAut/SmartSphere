@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8">
   <title>SmartHome</title>
@@ -216,6 +215,10 @@
       opacity: 0.5;
       pointer-events: none;
     }
+    .disabled .auto-label {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
   </style>
 </head>
 
@@ -314,6 +317,7 @@
 
 
   <script>
+
     function saveUserState() {
       console.log("Saving user state...");
     }
@@ -860,7 +864,8 @@
         "Kitchen": "Kitchen_Lighting",
         "Garage (inside)": "Garage_Lighting",
         "Bathroom": "Bathroom_Lighting",
-        "Toalett": "Toalett_Lighting"
+        "Toalett": "Toalett_Lighting",
+        "autoRollerToggle":"autoRollerToggle"
       };
 
       const deviceToElementId = {
@@ -1165,6 +1170,21 @@
         const themeRadio = document.querySelector(`input[name="theme"][value="${theme}"]`);
         if (themeRadio) themeRadio.checked = true;
         renderPresetList();
+
+        fetch('http://127.0.0.1:1880/Settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
+
+        fetch('http://127.0.0.1:1880/garage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
+
+        // Roller Shutter auto állapot frissítése
+        updateRollerShutterAutoState();
       })();
     </script>
     <script>
@@ -1227,6 +1247,16 @@
           closeSettings();
         }
       });
+      function sendStateToNodeRed(device, state) {
+      fetch(`http://127.0.0.1:1880/${device}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ state })
+      })
+      .then(res => res.json())
+      .then(data => console.log(`${device} állapot elküldve:`, data))
+      .catch(err => console.error(`${device} hiba:`, err));
+      }
 
 
       Garage.addEventListener("click", () => {
@@ -1444,6 +1474,7 @@
           .catch(err => console.error('Toalett_Lighting hiba:', err));
       });
 
+      // HEATING
       Heating.addEventListener("click", () => {
         const state = Heating.classList.contains("active") ? "on" : "off";
 
@@ -1458,13 +1489,41 @@
       });
     </script>
     <script>
+
     const autoRollerToggle = document.getElementById('autoRollerToggle');
     const autoLabel = document.querySelector('#Roller_Shutter .auto-label');
 
-    autoRollerToggle.addEventListener('change', () => {
-      autoLabel.classList.toggle('hidden', !autoRollerToggle.checked);
+    function updateRollerShutterAutoState() {
+      if (autoRollerToggle.checked) {
+        // Auto bekapcsolva → gomb deaktiválva
+        Roller_Shutter.classList.remove("active"); // kikapcsoljuk a manuális állapotot
+        Roller_Shutter.classList.add("disabled");  // letiltjuk
+        autoLabel.classList.remove("hidden");      // label látható
+      } else {
+        // Auto kikapcsolva → gomb újra használható
+        Roller_Shutter.classList.remove("disabled");
+        autoLabel.classList.add("hidden");        // label elrejtve
+      }
+    }
+
+    // Esemény kezelő
+    autoRollerToggle.addEventListener('change', updateRollerShutterAutoState);
+
+    // Init állapot betöltése
+    updateRollerShutterAutoState();
+
+    //Auto Roller Shutter állapot küldése Node-RED-nek
+    autoRollerToggle.addEventListener("click", () => {
+    const state = autoRollerToggle.checked ? "on" : "off";
+
+    fetch('http://127.0.0.1:1880/autoRollerToggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ state })
+    })
+    .then(res => res.json())
+    .then(data => console.log('Auto Roller válasz:', data))
+    .catch(err => console.error('Auto Roller hiba:', err));
     });
   </script>
   </body>
-
-</html>
