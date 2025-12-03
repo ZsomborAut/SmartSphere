@@ -1,6 +1,6 @@
 [
     {
-        "id": "fa3fa4d1cf653d24",
+        "id": "e8ecf3e0486b455b",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -8,828 +8,1115 @@
         "env": []
     },
     {
-        "id": "cb740c98ece6a4d2",
-        "type": "mqtt in",
-        "z": "fa3fa4d1cf653d24",
-        "name": "status",
-        "topic": "",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 130,
-        "y": 420,
+        "id": "7db986590ccac2b9",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/garage",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 180,
         "wires": [
             [
-                "5110c44d9dd839f1"
+                "72699d0c7466f937"
             ]
         ]
     },
     {
-        "id": "5110c44d9dd839f1",
+        "id": "9b510e5867e2b8a1",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "72699d0c7466f937",
         "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "function 1",
-        "func": "\nreturn msg;",
-        "outputs": 9,
+        "z": "e8ecf3e0486b455b",
+        "name": "Garange Door",
+        "func": "// Várjuk: { state: \"on\" } vagy { state: \"off\" }\n\n// Ha rossz formátum jön\nif (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    return msg;\n}\n\n// A frontend által küldött állapot\nconst state = msg.payload.state;\n\n// Kiírjuk a Node-RED node alá\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// Visszaküldjük a weboldalnak\nmsg.payload = {\n    ok: true,\n    state: state\n};\n\nreturn msg;\n\n",
+        "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 340,
-        "y": 420,
+        "x": 440,
+        "y": 180,
         "wires": [
             [
-                "146da4b46d20357e"
-            ],
-            [
-                "a08d3087333dd42a"
-            ],
-            [
-                "321c429f0e8fdbc0"
-            ],
-            [],
-            [
-                "5d516200c57cf27f"
-            ],
-            [
-                "73d5ed9bfe10aa2b"
-            ],
-            [
-                "d0c1be388e1d7321"
-            ],
-            [
-                "e552829921e410f9"
-            ],
-            [
-                "8a9a942da9bc8863"
+                "9b510e5867e2b8a1"
             ]
-        ],
-        "outputLabels": [
-            "9",
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
         ]
     },
     {
-        "id": "146da4b46d20357e",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "lamp",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 550,
-        "y": 260,
+        "id": "0150ce386d1f452b",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Settings",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 240,
         "wires": [
             [
-                "7b59e5e7d1a5e5e4"
+                "153cd54e7f2de8ed"
             ]
-        ],
-        "inputLabels": [
-            "2"
         ]
     },
     {
-        "id": "a08d3087333dd42a",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "gate control",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 570,
+        "id": "597ec451616a300e",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "153cd54e7f2de8ed",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Settings",
+        "func": "// Várjuk: { state: \"on\" } vagy { state: \"off\" }\n\n// Hibakezelés: ha rossz a payload\nif (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\n// Beérkező állapot\nconst state = msg.payload.state;\n\n// Node státusz kiírás\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// Válasz vissza a weboldalnak\nmsg.payload = {\n    ok: true,\n    state: state\n};\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 240,
+        "wires": [
+            [
+                "597ec451616a300e"
+            ]
+        ]
+    },
+    {
+        "id": "2c02512217eea2ee",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Entrence",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
         "y": 300,
         "wires": [
             [
-                "2e4375e9791099b2"
+                "42a6605cfa88b465"
             ]
         ]
     },
     {
-        "id": "5d516200c57cf27f",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "security",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 560,
-        "y": 420,
-        "wires": [
-            [
-                "a1b0334453ae18f7"
-            ]
-        ]
+        "id": "5c2f5d1f6d407aa2",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 300,
+        "wires": []
     },
     {
-        "id": "73d5ed9bfe10aa2b",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "power cut",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 560,
-        "y": 460,
-        "wires": [
-            [
-                "b5760a6da2e5434a"
-            ]
-        ]
-    },
-    {
-        "id": "321c429f0e8fdbc0",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "temperature control",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 590,
-        "y": 340,
-        "wires": [
-            [
-                "e2b9f72979ca9b30"
-            ]
-        ]
-    },
-    {
-        "id": "5788abc5880330af",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "presets",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 560,
-        "y": 380,
-        "wires": [
-            [
-                "a170d6df658a1e31"
-            ]
-        ]
-    },
-    {
-        "id": "8a9a942da9bc8863",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "cooling",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 560,
-        "y": 580,
-        "wires": [
-            [
-                "53c9cfd5789bb91e"
-            ]
-        ]
-    },
-    {
-        "id": "d0c1be388e1d7321",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "outdoor lighting",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 580,
-        "y": 500,
-        "wires": [
-            [
-                "e2093cbb52c5bd40"
-            ]
-        ]
-    },
-    {
-        "id": "e552829921e410f9",
-        "type": "ui_switch",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "label": "watering",
-        "tooltip": "",
-        "group": "",
-        "order": 0,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "decouple": "false",
-        "topic": "topic",
-        "topicType": "msg",
-        "style": "",
-        "onvalue": "true",
-        "onvalueType": "bool",
-        "onicon": "",
-        "oncolor": "",
-        "offvalue": "false",
-        "offvalueType": "bool",
-        "officon": "",
-        "offcolor": "",
-        "animate": false,
-        "className": "",
-        "x": 560,
-        "y": 540,
-        "wires": [
-            [
-                "c2b16126fd55b6a9"
-            ]
-        ]
-    },
-    {
-        "id": "7b59e5e7d1a5e5e4",
+        "id": "42a6605cfa88b465",
         "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
+        "z": "e8ecf3e0486b455b",
+        "name": "Entrence",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\nmsg.payload = { ok: true, state };\nreturn msg;\n\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 850,
-        "y": 260,
-        "wires": [
-            [
-                "aea5fd6940fe40c7"
-            ]
-        ]
-    },
-    {
-        "id": "2e4375e9791099b2",
-        "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 850,
+        "x": 420,
         "y": 300,
         "wires": [
             [
-                "f975901ea5ae1b47"
+                "5c2f5d1f6d407aa2"
             ]
         ]
     },
     {
-        "id": "e2b9f72979ca9b30",
-        "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 850,
-        "y": 340,
+        "id": "30b9a0ac80533eca",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Watering",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 360,
         "wires": [
             [
-                "4b4cf3c5795164bb"
+                "f6c0640b67da93eb"
             ]
         ]
     },
     {
-        "id": "a170d6df658a1e31",
+        "id": "f5ef22c85fad9733",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "f6c0640b67da93eb",
         "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
+        "z": "e8ecf3e0486b455b",
+        "name": "Watering",
+        "func": "// Várjuk: { action: \"pressed\" }\n\n\n// Ellenőrzés\nif (!msg.payload || msg.payload.action !== \"pressed\") {\n    msg.payload = {\n        ok: false,\n        error: \"unknown action\",\n        received: msg.payload\n    };\n    node.status({ fill: \"red\", shape: \"dot\", text: \"Invalid\" });\n    return msg;\n}\n\n// Jelenlegi állapot kiolvasása (alapból: \"off\")\nlet state = flow.get(\"wateringState\") || \"off\";\n\n// Átváltás\nstate = state === \"off\" ? \"on\" : \"off\";\n\n// Elmentjük az új állapotot\nflow.set(\"wateringState\", state);\n\n// Státusz kiírás\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// Válasz a webnek\nmsg.payload = {\n    ok: true,\n    state\n};\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 850,
-        "y": 380,
+        "x": 420,
+        "y": 360,
         "wires": [
             [
-                "64071ae7aedc7e79"
+                "f5ef22c85fad9733"
             ]
         ]
     },
     {
-        "id": "a1b0334453ae18f7",
-        "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 850,
+        "id": "b34b77d03fb2bce8",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Roller_Shutter",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
         "y": 420,
         "wires": [
             [
-                "80e133ea8ebd24d6"
+                "ef8ced4e57514a98"
             ]
         ]
     },
     {
-        "id": "b5760a6da2e5434a",
+        "id": "5e595c35c569138b",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "ef8ced4e57514a98",
         "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
+        "z": "e8ecf3e0486b455b",
+        "name": "Roller_Shutter",
+        "func": "// Várjuk: { state: \"on\" } vagy { state: \"off\" }\n\nif (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\nmsg.payload = { ok: true, state };\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 850,
-        "y": 460,
-        "wires": [
-            [
-                "697a67b7388c0fab"
-            ]
-        ]
-    },
-    {
-        "id": "e2093cbb52c5bd40",
-        "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 850,
-        "y": 500,
-        "wires": [
-            [
-                "9751b50a49d4aaf1"
-            ]
-        ]
-    },
-    {
-        "id": "c2b16126fd55b6a9",
-        "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 850,
-        "y": 540,
-        "wires": [
-            [
-                "f0dc788351135857"
-            ]
-        ]
-    },
-    {
-        "id": "53c9cfd5789bb91e",
-        "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "switch state",
-        "func": "\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 850,
-        "y": 580,
-        "wires": [
-            [
-                "613b842d434a5f1d"
-            ]
-        ]
-    },
-    {
-        "id": "aea5fd6940fe40c7",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 260,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f975901ea5ae1b47",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 300,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "4b4cf3c5795164bb",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 340,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "64071ae7aedc7e79",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 380,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "80e133ea8ebd24d6",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
+        "x": 440,
         "y": 420,
         "wires": [
-            []
-        ]
-    },
-    {
-        "id": "697a67b7388c0fab",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 460,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "9751b50a49d4aaf1",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 500,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "f0dc788351135857",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 540,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "613b842d434a5f1d",
-        "type": "http request",
-        "z": "fa3fa4d1cf653d24",
-        "name": "send state",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "insecureHTTPParser": false,
-        "authType": "",
-        "senderr": false,
-        "headers": [],
-        "x": 1110,
-        "y": 580,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "83406e8b723b4e06",
-        "type": "inject",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "30 06 * * *",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 350,
-        "y": 560,
-        "wires": [
             [
-                "321c429f0e8fdbc0"
+                "5e595c35c569138b"
             ]
         ]
     },
     {
-        "id": "0d29bb3fa472f24d",
-        "type": "inject",
-        "z": "fa3fa4d1cf653d24",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "30 07 * * *",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 350,
+        "id": "dc9a45fb2b9e0a9e",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Gate",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 480,
+        "wires": [
+            [
+                "c347fb01e035c48c"
+            ]
+        ]
+    },
+    {
+        "id": "4c67a6fef429542a",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "c347fb01e035c48c",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Gate",
+        "func": "// Várjuk: { state: \"on\" } vagy { state: \"off\" }\n\nif (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\n// Státusz a node alatt\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// Itt mehet a tényleges vezérlés (MQTT, relé, bármi)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "4c67a6fef429542a"
+            ]
+        ]
+    },
+    {
+        "id": "942466c276ffd43c",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Security",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 540,
+        "wires": [
+            [
+                "12fbd43c28c30c9d"
+            ]
+        ]
+    },
+    {
+        "id": "488428a745361836",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "12fbd43c28c30c9d",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Security",
+        "func": "// ON / OFF állapot ellenőrzése\nif (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\n// Státusz kiírás a node alá\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// Ha itt akarsz riasztót, PIR szenzort, MQTT-t vezérelni, ide mehet a logika\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 540,
+        "wires": [
+            [
+                "488428a745361836"
+            ]
+        ]
+    },
+    {
+        "id": "6c4a5967d185e1d9",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/External_Lighting",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
         "y": 600,
         "wires": [
             [
-                "a08d3087333dd42a"
+                "597a692852161cdd"
             ]
         ]
     },
     {
-        "id": "6955698303c61dd7",
+        "id": "01cdf0f4b6fa9175",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "597a692852161cdd",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "External Lighting",
+        "func": "// Várjuk: { state: \"on\" } vagy { state: \"off\" }\n\nif (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// Ide mehet a kültéri világítás vezérlése (relé, mqtt stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 600,
+        "wires": [
+            [
+                "01cdf0f4b6fa9175"
+            ]
+        ]
+    },
+    {
+        "id": "f226c797ea2d729c",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Garage_Lighting",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 660,
+        "wires": [
+            [
+                "3ec424f7568010bc"
+            ]
+        ]
+    },
+    {
+        "id": "e2c666c5f4d9a259",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "3ec424f7568010bc",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Garage Lighting",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// ide jöhet a tényleges vezérlés (relé, MQTT, stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 660,
+        "wires": [
+            [
+                "e2c666c5f4d9a259"
+            ]
+        ]
+    },
+    {
+        "id": "1533c7218380940b",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Living_Lighting",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 720,
+        "wires": [
+            [
+                "d1a4f70c9affb252"
+            ]
+        ]
+    },
+    {
+        "id": "e12804841afe1e98",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "d1a4f70c9affb252",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Living Lighting",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// ide jöhet a tényleges vezérlés (relé, MQTT, stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 720,
+        "wires": [
+            [
+                "e12804841afe1e98"
+            ]
+        ]
+    },
+    {
+        "id": "effe63465bb7324c",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Bedroom03_Lighting",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 780,
+        "wires": [
+            [
+                "633543ad1af1fdc9"
+            ]
+        ]
+    },
+    {
+        "id": "3c878af72398fd89",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "633543ad1af1fdc9",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Bedroom03 Lighting",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// ide jöhet a tényleges vezérlés (relé, MQTT, stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 780,
+        "wires": [
+            [
+                "3c878af72398fd89"
+            ]
+        ]
+    },
+    {
+        "id": "f35fec349ad5c03b",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Bedroom04_Lighting",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 840,
+        "wires": [
+            [
+                "c7baf60c1b20c09a"
+            ]
+        ]
+    },
+    {
+        "id": "858ce904bfe24b27",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "c7baf60c1b20c09a",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Bedroom04 Lighting",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// ide jöhet a tényleges vezérlés (relé, MQTT, stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 840,
+        "wires": [
+            [
+                "858ce904bfe24b27"
+            ]
+        ]
+    },
+    {
+        "id": "ccb0e1c387118870",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Kitchen_Lighting",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 900,
+        "wires": [
+            [
+                "eab5bd2938356531"
+            ]
+        ]
+    },
+    {
+        "id": "ac94b79c614bb98c",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "eab5bd2938356531",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Kitchen Lighting",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// ide jöhet a tényleges vezérlés (relé, MQTT, stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 900,
+        "wires": [
+            [
+                "ac94b79c614bb98c"
+            ]
+        ]
+    },
+    {
+        "id": "6875305237fca711",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Bathroom_Lighting",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 960,
+        "wires": [
+            [
+                "745765fa98360dea"
+            ]
+        ]
+    },
+    {
+        "id": "1a525dd995f8bb0f",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "745765fa98360dea",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Bathroom Lighting",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// ide jöhet a tényleges vezérlés (relé, MQTT, stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 960,
+        "wires": [
+            [
+                "1a525dd995f8bb0f"
+            ]
+        ]
+    },
+    {
+        "id": "b4a9f8724a236e2f",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Toalett_Lighting",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 1020,
+        "wires": [
+            [
+                "ec6f427f16d90ccd"
+            ]
+        ]
+    },
+    {
+        "id": "43f435c139b6727b",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 1020,
+        "wires": []
+    },
+    {
+        "id": "ec6f427f16d90ccd",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Toalett Lighting",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// ide jöhet a tényleges vezérlés (relé, MQTT, stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 440,
+        "y": 1020,
+        "wires": [
+            [
+                "43f435c139b6727b"
+            ]
+        ]
+    },
+    {
+        "id": "35d7c8a60a472666",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Heating",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 190,
+        "y": 1080,
+        "wires": [
+            [
+                "5e168c78589ba38a"
+            ]
+        ]
+    },
+    {
+        "id": "1c0338335bd7ea3c",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 660,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "5e168c78589ba38a",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Heating",
+        "func": "if (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\n// ide jöhet a tényleges vezérlés (relé, MQTT, stb.)\n\nmsg.payload = { ok: true, state };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 1080,
+        "wires": [
+            [
+                "1c0338335bd7ea3c"
+            ]
+        ]
+    },
+    {
+        "id": "d878a03d9af607cb",
         "type": "inject",
-        "z": "fa3fa4d1cf653d24",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "300",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "300",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 1180,
+        "wires": [
+            [
+                "54b7f38cccf9c0ce"
+            ]
+        ]
+    },
+    {
+        "id": "54b7f38cccf9c0ce",
+        "type": "http request",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.openweathermap.org/data/2.5/weather?lat=47.4979&lon=19.0402&appid=16d382aa4e9237c70d58004edf3e15ef&units=metric",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 190,
+        "y": 1260,
+        "wires": [
+            [
+                "974e5cd887384efb"
+            ]
+        ]
+    },
+    {
+        "id": "974e5cd887384efb",
+        "type": "json",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 170,
+        "y": 1340,
+        "wires": [
+            [
+                "264853ed3cc00f29",
+                "264bc184051f1104",
+                "c928918e4c209ac5",
+                "a545d9ad06fb2659"
+            ]
+        ]
+    },
+    {
+        "id": "264853ed3cc00f29",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "function 1",
+        "func": "// --- BEÁLLÍTÁS ---\n// Ennél nagyobb szélsebességnél húzza FEL a redőnyt (m/s)\nconst WIND_THRESHOLD = 8;   // írd át, ha mást szeretnél\n\n// --- ADATOK KINYERÉSE AZ API VÁLASZBÓL ---\nconst api = msg.payload;\nconst weather = api.weather?.[0]?.main || \"\";\nconst wind = (api.wind && typeof api.wind.speed === \"number\") ? api.wind.speed : null;\n\n// ha nincs érvényes széladat, ne csináljunk semmit\nif (wind === null) {\n    node.warn(\"Nincs érvényes wind.speed az API válaszban!\");\n    return null;\n}\n\n// --- DÖNTÉS: FEL VAGY LE --- \n// > threshold → FEL (on), különben LE (off)\nlet state = wind > WIND_THRESHOLD ? \"on\" : \"off\";\n\n// --- KIMENŐ ÜZENET A Roller_Shutter FELÉ ---\nmsg.payload = { state };\n\nnode.status({\n    text: `W: ${weather}, wind: ${wind} m/s, limit: ${WIND_THRESHOLD} → ${state}`\n});\n\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 1420,
+        "wires": [
+            [
+                "40b2688656fc4ba3",
+                "bc51945c2c551e80"
+            ]
+        ]
+    },
+    {
+        "id": "b0f563333dcad3d3",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "Web Button",
+        "url": "/Roller_Shutter",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 370,
+        "y": 1300,
+        "wires": [
+            [
+                "40b2688656fc4ba3"
+            ]
+        ]
+    },
+    {
+        "id": "20502a384b09819b",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "To Web",
+        "statusCode": "",
+        "headers": {},
+        "x": 980,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "40b2688656fc4ba3",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Auto_Roller_Shutter",
+        "func": "// Várjuk: { state: \"on\" } vagy { state: \"off\" }\n\nif (!msg.payload || (msg.payload.state !== \"on\" && msg.payload.state !== \"off\")) {\n    node.status({ fill: \"red\", shape: \"dot\", text: \"INVALID\" });\n    msg.payload = {\n        ok: false,\n        error: \"invalid state\",\n        received: msg.payload\n    };\n    return msg;\n}\n\nconst state = msg.payload.state;\n\nnode.status({\n    fill: state === \"on\" ? \"green\" : \"red\",\n    shape: \"dot\",\n    text: state.toUpperCase()\n});\n\nmsg.payload = { ok: true, state };\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 1300,
+        "wires": [
+            [
+                "c8815b917ff861b7"
+            ]
+        ]
+    },
+    {
+        "id": "bc51945c2c551e80",
+        "type": "debug",
+        "z": "e8ecf3e0486b455b",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 1420,
+        "wires": []
+    },
+    {
+        "id": "c8815b917ff861b7",
+        "type": "switch",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "property": "res",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 810,
+        "y": 1300,
+        "wires": [
+            [
+                "20502a384b09819b"
+            ]
+        ]
+    },
+    {
+        "id": "264bc184051f1104",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Wind for Gauge",
+        "func": "// OpenWeather válasz: msg.payload.wind.speed (m/s)\n\nconst wind = msg.payload.wind?.speed;\n\nif (typeof wind !== \"number\") {\n    node.warn(\"Nincs érvényes wind.speed az API válaszban a gauge számára!\");\n    return null;\n}\n\n// A gauge sima számot vár a payloadban\nmsg.payload = wind;\nnode.status({ text: `Wind gauge: ${wind} m/s` });\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 1520,
+        "wires": [
+            [
+                "0fe17f4f1f8a4b6e"
+            ]
+        ]
+    },
+    {
+        "id": "0fe17f4f1f8a4b6e",
+        "type": "ui_gauge",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "group": "ac05e8d423bdb7c9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Wind",
+        "label": "units",
+        "format": "{{value}} m/s",
+        "min": 0,
+        "max": "20",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 650,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "c928918e4c209ac5",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Humidity for Gauge",
+        "func": "\nconst hum = msg.payload.main?.humidity;\n\nif (typeof hum !== \"number\") {\n    node.warn(\"Nincs érvényes main.humidity az API válaszban!\");\n    return null;\n}\n\nmsg.payload = hum; // a gauge sima számot vár\nnode.status({ text: `Humidity: ${hum} %` });\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1580,
+        "wires": [
+            [
+                "0ab9bca22e204c84"
+            ]
+        ]
+    },
+    {
+        "id": "0ab9bca22e204c84",
+        "type": "ui_gauge",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "group": "ac05e8d423bdb7c9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humidity ",
+        "label": "units",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 660,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "a545d9ad06fb2659",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Light for Gauge ",
+        "func": "\n// OpenWeather: msg.payload.clouds.all (% felhőzet)\n\nconst clouds = msg.payload.clouds?.all;\n\nif (typeof clouds !== \"number\") {\n    node.warn(\"Nincs érvényes clouds.all az API válaszban!\");\n    return null;\n}\n\n// Fényerő ≈ 100 - felhőzet\nlet light = 100 - clouds;\n\n// Biztonság kedvéért 0–100 közé szorítjuk\nif (light < 0) light = 0;\nif (light > 100) light = 100;\n\nmsg.payload = light;\nnode.status({ text: `Light: ${light} % (clouds: ${clouds}%)` });\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 1640,
+        "wires": [
+            [
+                "68cb383aec716891"
+            ]
+        ]
+    },
+    {
+        "id": "68cb383aec716891",
+        "type": "ui_gauge",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "group": "ac05e8d423bdb7c9",
+        "order": 0,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Light",
+        "label": "units",
+        "format": "{{value}} %",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 650,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "5006cf33eab20e9c",
+        "type": "inject",
+        "z": "e8ecf3e0486b455b",
         "name": "",
         "props": [
             {
@@ -840,123 +1127,93 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
-        "crontab": "0 0-22 * * *",
-        "once": true,
+        "repeat": "10",
+        "crontab": "",
+        "once": false,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 350,
-        "y": 640,
+        "x": 170,
+        "y": 1760,
         "wires": [
             [
-                "e552829921e410f9"
+                "7c2028b223cd2706"
             ]
         ]
     },
     {
-        "id": "fdd1eae4b38e8f7c",
-        "type": "inject",
-        "z": "fa3fa4d1cf653d24",
+        "id": "7c2028b223cd2706",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Simulated_Indoor_Temp",
+        "func": "// 20–25 °C közötti \"benti\" hőmérséklet szimulálása\nlet temp = 20 + Math.random() * 5;\n// kerekítsük egy tizedesre\ntemp = Math.round(temp * 10) / 10;\n\n// ezt mutatjuk a gauge-en\nmsg.payload = temp;\n\n// elmentjük flow-ba is, hogy máshol is elérjük\nflow.set(\"indoor_temp\", temp);\n\nnode.status({ text: `Indoor: ${temp} °C` });\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1760,
+        "wires": [
+            [
+                "dd3b28354178b2e9"
+            ]
+        ]
+    },
+    {
+        "id": "dd3b28354178b2e9",
+        "type": "ui_gauge",
+        "z": "e8ecf3e0486b455b",
         "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
+        "group": "ac05e8d423bdb7c9",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Indoor Temp",
+        "label": "units",
+        "format": "{{value}} °C",
+        "min": 0,
+        "max": "30",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
         ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "Morning",
-        "payloadType": "str",
-        "x": 120,
-        "y": 260,
-        "wires": [
-            [
-                "05be3af3532270bb"
-            ]
-        ]
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 690,
+        "y": 1760,
+        "wires": []
     },
     {
-        "id": "05be3af3532270bb",
-        "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "function 2",
-        "func": "var presets = global.get(\"presets\") || {};\n\nvar presetName = msg.payload;\n\nif(presets[presetName]) {\n    var preset = presets[presetName];\n    \n    return [\n        {topic: \"lamp\", payload: preset.lamp},\n        {topic: \"redony\", payload: preset.redony},\n        {topic: \"heating\", payload: preset.heating},\n        {topic: \"kinti_vilagitas\", payload: preset.kinti_vilagitas}\n    ];\n} \n\nreturn null;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 340,
-        "y": 260,
-        "wires": [
-            [
-                "146da4b46d20357e",
-                "a08d3087333dd42a",
-                "321c429f0e8fdbc0",
-                "5788abc5880330af",
-                "5d516200c57cf27f",
-                "73d5ed9bfe10aa2b",
-                "d0c1be388e1d7321",
-                "e552829921e410f9",
-                "8a9a942da9bc8863"
-            ]
-        ]
+        "id": "ac05e8d423bdb7c9",
+        "type": "ui_group",
+        "name": "Smart Home / Weather",
+        "tab": "tab1",
+        "order": 1,
+        "disp": true,
+        "width": 6,
+        "collapse": false,
+        "className": ""
     },
     {
-        "id": "2b8ff7203e15b648",
-        "type": "inject",
-        "z": "fa3fa4d1cf653d24",
-        "name": "Init Preset",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 120,
-        "y": 140,
-        "wires": [
-            [
-                "da825564bb3d39e2"
-            ]
-        ]
+        "id": "tab1",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "order": 1
     },
     {
-        "id": "da825564bb3d39e2",
-        "type": "function",
-        "z": "fa3fa4d1cf653d24",
-        "name": "Set Presets",
-        "func": "global.set(\"presets\", {\n    \"morning\": {\n        lamp: \"ON\",\n        redony: \"UP\",\n        heating: 22,\n        kinti_vilagitas: \"OFF\"\n    },\n    \"evening\": {\n        lamp: \"OFF\",\n        redony: \"DOWN\",\n        heating: 20,\n        kinti_vilagitas: \"ON\"\n    }\n});\n\nnode.status({fill:\"green\",shape:\"dot\",text:\"Presets set\"});\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 350,
-        "y": 140,
-        "wires": [
-            []
-        ]
+        "id": "44338b6ce0b0f176",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6"
+        }
     }
 ]
