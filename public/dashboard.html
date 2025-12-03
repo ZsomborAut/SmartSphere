@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="UTF-8">
   <title>SmartHome</title>
@@ -55,7 +54,16 @@
     .btn-circle:hover {
       box-shadow: 0 0 25px rgba(0, 255, 255, 0.667), 0 0 50px rgba(0, 255, 255, 0.333) inset;
       transform: scale(1.1);
-      /* enyhe nagyítás, hogy reagáljon */
+    }
+
+    .btn-circle .auto-label {
+      opacity: 1 !important;      /* Mindig látható, ha nincs hidden osztály */
+      transform: none !important;  /* Ne mozogjon hoverkor */
+      background: black;
+      color: yellow;
+      font-size: 14px;
+      top: 50px;
+      right: -30px;
     }
 
     /* Ikon a közepén */
@@ -121,8 +129,9 @@
     }
 
     #Roller_Shutter {
-      top: 35%;
-      right: 48.5%
+    position: absolute;
+    top: 35%;
+    left: 47.5%;
     }
 
     #Gate {
@@ -206,6 +215,10 @@
       opacity: 0.5;
       pointer-events: none;
     }
+    .disabled .auto-label {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
   </style>
 </head>
 
@@ -233,6 +246,10 @@
   <div class="btn-circle" id="Roller_Shutter">
     <img src="images/Roller_Shutter.png" alt="RollerShutter">
     <span>Roller Shutter</span>
+    <span class="auto-label hidden"
+        style="position:absolute; top:40px; right:-30px; color:yellow; font-size:14px;">
+    Auto
+  </span>
   </div>
 
   <div class="btn-circle" id="Gate">
@@ -300,6 +317,7 @@
 
 
   <script>
+
     function saveUserState() {
       console.log("Saving user state...");
     }
@@ -322,10 +340,9 @@
     const Toalett = document.getElementById("Toalett_Lighting");
     const Heating = document.getElementById("Heating");
 
-    // ÚJ: A Security funkció 
     const securityControllableButtons = [Garage, Watering, Roller_Shutter, Gate, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
     const toggleButtons = [Garage, Heating, Watering, Roller_Shutter, Gate, Settings, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
-
+    
     toggleButtons.forEach(btn => {
       btn.addEventListener("click", () => {
 
@@ -418,11 +435,19 @@
         Back.classList.add("hidden");
         Living_Lighting.classList.add("hidden");
         Bedroom03_Lighting.classList.add("hidden");
+<<<<<<< HEAD
         Bedroom04_Lighting.classList.add("hidden");
         Kitchen.classList.add("hidden");
         Bathroom.classList.add("hidden");
         Garage_Lighting.classList.add("hidden"); 
         Toalett.classList.add("hidden");
+=======
+        Bedroom04_Lighting.classList.add("hidden"); //Ezt adtam hozza
+        Kitchen.classList.add("hidden"); //Ezt adtam hozza
+        Bathroom.classList.add("hidden"); //Ezt adtam hozza
+        Garage_Lighting.classList.add("hidden"); //Ezt adtam hozza
+        Toalett.classList.add("hidden"); //Ezt adtam hozza
+>>>>>>> Auto-Rolo
         Heating.classList.add("hidden");
 
 
@@ -436,7 +461,6 @@
         External_Lighting.classList.remove("hidden");
       });
   </script>
-
 
   <style>
     /* --- háttér és panel --- */
@@ -490,6 +514,7 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, .6);
     }
 
+<<<<<<< HEAD
   /* --- logout --- */
   .logout-row {
     margin-top: 16px;
@@ -507,6 +532,8 @@
     transition: color 0.2s;
   }
   .logout-btn:hover { color: #b91c1c; }
+=======
+>>>>>>> Auto-Rolo
     .hr {
       height: 1px;
       background: #e5e7eb;
@@ -865,7 +892,8 @@
         "Kitchen": "Kitchen_Lighting",
         "Garage (inside)": "Garage_Lighting",
         "Bathroom": "Bathroom_Lighting",
-        "Toalett": "Toalett_Lighting"
+        "Toalett": "Toalett_Lighting",
+        "autoRollerToggle":"autoRollerToggle"
       };
 
       const deviceToElementId = {
@@ -1170,6 +1198,21 @@
         const themeRadio = document.querySelector(`input[name="theme"][value="${theme}"]`);
         if (themeRadio) themeRadio.checked = true;
         renderPresetList();
+
+        fetch('http://127.0.0.1:1880/Settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
+
+        fetch('http://127.0.0.1:1880/garage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ state })
+        })
+
+        // Roller Shutter auto állapot frissítése
+        updateRollerShutterAutoState();
       })();
     </script>
     <script>
@@ -1232,6 +1275,16 @@
           closeSettings();
         }
       });
+      function sendStateToNodeRed(device, state) {
+      fetch(`http://127.0.0.1:1880/${device}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ state })
+      })
+      .then(res => res.json())
+      .then(data => console.log(`${device} állapot elküldve:`, data))
+      .catch(err => console.error(`${device} hiba:`, err));
+      }
 
 
       Garage.addEventListener("click", () => {
@@ -1449,6 +1502,7 @@
           .catch(err => console.error('Toalett_Lighting hiba:', err));
       });
 
+      // HEATING
       Heating.addEventListener("click", () => {
         const state = Heating.classList.contains("active") ? "on" : "off";
 
@@ -1462,6 +1516,46 @@
           .catch(err => console.error('Heating hiba:', err));
       });
     </script>
-  </body>
+    <script>
 
+<<<<<<< HEAD
 </html>
+=======
+    const autoRollerToggle = document.getElementById('autoRollerToggle');
+    const autoLabel = document.querySelector('#Roller_Shutter .auto-label');
+
+    function updateRollerShutterAutoState() {
+      if (autoRollerToggle.checked) {
+        // Auto bekapcsolva → gomb deaktiválva
+        Roller_Shutter.classList.remove("active"); // kikapcsoljuk a manuális állapotot
+        Roller_Shutter.classList.add("disabled");  // letiltjuk
+        autoLabel.classList.remove("hidden");      // label látható
+      } else {
+        // Auto kikapcsolva → gomb újra használható
+        Roller_Shutter.classList.remove("disabled");
+        autoLabel.classList.add("hidden");        // label elrejtve
+      }
+    }
+
+    // Esemény kezelő
+    autoRollerToggle.addEventListener('change', updateRollerShutterAutoState);
+
+    // Init állapot betöltése
+    updateRollerShutterAutoState();
+
+    //Auto Roller Shutter állapot küldése Node-RED-nek
+    autoRollerToggle.addEventListener("click", () => {
+    const state = autoRollerToggle.checked ? "on" : "off";
+
+    fetch('http://127.0.0.1:1880/autoRollerToggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ state })
+    })
+    .then(res => res.json())
+    .then(data => console.log('Auto Roller válasz:', data))
+    .catch(err => console.error('Auto Roller hiba:', err));
+    });
+  </script>
+  </body>
+>>>>>>> Auto-Rolo
