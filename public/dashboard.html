@@ -56,6 +56,19 @@
     .btn-circle:hover {
       box-shadow: 0 0 25px rgba(0, 255, 255, 0.667), 0 0 50px rgba(0, 255, 255, 0.333) inset;
       transform: scale(1.1);
+<<<<<<< HEAD
+=======
+    }
+
+    .btn-circle .auto-label {
+      opacity: 1 !important;      /* Mindig látható, ha nincs hidden osztály */
+      transform: none !important;  /* Ne mozogjon hoverkor */
+      background: black;
+      color: yellow;
+      font-size: 14px;
+      top: 50px;
+      right: -30px;
+>>>>>>> Legujabb-node-web
     }
 
     /* Átlag felirat */
@@ -115,6 +128,7 @@
 
     /* Gombok pozíciói */
 
+<<<<<<< HEAD
     /* E X T E R I O R */
     #Settings {top: 1%; right: 1%;}
     #Garage {top: 55%; right: 16%;}
@@ -124,6 +138,43 @@
     #Gate {bottom: 10%; left: 9%}
     #Security {top: 10%; right: 48.5%}
     #External_Lighting {bottom: 25.5%; left: 25%}
+=======
+    #Garage {
+      top: 55%;
+      right: 16%;
+    }
+
+    #Entrence {
+      top: 54%;
+      right: 48.5%;
+    }
+
+    #Watering {
+      bottom: 10%;
+      right: 35%;
+    }
+
+    #Roller_Shutter {
+    position: absolute;
+    top: 35%;
+    left: 47.5%;
+    }
+
+    #Gate {
+      bottom: 10%;
+      left: 9%
+    }
+
+    #Security {
+      top: 10%;
+      right: 48.5%
+    }
+
+    #External_Lighting {
+      bottom: 25.5%;
+      left: 25%
+    }
+>>>>>>> Legujabb-node-web
 
     /* I N T E R I O R */
     #Living_Lighting {top: 35%; left: 65%}
@@ -136,7 +187,67 @@
     #Heating {bottom: 42%; left: 19%;}
     #Back {bottom: 2%; left: 1%}
 
+<<<<<<< HEAD
     /* Ha megnyomjuk a gombot */
+=======
+    /*Lighting*/
+    #Living_Lighting {
+      top: 35%;
+      left: 65%
+    }
+
+    #Bedroom03_Lighting {
+      bottom: 25%;
+      left: 53%
+    }
+
+    #Bedroom04_Lighting {
+      bottom: 25%;
+      left: 30%
+    }
+
+    #Kitchen_Lighting {
+      top: 30%;
+      left: 55%
+    }
+
+    #Bathroom_Lighting {
+      bottom: 22%;
+      left: 41%
+    }
+
+    #Toalett_Lighting {
+      bottom: 42%;
+      left: 43%
+    }
+
+    #Garage_Lighting {
+      top: 28%;
+      left: 25%
+    }
+
+    #Heating {
+      bottom: 42%;
+      left: 19%;
+    }
+    
+    #HeatingTemp {
+      position: absolute;
+      bottom: 43%;   
+      left: 22%;     
+      color: #030303;
+      font-size: 14px;
+      font-weight: 600;
+      pointer-events: none; 
+    }
+
+    #Back {
+      bottom: 2%;
+      left: 1%
+    }
+
+    /* világító állapot stílusa – nagyobb fénykörrel */
+>>>>>>> Legujabb-node-web
     .btn-circle.active {
       border-color: rgb(0, 200, 0);
       box-shadow:
@@ -151,13 +262,59 @@
       opacity: 0.5;
       pointer-events: none;
     }
+<<<<<<< HEAD
 
     /* Ha le van tiltva a gomb, de az "Auto" feliratot mutatni kell (Redőny) */
+=======
+>>>>>>> Legujabb-node-web
     .disabled .auto-label {
       opacity: 1 !important;
       pointer-events: auto !important;
     }
   </style>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+    <script>
+      const firebaseConfig = {
+      apiKey: "AIzaSyBrBgJxquWszDj8nZA0890Rh8p1TKgOYA0",
+      authDomain: "smarthome-4f03c.firebaseapp.com",
+      databaseURL: "https://smarthome-4f03c-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "smarthome-4f03c",
+      storageBucket: "smarthome-4f03c.firebasestorage.app",
+      messagingSenderId: "736696687935",
+      appId: "1:736696687935:web:39e79846ddb12d674e478a",
+      measurementId: "G-F21FLLGCSM"
+      };
+
+      firebase.initializeApp(firebaseConfig);
+
+      const auth = firebase.auth();
+      const db   = firebase.firestore();
+
+      let currentUser = null;
+
+      window.addEventListener('load', () => {
+        auth.onAuthStateChanged(async function (user) {
+          if (!user) {
+            console.log("Nincs bejelentkezve, irány a login...");
+            window.location.href = "Login_Reg.html";
+            return;
+          }
+
+          currentUser = user;
+          console.log("Bejelentkezett user a dashboardon:", user.uid);
+
+          // 1) Firestore → localStorage
+          await syncPresetsFromFirebase();
+          await syncActivePresetFromFirebase();
+
+          // 2) UI kirajzolása a friss adatokkal
+          renderPresetList();
+        });
+      });
+    </script>
 </head>
 
 <body>
@@ -251,8 +408,7 @@
     <img src="images/heating.png" alt="Heating">
     <span>Heating</span>
   </div>
-
-  <!--Idaig-->
+  <div id="HeatingTemp" class="temp-label hidden">-- °C</div>
 
 
   <script>
@@ -278,9 +434,14 @@
     const Garage_Lighting = document.getElementById("Garage_Lighting");
     const Toalett = document.getElementById("Toalett_Lighting");
     const Heating = document.getElementById("Heating");
+    const HeatingTemp = document.getElementById("HeatingTemp");
 
     const securityControllableButtons = [Garage, Watering, Roller_Shutter, Gate, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
+<<<<<<< HEAD
     const toggleButtons = [Garage, Heating, Watering, Roller_Shutter, Gate, Settings, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
+=======
+    const toggleButtons = [Garage, Heating, Watering, Roller_Shutter, Gate, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
+>>>>>>> Legujabb-node-web
     
     toggleButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -362,6 +523,7 @@
         Toalett.classList.remove("hidden");
         Back.classList.remove("hidden");
         Heating.classList.remove("hidden");
+        HeatingTemp.classList.remove("hidden");
       });
 
     // We go back to the Exterior view
@@ -374,6 +536,7 @@
         Back.classList.add("hidden");
         Living_Lighting.classList.add("hidden");
         Bedroom03_Lighting.classList.add("hidden");
+<<<<<<< HEAD
         Bedroom04_Lighting.classList.add("hidden"); //Ezt adtam hozza
         Kitchen.classList.add("hidden"); //Ezt adtam hozza
         Bathroom.classList.add("hidden"); //Ezt adtam hozza
@@ -381,6 +544,15 @@
         Toalett.classList.add("hidden"); //Ezt adtam hozza
         Heating.classList.add("hidden");
 
+=======
+        Bedroom04_Lighting.classList.add("hidden"); 
+        Kitchen.classList.add("hidden"); 
+        Bathroom.classList.add("hidden"); 
+        Garage_Lighting.classList.add("hidden"); 
+        Toalett.classList.add("hidden"); 
+        Heating.classList.add("hidden");
+        HeatingTemp.classList.add("hidden");
+>>>>>>> Legujabb-node-web
 
         // Show new buttons
         Garage.classList.remove("hidden");
@@ -391,8 +563,40 @@
         Security.classList.remove("hidden");
         External_Lighting.classList.remove("hidden");
       });
+
+<<<<<<< HEAD
+=======
+    function updateHeatingTempLabel() {
+      fetch("http://127.0.0.1:1880/Indoor_Temp")
+        .then(res => res.json())
+        .then(data => {
+          if (!HeatingTemp) return;
+
+          console.log("Indoor_Temp válasz:", data, "type:", typeof data.temp);
+
+          // data = { temp: 21.5 }
+          const value = Number(data.temp);
+
+          if (Number.isFinite(value)) {
+            HeatingTemp.textContent = value.toFixed(1) + " °C";
+          } else {
+            HeatingTemp.textContent = "-- °C";
+          }
+        })
+        .catch(err => {
+          console.error("Indoor_Temp fetch hiba:", err);
+          if (HeatingTemp) {
+            HeatingTemp.textContent = "-- °C";
+          }
+        });
+    }
+
+    updateHeatingTempLabel();
+
+    setInterval(updateHeatingTempLabel, 5000);
   </script>
 
+>>>>>>> Legujabb-node-web
   <style>
     /* --- háttér és panel --- */
     .settings-backdrop {
@@ -824,35 +1028,70 @@
         "Toalett": "Toalett_Lighting"
       };
 
-      function applyPresetToUiAndNodeRed(preset) {
-        if (!preset || !preset.devices) return;
+    function applyPresetToUiAndNodeRed(preset) {
+      if (!preset || !preset.devices) return;
 
-        for (const [key, isOn] of Object.entries(preset.devices)) {
-          const endpoint = deviceToEndpoint[key];
-          const elId = deviceToElementId[key];
-          const state = isOn ? "on" : "off";
+      // --- ÚJ RÉSZ: ha a preset be akarja kapcsolni a kézi redőnyt,
+      // akkor előbb az AUTO módot kikapcsoljuk ---
+      if (preset.devices["Roller Shutter"]) {
+        // csak akkor próbáljuk, ha tényleg létezik ez a változó / függvény
+        const hasAutoToggle =
+          typeof autoRollerToggle !== "undefined" && autoRollerToggle;
+        const hasUpdateFn =
+          typeof updateRollerShutterAutoState === "function";
 
-          // 1) UI frissítés
-          if (elId) {
-            const el = document.getElementById(elId);
-            if (el) {
-              el.classList.toggle("active", isOn);
-            }
-          }
+        if (hasAutoToggle && hasUpdateFn && autoRollerToggle.checked) {
+          // 1) UI-ban az AUTO ki
+          autoRollerToggle.checked = false;
+          updateRollerShutterAutoState();
 
-          // 2) Node-RED hívás
-          if (endpoint) {
-            fetch(`${NODE_RED_BASE}/${endpoint}`, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ state })
-            })
-              .then(res => res.json())
-              .then(data => console.log(`Preset → ${key} = ${state}`, data))
-              .catch(err => console.error(`Preset hiba: ${key}`, err));
-          }
+          // 2) Node-RED felé is küldjük, hogy auto OFF
+          fetch(`${NODE_RED_BASE}/autoRollerToggle`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ state: "off" }),
+          })
+            .then((res) => res.json())
+            .then((data) =>
+              console.log("Preset miatt autoRollerToggle OFF:", data)
+            )
+            .catch((err) =>
+              console.error("autoRollerToggle OFF hiba:", err)
+            );
         }
       }
+      // --- ÚJ RÉSZ VÉGE ---
+
+      // Eredeti logika: minden eszköz állapotát elküldjük UI + Node-RED
+      for (const [key, isOn] of Object.entries(preset.devices)) {
+        const endpoint = deviceToEndpoint[key];
+        const elId = deviceToElementId[key];
+        const state = isOn ? "on" : "off";
+
+        // 1) UI frissítés
+        if (elId) {
+          const el = document.getElementById(elId);
+          if (el) {
+            el.classList.toggle("active", isOn);
+          }
+        }
+
+        // 2) Node-RED hívás
+        if (endpoint) {
+          fetch(`${NODE_RED_BASE}/${endpoint}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ state }),
+          })
+            .then((res) => res.json())
+            .then((data) =>
+              console.log(`Preset → ${key} = ${state}`, data)
+            )
+            .catch((err) => console.error(`Preset hiba: ${key}`, err));
+        }
+      }
+    }
+
 
       // Ugyanaz, mint applyPresetToUiAndNodeRed, csak mindent OFF-ra tesz
       function clearPresetFromUiAndNodeRed(preset) {
@@ -931,13 +1170,124 @@
       const LS_ACTIVE = 'activePresetId';
 
       function loadPresets() {
-        try { return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); } catch { return []; }
+        try {
+          return JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+        } catch (e) {
+          console.error('Hibás preset JSON a localStorage-ben:', e);
+          return [];
+        }
       }
+
       function savePresets(list) {
         localStorage.setItem(LS_KEY, JSON.stringify(list));
+
+        // plusz: felküldjük Firebase-be is
+        if (typeof savePresetsToFirebase === 'function') {
+          savePresetsToFirebase(list).catch(console.error);
+        }
       }
-      function activePresetId() { return localStorage.getItem(LS_ACTIVE) || null; }
-      function setActivePresetId(id) { if (id === null) localStorage.removeItem(LS_ACTIVE); else localStorage.setItem(LS_ACTIVE, id); }
+
+      function activePresetId() {
+        return localStorage.getItem(LS_ACTIVE) || null;
+      }
+
+      function setActivePresetId(id) {
+        // 1) localStorage
+        if (id === null) {
+          localStorage.removeItem(LS_ACTIVE);
+        } else {
+          localStorage.setItem(LS_ACTIVE, id);
+        }
+
+        // 2) Firestore – elmentjük, hogy melyik preset volt ON
+        if (typeof saveActivePresetToFirebase === 'function') {
+          saveActivePresetToFirebase(id).catch(console.error);
+        }
+      }
+
+      // --- FIREBASE SZINKRON FÜGGVÉNYEK ---
+
+      async function savePresetsToFirebase(list) {
+        if (!currentUser || !db) return;
+
+        const uid = currentUser.uid;
+        const presetsCol = db.collection('users').doc(uid).collection('presets');
+
+        // egyszerű megoldás: minden régi doksit törlünk, majd újra létrehozzuk
+        const snap = await presetsCol.get();
+        const batch = db.batch();
+
+        snap.forEach(doc => batch.delete(doc.ref));
+
+        list.forEach(preset => {
+          const docId = preset.id || presetsCol.doc().id;
+          const docRef = presetsCol.doc(docId);
+          batch.set(docRef, preset);
+        });
+
+        await batch.commit();
+        console.log('Presetek mentve Firestore-ba');
+      }
+
+      async function syncPresetsFromFirebase() {
+        if (!currentUser || !db) return;
+
+        const uid = currentUser.uid;
+        const presetsCol = db.collection('users').doc(uid).collection('presets');
+
+        const snap = await presetsCol.get();
+        const list = [];
+
+        snap.forEach(doc => {
+          list.push(doc.data());
+        });
+
+        // MINDIG felülírjuk a localStorage-et – akkor is, ha 0 db van
+        localStorage.setItem(LS_KEY, JSON.stringify(list));
+        console.log('Presetek betöltve Firestore-ból, darab:', list.length);
+
+        if (typeof renderPresetList === 'function') {
+          renderPresetList();
+        }
+      }
+
+       async function saveActivePresetToFirebase(id) {
+        if (!currentUser || !db) return;
+
+        const uid = currentUser.uid;
+        const userDoc = db.collection('users').doc(uid);
+
+        await userDoc.set(
+          { activePresetId: id || null },
+          { merge: true }
+        );
+
+        console.log('Aktív preset ID mentve Firestore-ba:', id);
+      }
+
+      async function syncActivePresetFromFirebase() {
+        if (!currentUser || !db) return;
+
+        const uid = currentUser.uid;
+        const userDoc = await db.collection('users').doc(uid).get();
+
+        let id = null;
+
+        if (userDoc.exists) {
+          const data = userDoc.data();
+          if (data && data.activePresetId) {
+            id = data.activePresetId;
+          }
+        }
+
+        if (id === null) {
+          localStorage.removeItem(LS_ACTIVE);
+        } else {
+          localStorage.setItem(LS_ACTIVE, id);
+        }
+
+        console.log('Aktív preset ID betöltve Firestore-ból:', id);
+      }
 
       function ensureDefaults() {
         // Ha nincs semmi, létrehozunk két mintát, hogy legyen mit látni
@@ -976,6 +1326,27 @@
           `;
           presetList.appendChild(row);
         }
+      }
+
+      function sendNodeRedToggle(deviceId, state) {
+        // Beállítja a megfelelő végpontot:
+        // Pl.: Roller_Shutter → toggle/Roller_Shutter, 
+        //      autoRollerToggle → autoRollerToggle
+        let endpoint = deviceId === "Roller_Shutter" ? `toggle/${deviceId}` : deviceId; 
+
+        fetch(`http://127.0.0.1:1880/${endpoint}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ state: state })
+        })
+        .then(response => {
+            if (!response.ok) {
+                console.error(`Hiba történt a(z) ${deviceId} állapotának küldésekor: ${response.status}`);
+            }
+        })
+        .catch(err => console.error(`Hiba a Node-RED kommunikációban (${deviceId}):`, err));
       }
 
       // ===== Preset szerkesztő =====
@@ -1085,10 +1456,18 @@
       }
 
       // ===== Log out gomb =====
-      logoutBtn.addEventListener('click', () => {
+      logoutBtn.addEventListener('click', async () => {
         if (!confirm('Are you sure you want to log out?')) return;
 
-        // Bejelentkezéssel kapcsolatos dolgok törlése
+        try {
+          if (window.auth) {
+            await auth.signOut();
+          }
+        } catch (e) {
+          console.error("Firebase signOut hiba:", e);
+        }
+
+        // Lokális cuccok törlése (mehet továbbra is)
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('loggedInUser');
         localStorage.removeItem('authToken');
@@ -1098,10 +1477,8 @@
 
         sessionStorage.clear();
 
-        // Visszairányítás a login oldalra
         window.location.href = 'Login_Reg.html';
       });
-
       // ===== Induló beállítás =====
       (function init() {
         const theme = localStorage.getItem('theme') || 'light';
@@ -1429,6 +1806,7 @@
     </script>
     <script>
 
+<<<<<<< HEAD
     const autoRollerToggle = document.getElementById('autoRollerToggle');
     const autoLabel = document.querySelector('#Roller_Shutter .auto-label');
 
@@ -1466,3 +1844,94 @@
     });
   </script>
   </body>
+=======
+    const autoRollerToggle = document.getElementById("autoRollerToggle");
+    const autoLabel = document.querySelector("#Roller_Shutter .auto-label");
+
+    function updateRollerShutterAutoState() {
+      if (autoRollerToggle.checked) {
+        // AUTO BEKAPCSOLVA → manuális gomb kikapcs + tiltás
+        Roller_Shutter.classList.remove("active");  // UI-ban OFF
+        Roller_Shutter.classList.add("disabled");   // ne lehessen kattintani
+        autoLabel.classList.remove("hidden");       // "Auto" felirat látszik
+
+        // Manuális Roller_Shutter állapot OFF elküldése Node-RED-nek is
+        fetch("http://127.0.0.1:1880/Roller_Shutter", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ state: "off" }),
+        })
+          .then((res) => res.json())
+          .then((data) =>
+            console.log("Auto mód miatt Roller_Shutter OFF:", data)
+          )
+          .catch((err) =>
+            console.error("Roller_Shutter OFF hiba:", err)
+          );
+      } else {
+        // AUTO KIKAPCSOLVA → manuális gomb újra használható
+        Roller_Shutter.classList.remove("disabled");
+        autoLabel.classList.add("hidden");
+        // Itt nem kapcsolunk semmit Node-RED-ben,
+        // mert a kézi gombot majd a user/preset kezeli.
+      }
+    }
+
+    autoRollerToggle.addEventListener("change", () => {
+      if (autoRollerToggle.checked) {
+        const currentPresetId = activePresetId && activePresetId();
+
+        if (currentPresetId) {
+          const presets = loadPresets();
+          const preset = presets.find(p => p.id === currentPresetId);
+
+          const hasManualRollerOn =
+            preset &&
+            preset.devices &&
+            preset.devices["Roller Shutter"] === true;
+
+          if (hasManualRollerOn) {
+
+            autoRollerToggle.checked = false;
+
+            if (typeof updateRollerShutterAutoState === "function") {
+              updateRollerShutterAutoState();
+            }
+
+            fetch("http://127.0.0.1:1880/autoRollerToggle", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ state: "off" }),
+            }).catch(err =>
+              console.error("AUTO OFF küldés hiba (preset ütközés):", err)
+            );
+
+            return;
+          }
+        }
+      }
+
+      if (typeof updateRollerShutterAutoState === "function") {
+        updateRollerShutterAutoState();
+      }
+
+      const state = autoRollerToggle.checked ? "on" : "off";
+
+      fetch("http://127.0.0.1:1880/autoRollerToggle", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ state }),
+      })
+        .then(res => res.json())
+        .then(data => console.log("Auto Roller válasz:", data))
+        .catch(err => console.error("Auto Roller hiba:", err));
+    });
+
+  </script>
+  </body>
+<<<<<<< HEAD
+</html>
+=======
+
+>>>>>>> e205bb4d80de92b3ecb6776f12e80fa59f817783
+>>>>>>> Legujabb-node-web
