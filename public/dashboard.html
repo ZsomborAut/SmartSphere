@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>SmartHome</title>
   <style>
+    /* Alap háttér */
     body {
       margin: 0;
       height: 100vh;
@@ -17,6 +18,7 @@
       font-family: Arial, sans-serif;
     }
 
+    /* Külső háttér */
     body.outside {
       margin: 0;
       height: 100vh;
@@ -27,6 +29,7 @@
       font-family: Arial, sans-serif;
     }
 
+    /* Belső háttér */
     body.inside {
       background-image: url("images/bckg-House Plan.jpg");
       background-size: cover;
@@ -50,15 +53,16 @@
       align-items: center;
     }
 
-    /* Hoverre csak fényesebb lesz, nem forog */
+    /* Kör gomb hover (legyen fenyes) */
     .btn-circle:hover {
       box-shadow: 0 0 25px rgba(0, 255, 255, 0.667), 0 0 50px rgba(0, 255, 255, 0.333) inset;
       transform: scale(1.1);
     }
 
+    /* "Auto" felirat stilus (Roller Shutter)*/
     .btn-circle .auto-label {
-      opacity: 1 !important;      /* Mindig látható, ha nincs hidden osztály */
-      transform: none !important;  /* Ne mozogjon hoverkor */
+      opacity: 1 !important;
+      transform: none !important;
       background: black;
       color: yellow;
       font-size: 14px;
@@ -66,7 +70,7 @@
       right: -30px;
     }
 
-    /* Ikon a közepén */
+    /* Kör gomb kép */
     .btn-circle img {
       width: 70%;
       height: 70%;
@@ -74,7 +78,7 @@
       pointer-events: none;
     }
 
-    /* Tooltip (felirat) */
+    /* Tooltip (alap felirat) */
     .btn-circle span {
       position: absolute;
       left: auto;
@@ -98,143 +102,72 @@
       transform: translateY(-50%) translateX(0);
     }
 
+    /* Rejtett gombok */
     .hidden {
       display: none;
     }
 
+    /* Bal oldali szöveg */
     .btn-circle.tooltip-left span {
       left: 60px;
       right: auto;
       transform: translateY(-50%) translateX(-10px);
     }
 
-    #Settings {
-      top: 1%;
-      right: 1%;
-    }
+    /*Gombok elhelyezése*/
 
-    #Garage {
-      top: 55%;
-      right: 16%;
-    }
-
-    #Entrence {
-      top: 54%;
-      right: 48.5%;
-    }
-
-    #Watering {
-      bottom: 10%;
-      right: 35%;
-    }
-
-    #Roller_Shutter {
-    position: absolute;
-    top: 35%;
-    left: 47.5%;
-    }
-
-    #Gate {
-      bottom: 10%;
-      left: 9%
-    }
-
-    #Security {
-      top: 10%;
-      right: 48.5%
-    }
-
-    #External_Lighting {
-      bottom: 25.5%;
-      left: 25%
-    }
+    /* E X T E R I O R */
+    #Settings {top: 1%; right: 1%;}
+    #Garage {top: 55%; right: 16%;}
+    #Entrence {top: 54%; right: 48.5%;}
+    #Watering {bottom: 10%; right: 35%;}
+    #Roller_Shutter {position: absolute; top: 35%; left: 47.5%}
+    #Gate {bottom: 10%; left: 9%}
+    #Security {top: 10%; right: 48.5%;}
+    #External_Lighting {bottom: 25.5%; left: 25%}
 
     /* I N T E R I O R */
 
-    /*Lighting*/
-    #Living_Lighting {
-      top: 35%;
-      left: 65%
-    }
+    #Living_Lighting {top: 35%; left: 65%}
+    #Bedroom03_Lighting {bottom: 25%; left: 53%}
+    #Bedroom04_Lighting {bottom: 25%; left: 30%}
+    #Kitchen_Lighting {top: 30%; left: 55%}
+    #Bathroom_Lighting {bottom: 22%; left: 41%}
+    #Toalett_Lighting {bottom: 42%; left: 43%}
+    #Garage_Lighting {top: 28%; left: 25%}
+    #Heating {bottom: 42%; left: 19%;}
+    #HeatingTemp {position: absolute; bottom: 43%; left: 22%; color: #030303; font-size: 14px; font-weight: 600; pointer-events: none; }
+    #Back {bottom: 2%; left: 1%}
 
-    #Bedroom03_Lighting {
-      bottom: 25%;
-      left: 53%
-    }
-
-    #Bedroom04_Lighting {
-      bottom: 25%;
-      left: 30%
-    }
-
-    #Kitchen_Lighting {
-      top: 30%;
-      left: 55%
-    }
-
-    #Bathroom_Lighting {
-      bottom: 22%;
-      left: 41%
-    }
-
-    #Toalett_Lighting {
-      bottom: 42%;
-      left: 43%
-    }
-
-    #Garage_Lighting {
-      top: 28%;
-      left: 25%
-    }
-
-    #Heating {
-      bottom: 42%;
-      left: 19%;
-    }
-    
-    #HeatingTemp {
-      position: absolute;
-      bottom: 43%;   
-      left: 22%;     
-      color: #030303;
-      font-size: 14px;
-      font-weight: 600;
-      pointer-events: none; 
-    }
-
-    #Back {
-      bottom: 2%;
-      left: 1%
-    }
-
-    /* világító állapot stílusa – nagyobb fénykörrel */
+    /* Bekapcsolt állapot */
     .btn-circle.active {
       border-color: rgb(0, 200, 0);
       box-shadow:
         0 0 35px rgba(0, 255, 0, 0.8),
-        /* erősebb közeli fény */
         0 0 50px rgba(0, 255, 0, 0.5) inset,
-        /* belső ragyogás */
         0 0 120px rgba(0, 255, 0, 0.4),
-        /* külső fény */
         0 0 200px rgba(0, 255, 0, 0.25);
-      /* távolabbra szórt halvány fény */
     }
 
+    /* Letiltott állapot */
     .disabled {
       opacity: 0.5;
       pointer-events: none;
     }
+
+    /* Letiltott állapotban az "Auto" felirat legyen látható */
     .disabled .auto-label {
       opacity: 1 !important;
-      pointer-events: auto !important;
     }
+
   </style>
+
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
     <script>
+      /* Firebase */
       const firebaseConfig = {
       apiKey: "AIzaSyBrBgJxquWszDj8nZA0890Rh8p1TKgOYA0",
       authDomain: "smarthome-4f03c.firebaseapp.com",
@@ -253,6 +186,7 @@
 
       let currentUser = null;
 
+      /* Login/Reg */
       window.addEventListener('load', () => {
         auth.onAuthStateChanged(async function (user) {
           if (!user) {
@@ -264,116 +198,38 @@
           currentUser = user;
           console.log("Bejelentkezett user a dashboardon:", user.uid);
 
-          // 1) Firestore → localStorage
           await syncPresetsFromFirebase();
           await syncActivePresetFromFirebase();
-
-          // 2) UI kirajzolása a friss adatokkal
           renderPresetList();
         });
       });
     </script>
 </head>
-
 <body>
-  <div class="btn-circle" id="Settings">
-    <img src="images/Settings.png" alt="Settings">
-    <span>Settings</span>
-  </div>
-
-  <div class="btn-circle" id="Garage">
-    <img src="images/Garage.png" alt="Garage">
-    <span>Garage</span>
-  </div>
-
-  <div class="btn-circle" id="Entrence">
-    <img src="images/Entrence.png" alt="Entrence">
-    <span>Entrence</span>
-  </div>
-
-  <div class="btn-circle" id="Watering">
-    <img src="images/Watering.png" alt="Watering">
-    <span>Watering</span>
-  </div>
-
-  <div class="btn-circle" id="Roller_Shutter">
-    <img src="images/Roller_Shutter.png" alt="RollerShutter">
-    <span>Roller Shutter</span>
-    <span class="auto-label hidden"
-        style="position:absolute; top:40px; right:-30px; color:yellow; font-size:14px;">
-    Auto
-  </span>
-  </div>
-
-  <div class="btn-circle" id="Gate">
-    <img src="images/Gate.png" alt="Gate">
-    <span>Gate</span>
-  </div>
-
-  <div class="btn-circle" id="Security">
-    <img src="images/Security.png" alt="Security">
-    <span>Security</span>
-  </div>
-
-  <div class="btn-circle" id="External_Lighting">
-    <img src="images/Light.png" alt="ExternalLighting">
-    <span>External Lighting</span>
-  </div>
-
-  <div class="btn-circle hidden tooltip-left" id="Back">
-    <img src="images/Back.png" alt="Back">
-    <span>Back</span>
-  </div>
-
-  <div class="btn-circle hidden tooltip-left" id="Living_Lighting">
-    <img src="images/Light.png" alt="Living_Lighting">
-    <span>Living Lighting</span>
-  </div>
-
-  <div class="btn-circle hidden tooltip-left" id="Bedroom03_Lighting"> <!--Innen kell vegyem a mintat-->
-    <img src="images/Light.png" alt="Bedroom03_Lighting">
-    <span>Bedroom03 Lighting</span>
-  </div>
-
-  <!--Innen irtam-->
-  <div class="btn-circle hidden tooltip-left" id="Bedroom04_Lighting">
-    <img src="images/Light.png" alt="Bedroom04_Lighting">
-    <span>Bedroom04 Lighting</span>
-  </div>
-
-  <div class="btn-circle hidden tooltip-left" id="Kitchen_Lighting">
-    <img src="images/Light.png" alt="Kitchen_Lighting">
-    <span>Kitchen Lighting</span>
-  </div>
-
-  <div class="btn-circle hidden tooltip-left" id="Bathroom_Lighting">
-    <img src="images/Light.png" alt="Bathroom_Lighting">
-    <span>Bathroom Lighting</span>
-  </div>
-
-  <div class="btn-circle hidden tooltip-left" id="Garage_Lighting">
-    <img src="images/Light.png" alt="Garage_Lighting">
-    <span>Garage Lighting</span>
-  </div>
-
-  <div class="btn-circle hidden tooltip-left" id="Toalett_Lighting">
-    <img src="images/Light.png" alt="Toalett_Lighting">
-    <span>Toalett Lighting</span>
-  </div>
-
-  <div class="btn-circle hidden tooltip-left" id="Heating">
-    <img src="images/heating.png" alt="Heating">
-    <span>Heating</span>
-  </div>
+  <!-- Gombok képei -->
+  <div class="btn-circle" id="Settings"><img src="images/Settings.png" alt="Settings"><span>Settings</span></div>
+  <div class="btn-circle" id="Garage"><img src="images/Garage.png" alt="Garage"><span>Garage</span></div>
+  <div class="btn-circle" id="Entrence"><img src="images/Entrence.png" alt="Entrence"><span>Entrence</span></div>
+  <div class="btn-circle" id="Watering"><img src="images/Watering.png" alt="Watering"><span>Watering</span></div>
+  <div class="btn-circle" id="Roller_Shutter"><img src="images/Roller_Shutter.png" alt="RollerShutter"><span>Roller Shutter</span><span class="auto-label hidden"style="position:absolute; top:40px; right:-30px; color:yellow; font-size:14px;">Auto</span></div>
+  <div class="btn-circle" id="Gate"><img src="images/Gate.png" alt="Gate"><span>Gate</span></div>
+  <div class="btn-circle" id="Security"><img src="images/Security.png" alt="Security"><span>Security</span></div>
+  <div class="btn-circle" id="External_Lighting"><img src="images/Light.png" alt="ExternalLighting"><span>External Lighting</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Back"><img src="images/Back.png" alt="Back"><span>Back</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Living_Lighting"><img src="images/Light.png" alt="Living_Lighting"><span>Living Lighting</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Bedroom03_Lighting"><img src="images/Light.png" alt="Bedroom03_Lighting"><span>Bedroom03 Lighting</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Bedroom04_Lighting"><img src="images/Light.png" alt="Bedroom04_Lighting"><span>Bedroom04 Lighting</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Kitchen_Lighting"><img src="images/Light.png" alt="Kitchen_Lighting"><span>Kitchen Lighting</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Bathroom_Lighting"><img src="images/Light.png" alt="Bathroom_Lighting"><span>Bathroom Lighting</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Garage_Lighting"><img src="images/Light.png" alt="Garage_Lighting"><span>Garage Lighting</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Toalett_Lighting"><img src="images/Light.png" alt="Toalett_Lighting"><span>Toalett Lighting</span></div>
+  <div class="btn-circle hidden tooltip-left" id="Heating"><img src="images/heating.png" alt="Heating"><span>Heating</span></div>
   <div id="HeatingTemp" class="temp-label hidden">-- °C</div>
 
-
   <script>
+    // Gombok működése
 
-    function saveUserState() {
-      console.log("Saving user state...");
-    }
-
+    function saveUserState() {console.log("Saving user state...");}
     const Settings = document.getElementById("Settings");
     const Garage = document.getElementById("Garage");
     const Entrence = document.getElementById("Entrence");
@@ -398,66 +254,48 @@
     
     toggleButtons.forEach(btn => {
       btn.addEventListener("click", () => {
-
-        // ÚJ: Ha a gomb le van tiltva, ne történjen semmi. (A felhasználó logikája)
+        // Ha a gomb le van tiltva
         if (btn.classList.contains("disabled")) {
           return;
         }
-
         const currentPresetId = activePresetId && activePresetId();
-
-        // Ha van aktív preset, és valaki manuálisan megnyom egy ikont:
+        // Ha van aktív preset
         if (currentPresetId) {
           const presets = loadPresets();
           const preset = presets.find(p => p.id === currentPresetId);
-
-
-          // 1) mindent OFF-ra teszünk, ami a presetben volt
           if (preset) {
             clearPresetFromUiAndNodeRed(preset);
           }
-
-          // 2) töröljük az aktív presetet
           setActivePresetId(null);
           renderPresetList();
-
-          // 3) itt NEM kapcsoljuk át a gombot – első katt csak "preset törlés"
           return;
         }
-
-        // Ha nincs aktív preset → sima toggle mehet
         btn.classList.toggle("active");
-        saveUserState(); // ÚJ: Minden változás mentése (a felhasználó kérése alapján)
+        saveUserState();
       });
     });
-
-    // ÚJ: SECURITY LOGIKA (a felhasználó által küldött)
+    // SECURITY gomb működése
     Security.addEventListener("click", () => {
-      // Security saját állapotát átváltjuk
       Security.classList.toggle("active");
       if (Security.classList.contains("active")) {
-        // SECURITY BEKAPCSOLVA:
-        // minden más gomb kapcsoljon ki és legyen tiltva
         securityControllableButtons.forEach(btn => {
-          btn.classList.remove("active");  // kikapcsoljuk
-          btn.classList.add("disabled");   // nem lehet rá kattintani
+          btn.classList.remove("active");
+          btn.classList.add("disabled");
         });
-      } else {
-        // 🔓 SECURITY KIKAPCSOLVA:
-        // minden gomb ismét működhet
+      } 
+      else {
         securityControllableButtons.forEach(btn => {
           btn.classList.remove("disabled");
         });
       }
-      saveUserState(); // Security állapot mentése
+      saveUserState();
     });
-
     Entrence.addEventListener
       ("click", () => {
         document.body.classList.remove("outside");
         document.body.classList.add("inside");
 
-        // Hide old button
+        // Régi gombok elrejtese
         Garage.classList.add("hidden");
         Entrence.classList.add("hidden");
         Watering.classList.add("hidden");
@@ -466,7 +304,7 @@
         Security.classList.add("hidden");
         External_Lighting.classList.add("hidden");
 
-        // Show new buttons
+        // Új gombok megjelenítése
         Living_Lighting.classList.remove("hidden");
         Bedroom03_Lighting.classList.remove("hidden");
         Bedroom04_Lighting.classList.remove("hidden");
@@ -479,13 +317,13 @@
         HeatingTemp.classList.remove("hidden");
       });
 
-    // We go back to the Exterior view
+    // Vissza a kültérbe
     Back.addEventListener
       ("click", () => {
         document.body.classList.remove("inside");
         document.body.classList.add("outside");
 
-        // Hide old buttons
+        // Régi gombok elrejtése
         Back.classList.add("hidden");
         Living_Lighting.classList.add("hidden");
         Bedroom03_Lighting.classList.add("hidden");
@@ -497,7 +335,7 @@
         Heating.classList.add("hidden");
         HeatingTemp.classList.add("hidden");
 
-        // Show new buttons
+        // Új gombok megjelenítése
         Garage.classList.remove("hidden");
         Entrence.classList.remove("hidden");
         Watering.classList.remove("hidden");
@@ -506,21 +344,19 @@
         Security.classList.remove("hidden");
         External_Lighting.classList.remove("hidden");
       });
-
+    
+    // Hőmérséklet lekérése és frissítése
     function updateHeatingTempLabel() {
       fetch("http://127.0.0.1:1880/Indoor_Temp")
         .then(res => res.json())
         .then(data => {
           if (!HeatingTemp) return;
-
           console.log("Indoor_Temp válasz:", data, "type:", typeof data.temp);
-
-          // data = { temp: 21.5 }
           const value = Number(data.temp);
-
           if (Number.isFinite(value)) {
             HeatingTemp.textContent = value.toFixed(1) + " °C";
-          } else {
+          } 
+          else {
             HeatingTemp.textContent = "-- °C";
           }
         })
@@ -531,14 +367,11 @@
           }
         });
     }
-
     updateHeatingTempLabel();
-
     setInterval(updateHeatingTempLabel, 5000);
   </script>
-
   <style>
-    /* --- háttér és panel --- */
+    /* Settings */
     .settings-backdrop {
       position: fixed;
       inset: 0;
@@ -547,11 +380,9 @@
       place-items: center;
       z-index: 1000;
     }
-
     .settings-backdrop.show {
       display: grid;
     }
-
     .settings-modal {
       position: relative;
       background: #ffffff;
@@ -564,7 +395,6 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
       transition: background 0.2s ease, color 0.2s ease;
     }
-
     .settings-close {
       position: absolute;
       top: 8px;
@@ -574,45 +404,39 @@
       font-size: 20px;
       cursor: pointer;
     }
-
     .settings-row {
       margin-top: 10px;
       display: flex;
       gap: 10px;
       align-items: center;
     }
-
     html[data-theme="dark"] .settings-modal {
       background: #0f172a;
       color: #e5e7eb;
       border: 1px solid #1f2937;
       box-shadow: 0 8px 24px rgba(0, 0, 0, .6);
     }
-
+    /* Elválasztó */
     .hr {
       height: 1px;
       background: #e5e7eb;
       margin: 12px 0;
     }
-
     html[data-theme="dark"] .hr {
       background: #1f2937;
     }
-
-    /* --- csúszka --- */
+    /* Kapcsoló */
     .switch {
       position: relative;
       display: inline-block;
       width: 50px;
       height: 26px;
     }
-
     .switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
-
     .slider {
       position: absolute;
       inset: 0;
@@ -621,7 +445,6 @@
       border-radius: 26px;
       transition: 0.3s;
     }
-
     .slider::before {
       content: "";
       position: absolute;
@@ -633,16 +456,13 @@
       border-radius: 50%;
       transition: 0.3s;
     }
-
     .switch input:checked+.slider {
       background-color: #4ade80;
     }
-
     .switch input:checked+.slider::before {
       transform: translateX(24px);
     }
-
-    /* --- gombok --- */
+    /* Gombok */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -658,59 +478,48 @@
       font-size: 14px;
       transition: background .2s, border-color .2s, transform .05s;
     }
-
     .btn:hover {
       background: #f1f5f9;
     }
-
     .btn:active {
       transform: translateY(1px);
     }
-
     html[data-theme="dark"] .btn {
       background: #0b1220;
       color: #e5e7eb;
       border-color: #1f2937;
     }
-
     html[data-theme="dark"] .btn:hover {
       background: #0e1729;
     }
-
     .btn-danger {
       color: #dc2626;
       border-color: #fecaca;
       background: #fff1f2;
     }
-
     .btn-danger:hover {
       background: #ffe4e6;
     }
-
     html[data-theme="dark"] .btn-danger {
       color: #fca5a5;
       border-color: #7f1d1d;
       background: #1b0b0b;
     }
-
     html[data-theme="dark"] .btn-danger:hover {
       background: #260f0f;
     }
-
-    /* --- Preset lista --- */
+    /* Preset */
     .preset-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
     }
-
     .preset-list {
       display: grid;
       gap: 8px;
       margin-top: 8px;
     }
-
     .preset-item {
       display: grid;
       grid-template-columns: 1fr auto auto auto;
@@ -721,19 +530,16 @@
       border-radius: 10px;
       background: #ffffff;
     }
-
     html[data-theme="dark"] .preset-item {
       border-color: #1f2937;
       background: #0b1220;
     }
-
     .preset-name {
       font-weight: 600;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-
     .icon-btn {
       background: none;
       border: 0;
@@ -741,16 +547,13 @@
       font-size: 16px;
       padding: 4px;
     }
-
     .icon-btn[title="Szerkesztés"] {
       color: #2563eb;
     }
-
     .icon-btn[title="Törlés"] {
       color: #dc2626;
     }
-
-    /* --- szerkesztő panel --- */
+    /* Szerkesztő */
     .editor {
       margin-top: 10px;
       padding: 10px;
@@ -758,52 +561,20 @@
       border-radius: 10px;
       display: none;
     }
-
-    html[data-theme="dark"] .editor {
-      border-color: #334155;
-    }
-
-    .editor.show {
-      display: block;
-    }
-
-    .editor-grid {
-      display: grid;
-      gap: 12px;
-    }
-
-    .editor-row {
-      display: grid;
-      gap: 8px;
-    }
-
-    .editor-group {
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      padding: 8px;
-    }
-
-    html[data-theme="dark"] .editor-group {
-      border-color: #1f2937;
-    }
-
-    .group-title {
-      font-weight: 700;
-      margin-bottom: 6px;
-    }
-
+    html[data-theme="dark"] .editor {border-color: #334155;}
+    .editor.show {display: block;}
+    .editor-grid {display: grid;gap: 12px;}
+    .editor-row {display: grid;gap: 8px;}
+    .editor-group {border: 1px solid #e5e7eb;border-radius: 8px;padding: 8px;}
+    html[data-theme="dark"] .editor-group {border-color: #1f2937;}
+    .group-title {font-weight: 700;margin-bottom: 6px;}
     .toggle-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 6px 0;
     }
-
-    .field {
-      display: grid;
-      gap: 6px;
-    }
-
+    .field {display: grid;gap: 6px;}
     .input {
       padding: 8px 10px;
       border: 1px solid #e5e7eb;
@@ -811,21 +582,18 @@
       background: #fff;
       color: inherit;
     }
-
     html[data-theme="dark"] .input {
       background: #0b1220;
       border-color: #1f2937;
       color: #e5e7eb;
     }
-
-    /* --- logout --- */
+    /* Logout */
     .logout-row {
       margin-top: 16px;
       padding-top: 10px;
       border-top: 1px solid #e5e7eb;
       text-align: center;
     }
-
     .logout-btn {
       color: #dc2626;
       font-weight: 600;
@@ -835,27 +603,22 @@
       font-size: 15px;
       transition: color 0.2s;
     }
-
     .logout-btn:hover {
       color: #b91c1c;
     }
   </style>
   </head>
-
   <body>
     <div id="settingsBackdrop" class="settings-backdrop">
       <div class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
         <button id="settingsClose" class="settings-close" aria-label="Bezárás">×</button>
-
         <!-- Téma -->
-        <div class="settings-row" role="group" aria-label="Theme">
-          <strong>Theme:</strong>
+        <div class="settings-row" role="group" aria-label="Theme"><strong>Theme:</strong>
           <label><input type="radio" name="theme" value="light" checked> Light</label>
           <label><input type="radio" name="theme" value="dark"> Dark</label>
         </div>
 
-        <div class="settings-row" role="group" aria-label="Auto Roller Shutter">
-          <strong>Auto Roller Shutter:</strong>
+        <div class="settings-row" role="group" aria-label="Auto Roller Shutter"><strong>Auto Roller Shutter:</strong>
           <label class="switch">
             <input type="checkbox" id="autoRollerToggle">
             <span class="slider"></span>
@@ -881,38 +644,24 @@
 
             <div class="editor-group">
               <div class="group-title">Outdoor equipment</div>
-              <div class="toggle-row"><span>Gate</span> <label class="switch"><input data-key="Gate"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>External Lighting</span> <label class="switch"><input
-                    data-key="External Lighting" type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Watering</span> <label class="switch"><input data-key="Watering"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Roller Shutter</span> <label class="switch"><input data-key="Roller Shutter"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Security</span> <label class="switch"><input data-key="Security"
-                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Gate</span> <label class="switch"><input data-key="Gate" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>External Lighting</span> <label class="switch"><input data-key="External Lighting" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Watering</span> <label class="switch"><input data-key="Watering" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Roller Shutter</span> <label class="switch"><input data-key="Roller Shutter" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Security</span> <label class="switch"><input data-key="Security" type="checkbox"><span class="slider"></span></label></div>
             </div>
 
             <div class="editor-group">
               <div class="group-title">Indoor lighting</div>
-              <div class="toggle-row"><span>Bedroom03</span> <label class="switch"><input data-key="Bedroom03"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Bedroom04</span> <label class="switch"><input data-key="Bedroom04"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Living room</span> <label class="switch"><input data-key="Living room"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Kitchen</span> <label class="switch"><input data-key="Kitchen"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage (inside)"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Bathroom</span> <label class="switch"><input data-key="Bathroom"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Toalett</span> <label class="switch"><input data-key="Toalett"
-                    type="checkbox"><span class="slider"></span></label></div>
-              <div class="toggle-row"><span>Heating</span> <label class="switch"><input data-key="Heating"
-                    type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Bedroom03</span> <label class="switch"><input data-key="Bedroom03" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Bedroom04</span> <label class="switch"><input data-key="Bedroom04" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Living room</span> <label class="switch"><input data-key="Living room" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Kitchen</span> <label class="switch"><input data-key="Kitchen" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Garage</span> <label class="switch"><input data-key="Garage (inside)" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Bathroom</span> <label class="switch"><input data-key="Bathroom" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Toalett</span> <label class="switch"><input data-key="Toalett" type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-row"><span>Heating</span> <label class="switch"><input data-key="Heating" type="checkbox"><span class="slider"></span></label></div>
             </div>
 
             <div style="display:flex; gap:8px; justify-content:flex-end;">
@@ -930,7 +679,7 @@
     </div>
 
     <script>
-
+      // Node Red
       const NODE_RED_BASE = "http://127.0.0.1:1880";
 
       const deviceToEndpoint = {
@@ -939,7 +688,6 @@
         "Garage": "garage",
         "Roller Shutter": "Roller_Shutter",
         "Security": "Security",
-
         "Heating": "Heating",
         "Bedroom03": "Bedroom03_Lighting",
         "Bedroom04": "Bedroom04_Lighting",
@@ -957,7 +705,6 @@
         "Garage": "Garage",
         "Roller Shutter": "Roller_Shutter",
         "Security": "Security",
-
         "Heating": "Heating",
         "Bedroom03": "Bedroom03_Lighting",
         "Bedroom04": "Bedroom04_Lighting",
@@ -970,22 +717,14 @@
 
     function applyPresetToUiAndNodeRed(preset) {
       if (!preset || !preset.devices) return;
-
-      // --- ÚJ RÉSZ: ha a preset be akarja kapcsolni a kézi redőnyt,
-      // akkor előbb az AUTO módot kikapcsoljuk ---
       if (preset.devices["Roller Shutter"]) {
-        // csak akkor próbáljuk, ha tényleg létezik ez a változó / függvény
         const hasAutoToggle =
           typeof autoRollerToggle !== "undefined" && autoRollerToggle;
         const hasUpdateFn =
           typeof updateRollerShutterAutoState === "function";
-
         if (hasAutoToggle && hasUpdateFn && autoRollerToggle.checked) {
-          // 1) UI-ban az AUTO ki
           autoRollerToggle.checked = false;
           updateRollerShutterAutoState();
-
-          // 2) Node-RED felé is küldjük, hogy auto OFF
           fetch(`${NODE_RED_BASE}/autoRollerToggle`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -1000,15 +739,14 @@
             );
         }
       }
-      // --- ÚJ RÉSZ VÉGE ---
 
-      // Eredeti logika: minden eszköz állapotát elküldjük UI + Node-RED
+      // Minden eszköz állapotát elküldjük Node-RED nek
       for (const [key, isOn] of Object.entries(preset.devices)) {
         const endpoint = deviceToEndpoint[key];
         const elId = deviceToElementId[key];
         const state = isOn ? "on" : "off";
 
-        // 1) UI frissítés
+        // UI frissítés
         if (elId) {
           const el = document.getElementById(elId);
           if (el) {
@@ -1016,7 +754,7 @@
           }
         }
 
-        // 2) Node-RED hívás
+        // Node-RED hívás
         if (endpoint) {
           fetch(`${NODE_RED_BASE}/${endpoint}`, {
             method: "POST",
@@ -1031,26 +769,20 @@
         }
       }
     }
-
-
-      // Ugyanaz, mint applyPresetToUiAndNodeRed, csak mindent OFF-ra tesz
       function clearPresetFromUiAndNodeRed(preset) {
         if (!preset || !preset.devices) return;
-
         for (const [key] of Object.entries(preset.devices)) {
           const endpoint = deviceToEndpoint[key];
           const elId = deviceToElementId[key];
           const state = "off";
-
-          // 1) UI: ikon kikapcs
+          // UI: ikon kikapcs
           if (elId) {
             const el = document.getElementById(elId);
             if (el) {
               el.classList.remove("active");
             }
           }
-
-          // 2) Node-RED: OFF küldés
+          // Node-RED: OFF küldés
           if (endpoint) {
             fetch(`${NODE_RED_BASE}/${endpoint}`, {
               method: "POST",
@@ -1063,33 +795,25 @@
           }
         }
       }
-
-
-      // ===== Elem hivatkozások =====
       const backdrop = document.getElementById('settingsBackdrop');
       const closeBtn = document.getElementById('settingsClose');
-      const settingsBtn = document.getElementById('Settings'); // jobb felső fogaskerék
+      const settingsBtn = document.getElementById('Settings');
       const themeRadios = document.querySelectorAll('input[name="theme"]');
-
       const presetList = document.getElementById('presetList');
       const addPresetBtn = document.getElementById('addPreset');
-
       const editor = document.getElementById('presetEditor');
       const presetNameInput = document.getElementById('presetName');
       const savePresetBtn = document.getElementById('savePreset');
       const cancelEditBtn = document.getElementById('cancelEdit');
-
       const logoutBtn = document.getElementById('logoutBtn');
 
       // Editor állapot
-      let editingId = null; // null = új preset
-
-      // Alap kulcsok (felülethez kötve data-key alapján)
+      let editingId = null;
       function allDeviceKeys() {
         return Array.from(editor.querySelectorAll('input[type="checkbox"][data-key]')).map(i => i.getAttribute('data-key'));
       }
 
-      // ===== Modal megnyitás / zárás =====
+      // Modal megnyitás / zárás
       settingsBtn && settingsBtn.addEventListener('click', () => {
         backdrop.classList.add('show');
         renderPresetList();
@@ -1097,7 +821,7 @@
       closeBtn.addEventListener('click', () => backdrop.classList.remove('show'));
       backdrop.addEventListener('click', e => { if (e.target === backdrop) backdrop.classList.remove('show'); });
 
-      // ===== Téma váltás =====
+      // Téma váltás 
       themeRadios.forEach(radio => {
         radio.addEventListener('change', e => {
           document.documentElement.setAttribute('data-theme', e.target.value);
@@ -1105,10 +829,10 @@
         });
       });
 
-      // ===== Preset CRUD a localStorage-ben =====
+      // Előző téma betöltése
       const LS_KEY = 'userPresets';
       const LS_ACTIVE = 'activePresetId';
-
+      // Presetek betöltése
       function loadPresets() {
         try {
           return JSON.parse(localStorage.getItem(LS_KEY) || '[]');
@@ -1117,67 +841,56 @@
           return [];
         }
       }
-
+      // Presetek mentése
       function savePresets(list) {
         localStorage.setItem(LS_KEY, JSON.stringify(list));
-
-        // plusz: felküldjük Firebase-be is
         if (typeof savePresetsToFirebase === 'function') {
           savePresetsToFirebase(list).catch(console.error);
         }
       }
-
       function activePresetId() {
         return localStorage.getItem(LS_ACTIVE) || null;
       }
-
       function setActivePresetId(id) {
-        // 1) localStorage
+        // localStorage
         if (id === null) {
           localStorage.removeItem(LS_ACTIVE);
         } else {
           localStorage.setItem(LS_ACTIVE, id);
         }
-
-        // 2) Firestore – elmentjük, hogy melyik preset volt ON
+        //Firestore – elmentjük, hogy melyik preset volt ON
         if (typeof saveActivePresetToFirebase === 'function') {
           saveActivePresetToFirebase(id).catch(console.error);
         }
       }
 
-      // --- FIREBASE SZINKRON FÜGGVÉNYEK ---
-
+      // --- FIREBASE FÜGGVÉNYEK ---
       async function savePresetsToFirebase(list) {
         if (!currentUser || !db) return;
 
         const uid = currentUser.uid;
         const presetsCol = db.collection('users').doc(uid).collection('presets');
 
-        // egyszerű megoldás: minden régi doksit törlünk, majd újra létrehozzuk
+        // Mindent törlünk, majd újra létrehozzuk
         const snap = await presetsCol.get();
         const batch = db.batch();
-
         snap.forEach(doc => batch.delete(doc.ref));
-
         list.forEach(preset => {
           const docId = preset.id || presetsCol.doc().id;
           const docRef = presetsCol.doc(docId);
           batch.set(docRef, preset);
         });
-
         await batch.commit();
         console.log('Presetek mentve Firestore-ba');
       }
 
+      // Presetek szinkronizálása Firestore-ból
       async function syncPresetsFromFirebase() {
         if (!currentUser || !db) return;
-
         const uid = currentUser.uid;
         const presetsCol = db.collection('users').doc(uid).collection('presets');
-
         const snap = await presetsCol.get();
         const list = [];
-
         snap.forEach(doc => {
           list.push(doc.data());
         });
@@ -1191,62 +904,51 @@
         }
       }
 
+      // Aktív preset ID mentése Firestore-ba
        async function saveActivePresetToFirebase(id) {
         if (!currentUser || !db) return;
-
         const uid = currentUser.uid;
         const userDoc = db.collection('users').doc(uid);
-
         await userDoc.set(
           { activePresetId: id || null },
           { merge: true }
         );
-
         console.log('Aktív preset ID mentve Firestore-ba:', id);
       }
-
       async function syncActivePresetFromFirebase() {
         if (!currentUser || !db) return;
-
         const uid = currentUser.uid;
         const userDoc = await db.collection('users').doc(uid).get();
-
         let id = null;
-
         if (userDoc.exists) {
           const data = userDoc.data();
           if (data && data.activePresetId) {
             id = data.activePresetId;
           }
         }
-
         if (id === null) {
           localStorage.removeItem(LS_ACTIVE);
         } else {
           localStorage.setItem(LS_ACTIVE, id);
         }
-
         console.log('Aktív preset ID betöltve Firestore-ból:', id);
       }
 
+      // Alapértelmezett presetek létrehozása
       function ensureDefaults() {
-        // Ha nincs semmi, létrehozunk két mintát, hogy legyen mit látni
         const items = loadPresets();
         if (items.length === 0) {
           const keys = allDeviceKeys();
           const sample1 = { id: crypto.randomUUID(), name: 'Reggel', devices: Object.fromEntries(keys.map(k => [k, false])) };
           const sample2 = { id: crypto.randomUUID(), name: 'Este', devices: Object.fromEntries(keys.map(k => [k, false])) };
-          // Példa: este külső világítás és Security bekapcsolva
           sample2.devices['External Lighting'] = true;
           sample2.devices['Security'] = true;
           savePresets([sample1, sample2]);
           setActivePresetId(sample2.id);
         }
       }
-
-      // ===== Lista render =====
+      //Lista betoltese
       function renderPresetList() {
-        ///ensureDefaults();
         const items = loadPresets();
         const activeId = activePresetId();
         if (items.length === 0) { presetList.innerHTML = '<em>There are no presets yet. Click on the "New preset" button!.</em>'; return; }
@@ -1267,13 +969,9 @@
           presetList.appendChild(row);
         }
       }
-
+      // Node-RED küldés
       function sendNodeRedToggle(deviceId, state) {
-        // Beállítja a megfelelő végpontot:
-        // Pl.: Roller_Shutter → toggle/Roller_Shutter, 
-        //      autoRollerToggle → autoRollerToggle
         let endpoint = deviceId === "Roller_Shutter" ? `toggle/${deviceId}` : deviceId; 
-
         fetch(`http://127.0.0.1:1880/${endpoint}`, {
             method: 'POST',
             headers: {
@@ -1288,13 +986,10 @@
         })
         .catch(err => console.error(`Hiba a Node-RED kommunikációban (${deviceId}):`, err));
       }
-
-      // ===== Preset szerkesztő =====
+      // Preset szerkesztő
       function openEditor(preset) {
         editingId = preset ? preset.id : null;
-        // Név
         presetNameInput.value = preset ? preset.name : '';
-        // Kapcsolók
         const allKeys = allDeviceKeys();
         const devices = preset ? preset.devices : Object.fromEntries(allKeys.map(k => [k, false]));
         for (const input of editor.querySelectorAll('input[type="checkbox"][data-key]')) {
@@ -1305,11 +1000,13 @@
         presetNameInput.focus();
       }
 
+      // Szerkesztő bezárása
       function closeEditor() {
         editor.classList.remove('show');
         editingId = null;
       }
 
+      // Szerkesztő adatgyűjtés
       function collectEditorData() {
         const name = (presetNameInput.value || '').trim();
         const devices = {};
@@ -1319,10 +1016,8 @@
         return { name, devices };
       }
 
-      // ===== Események =====
       addPresetBtn.addEventListener('click', () => openEditor(null));
       cancelEditBtn.addEventListener('click', closeEditor);
-
       savePresetBtn.addEventListener('click', () => {
         const { name, devices } = collectEditorData();
         if (!name) { alert('Give the preset a name!'); return; }
@@ -1337,8 +1032,6 @@
         renderPresetList();
         closeEditor();
       });
-
-      // Lista gombjai (delegáció)
       presetList.addEventListener('click', (e) => {
         const row = e.target.closest('.preset-item');
         if (!row) return;
@@ -1346,24 +1039,20 @@
         const list = loadPresets();
         const preset = list.find(p => p.id === id);
 
-        // Aktiválás kapcsoló
-        // Aktiválás kapcsoló
         if (e.target.matches('input[type="checkbox"]')) {
           const checked = e.target.checked;
-
           if (checked) {
             // BEKAPCSOLT PRESET
             setActivePresetId(id);
-            dispatchPresetApplied(preset);   // ez ON-ra teszi, amit kell
+            dispatchPresetApplied(preset);
           } else {
-            // KIKAPCSOLT PRESET → mindent OFF-ra teszünk, ami benne volt
+            // KIKAPCSOLT PRESET 
             const activeId = activePresetId();
             if (activeId === id) {
               clearPresetFromUiAndNodeRed(preset);
               setActivePresetId(null);
             }
           }
-
           renderPresetList();
           return;
         }
@@ -1386,6 +1075,7 @@
         }
       });
 
+      // Preset alkalmazás esemény diszpécselése
       function dispatchPresetApplied(preset) {
         const event = new CustomEvent('presetApplied', { detail: { preset } });
         window.dispatchEvent(event);
@@ -1395,7 +1085,7 @@
         applyPresetToUiAndNodeRed(preset);
       }
 
-      // ===== Log out gomb =====
+      // Log out gomb
       logoutBtn.addEventListener('click', async () => {
         if (!confirm('Are you sure you want to log out?')) return;
 
@@ -1407,338 +1097,221 @@
           console.error("Firebase signOut hiba:", e);
         }
 
-        // Lokális cuccok törlése (mehet továbbra is)
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('loggedInUser');
         localStorage.removeItem('authToken');
         localStorage.removeItem('userPresets');
         localStorage.removeItem('activePresetId');
         localStorage.removeItem('theme');
-
         sessionStorage.clear();
-
         window.location.href = 'Login_Reg.html';
       });
-      // ===== Induló beállítás =====
+      // Induló beállítások
       (function init() {
         const theme = localStorage.getItem('theme') || 'light';
         document.documentElement.setAttribute('data-theme', theme);
         const themeRadio = document.querySelector(`input[name="theme"][value="${theme}"]`);
         if (themeRadio) themeRadio.checked = true;
         renderPresetList();
-
-        fetch('http://127.0.0.1:1880/Settings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
-
-        fetch('http://127.0.0.1:1880/garage', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
-
+        // Node RED állapotok küldése
+        fetch('http://127.0.0.1:1880/Settings', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
+        fetch('http://127.0.0.1:1880/garage', {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ state })})
         // Roller Shutter auto állapot frissítése
         updateRollerShutterAutoState();
       })();
     </script>
     <script>
 
-      // Node-RED nek kuldes:
-      // Settings
+      // Node-RED nek kuldes
 
+      // Beállítások gomb
       Settings.addEventListener("click", () => {
         Settings.classList.toggle("active");
         const state = Settings.classList.contains("active") ? "on" : "off";
-
-        // Modal megnyitása amikor ON-ra vált
         if (state === "on") {
           settingsBackdrop.classList.add("open");
         }
 
-        fetch('http://127.0.0.1:1880/Settings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
-          .then(res => res.json())  // <-- JSON kell!
+        fetch('http://127.0.0.1:1880/Settings', {method: 'POST', headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
+          .then(res => res.json())
           .then(data => console.log('Node-RED válasz:', data))
           .catch(err => console.error('Hiba a Node-RED hívásban:', err));
       });
 
       function closeSettings() {
-        // UI: gomb kikapcsolása
         Settings.classList.remove("active");
-
-        // Modal elrejtése
         settingsBackdrop.classList.remove("open");
 
         // Node-RED OFF küldése
-        fetch('http://127.0.0.1:1880/Settings', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state: "off" })
-        })
+        fetch('http://127.0.0.1:1880/Settings', {method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ state: "off" })})
           .then(res => res.json())
           .then(data => console.log("Settings OFF:", data))
           .catch(err => console.error("OFF hiba:", err));
       }
 
       // Bezáró X gomb
-      settingsClose.addEventListener("click", () => {
-        closeSettings();
-      });
+      settingsClose.addEventListener("click", () => {closeSettings();});
 
       // Háttérre kattintás
       settingsBackdrop.addEventListener("click", (e) => {
-        if (e.target === settingsBackdrop) {
-          closeSettings();
-        }
-      });
+        if (e.target === settingsBackdrop) {closeSettings();}});
 
       // ESC bezárás
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && settingsBackdrop.classList.contains("open")) {
-          closeSettings();
-        }
-      });
+        if (e.key === "Escape" && settingsBackdrop.classList.contains("open")) {closeSettings();}});
+
       function sendStateToNodeRed(device, state) {
-      fetch(`http://127.0.0.1:1880/${device}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ state })
-      })
+      fetch(`http://127.0.0.1:1880/${device}`, {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
       .then(res => res.json())
       .then(data => console.log(`${device} állapot elküldve:`, data))
       .catch(err => console.error(`${device} hiba:`, err));
       }
-
-
+      // Garázs gomb
       Garage.addEventListener("click", () => {
         const state = Garage.classList.contains("active") ? "on" : "off";
 
-        fetch('http://127.0.0.1:1880/garage', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/garage', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Node-RED válasz:', data))
           .catch(err => console.error('Hiba a Node-RED hívásban:', err));
       });
 
+      // Bejarat gomb
       Entrence.addEventListener("click", () => {
         Entrence.classList.toggle("active");
         const state = Entrence.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Entrence', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Entrence', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Node-RED válasz:', data))
           .catch(err => console.error('Fetch hiba:', err));
       });
 
+      // Öntözés gomb
       document.getElementById('Watering').addEventListener('click', () => {
-        fetch('http://127.0.0.1:1880/Watering', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'pressed' })
-        })
+        fetch('http://127.0.0.1:1880/Watering', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ action: 'pressed' })})
           .then(res => res.json())
           .then(data => console.log('Node-RED válasz:', data))
           .catch(err => console.error('Fetch hiba:', err));
       });
 
+      // Redőny gomb
       Roller_Shutter.addEventListener("click", () => {
         const state = Roller_Shutter.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Roller_Shutter', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Roller_Shutter', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Node-RED válasz:', data))
           .catch(err => console.error('Hiba a Node-RED hívásban:', err));
       });
 
+      // Kapu gomb
       Gate.addEventListener("click", () => {
         const state = Gate.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Gate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Gate', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Gate válasz:', data))
           .catch(err => console.error('Gate hiba:', err));
       });
 
+      // Biztonság gomb
       Security.addEventListener("click", () => {
-        // Active classot NEM toggoljuk itt, azt az első script már elintézi
         const state = Security.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Security', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Security', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Security válasz:', data))
           .catch(err => console.error('Security hiba:', err));
       });
 
+      // Külső világítás gomb
       External_Lighting.addEventListener("click", () => {
-        // Active class togglinget az első script végzi, itt csak olvassuk az állapotot
         const state = External_Lighting.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/External_Lighting', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/External_Lighting', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('External Lighting válasz:', data))
           .catch(err => console.error('External Lighting hiba:', err));
       });
 
+      // BACK gomb
       document.getElementById('Back').addEventListener('click', () => {
-        // 1) UI: Entrence gomb kikapcsolása
+        // Entrence kikapcsolása
         Entrence.classList.remove("active");
-
-        // 2) Node-RED-nek szólunk, hogy Entrence = OFF
-        fetch('http://127.0.0.1:1880/Entrence', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state: 'off' })
-        })
+        fetch('http://127.0.0.1:1880/Entrence', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state: 'off' })})
           .then(res => res.json())
           .then(data => console.log('Entrence OFF válasz:', data))
           .catch(err => console.error('Entrence OFF hiba:', err));
-
-        // 3) Megy a saját Back endpoint is (navigáció, egyebek)
-        fetch('http://127.0.0.1:1880/Back', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'pressed' })
-        })
+        // Node-RED Back küldése
+        fetch('http://127.0.0.1:1880/Back', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ action: 'pressed' })})
           .then(res => res.json())
           .then(data => console.log('Back válasz:', data))
           .catch(err => console.error('Back hiba:', err));
       });
 
-      // LIVING LIGHTING
+      // NAPPALI VILÁGÍTÁS
       Living_Lighting.addEventListener("click", () => {
         const state = Living_Lighting.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Living_Lighting', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Living_Lighting', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Living_Lighting válasz:', data))
           .catch(err => console.error('Living_Lighting hiba:', err));
       });
 
-      // BEDROOM03 LIGHTING
+      // BEDROOM03 VILÁGÍTÁS
       Bedroom03_Lighting.addEventListener("click", () => {
         const state = Bedroom03_Lighting.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Bedroom03_Lighting', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Bedroom03_Lighting', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Bedroom03_Lighting válasz:', data))
           .catch(err => console.error('Bedroom03_Lighting hiba:', err));
       });
 
-      // BEDROOM04 LIGHTING
+      // BEDROOM04 VILÁGÍTÁS
       Bedroom04_Lighting.addEventListener("click", () => {
         const state = Bedroom04_Lighting.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Bedroom04_Lighting', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Bedroom04_Lighting', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Bedroom04_Lighting válasz:', data))
           .catch(err => console.error('Bedroom04_Lighting hiba:', err));
       });
 
-      // KITCHEN LIGHTING
+      // KONYHA VILÁGÍTÁS
       Kitchen_Lighting.addEventListener("click", () => {
         const state = Kitchen_Lighting.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Kitchen_Lighting', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Kitchen_Lighting', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Kitchen_Lighting válasz:', data))
           .catch(err => console.error('Kitchen_Lighting hiba:', err));
       });
 
-      // BATHROOM LIGHTING
+      // FÜRDŐSZOBA VILÁGÍTÁS
       Bathroom_Lighting.addEventListener("click", () => {
         const state = Bathroom_Lighting.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Bathroom_Lighting', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Bathroom_Lighting', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Bathroom_Lighting válasz:', data))
           .catch(err => console.error('Bathroom_Lighting hiba:', err));
       });
 
-      // GARAGE (INSIDE) LIGHTING
+      // Beltéri garázs világítás
       Garage_Lighting.addEventListener("click", () => {
         const state = Garage_Lighting.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Garage_Lighting', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Garage_Lighting', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Garage_Lighting válasz:', data))
           .catch(err => console.error('Garage_Lighting hiba:', err));
       });
 
-      // TOALETT LIGHTING
+      // WC VILÁGÍTÁS
       Toalett_Lighting.addEventListener("click", () => {
         const state = Toalett_Lighting.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Toalett_Lighting', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Toalett_Lighting', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Toalett_Lighting válasz:', data))
           .catch(err => console.error('Toalett_Lighting hiba:', err));
       });
 
-      // HEATING
+      // FŰTÉS 
       Heating.addEventListener("click", () => {
         const state = Heating.classList.contains("active") ? "on" : "off";
-
-        fetch('http://127.0.0.1:1880/Heating', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ state })
-        })
+        fetch('http://127.0.0.1:1880/Heating', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Heating válasz:', data))
           .catch(err => console.error('Heating hiba:', err));
@@ -1746,22 +1319,17 @@
     </script>
     <script>
 
+    // AUTO ROLLER TOGGLE
     const autoRollerToggle = document.getElementById("autoRollerToggle");
     const autoLabel = document.querySelector("#Roller_Shutter .auto-label");
 
     function updateRollerShutterAutoState() {
       if (autoRollerToggle.checked) {
-        // AUTO BEKAPCSOLVA → manuális gomb kikapcs + tiltás
-        Roller_Shutter.classList.remove("active");  // UI-ban OFF
-        Roller_Shutter.classList.add("disabled");   // ne lehessen kattintani
-        autoLabel.classList.remove("hidden");       // "Auto" felirat látszik
-
-        // Manuális Roller_Shutter állapot OFF elküldése Node-RED-nek is
-        fetch("http://127.0.0.1:1880/Roller_Shutter", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ state: "off" }),
-        })
+        // AUTO BEKAPCSOLVA → manuális gomb tiltás
+        Roller_Shutter.classList.remove("active");
+        Roller_Shutter.classList.add("disabled");
+        autoLabel.classList.remove("hidden");
+        fetch("http://127.0.0.1:1880/Roller_Shutter", {method: "POST",headers: { "Content-Type": "application/json" },body: JSON.stringify({ state: "off" }),})
           .then((res) => res.json())
           .then((data) =>
             console.log("Auto mód miatt Roller_Shutter OFF:", data)
@@ -1770,63 +1338,39 @@
             console.error("Roller_Shutter OFF hiba:", err)
           );
       } else {
-        // AUTO KIKAPCSOLVA → manuális gomb újra használható
         Roller_Shutter.classList.remove("disabled");
         autoLabel.classList.add("hidden");
-        // Itt nem kapcsolunk semmit Node-RED-ben,
-        // mert a kézi gombot majd a user/preset kezeli.
       }
     }
-
+    // Auto Roller Toggle kezelő
     autoRollerToggle.addEventListener("change", () => {
       if (autoRollerToggle.checked) {
         const currentPresetId = activePresetId && activePresetId();
-
         if (currentPresetId) {
           const presets = loadPresets();
           const preset = presets.find(p => p.id === currentPresetId);
-
           const hasManualRollerOn =
             preset &&
             preset.devices &&
             preset.devices["Roller Shutter"] === true;
-
           if (hasManualRollerOn) {
-
             autoRollerToggle.checked = false;
-
             if (typeof updateRollerShutterAutoState === "function") {
               updateRollerShutterAutoState();
             }
-
-            fetch("http://127.0.0.1:1880/autoRollerToggle", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ state: "off" }),
-            }).catch(err =>
+            fetch("http://127.0.0.1:1880/autoRollerToggle", {method: "POST",headers: { "Content-Type": "application/json" },body: JSON.stringify({ state: "off" }),})
+              .catch(err =>
               console.error("AUTO OFF küldés hiba (preset ütközés):", err)
             );
-
-            return;
-          }
-        }
-      }
-
+            return;}}}
       if (typeof updateRollerShutterAutoState === "function") {
         updateRollerShutterAutoState();
       }
-
       const state = autoRollerToggle.checked ? "on" : "off";
-
-      fetch("http://127.0.0.1:1880/autoRollerToggle", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ state }),
-      })
+      fetch("http://127.0.0.1:1880/autoRollerToggle", {method: "POST",headers: { "Content-Type": "application/json" },body: JSON.stringify({ state }),})
         .then(res => res.json())
         .then(data => console.log("Auto Roller válasz:", data))
         .catch(err => console.error("Auto Roller hiba:", err));
     });
-
   </script>
   </body>
