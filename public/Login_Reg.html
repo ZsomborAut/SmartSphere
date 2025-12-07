@@ -237,7 +237,7 @@
     createUserWithEmailAndPassword(auth, email, password)
       .then(() => {
         alert('🎉 Sikeres regisztráció! Most már be tudsz jelentkezni!');
-        showLogin(); // átirányítás a login formhoz
+        showLogin(); 
       })
       .catch(err => alert('X' + err.message));
   });
@@ -251,8 +251,7 @@
 
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        // Sikeres bejelentkezés --> átirányítás a dashboard.html-re
-        window.location.href = "dashboard.html";
+        window.location.href = "Dashboard.html";
       })
       .catch(err => alert('X' + err.message));
   });
@@ -271,20 +270,17 @@
   });
 </script>
 
-<!--Animáció script-->
 <script>
   const loginForm = document.getElementById("loginForm");
   const registerForm = document.getElementById("registerForm");
   const forgotForm = document.getElementById("forgotForm");
 
   function showForm(targetForm) {
-    // az összes űrlapot elrejtjük
     [loginForm, registerForm, forgotForm].forEach(form => {
       form.classList.remove("active");
       form.style.display = "none";
     });
 
-    // kis várakozás, majd az új formot megjelenítjük és aktiváljuk
     targetForm.style.display = "block";
     setTimeout(() => targetForm.classList.add("active"), 50);
   }
@@ -293,7 +289,6 @@
   function showRegister() { showForm(registerForm); }
   function showForgot() { showForm(forgotForm); }
 
-  // induláskor a login form látszódjon
   showLogin();
 </script>
 
@@ -311,12 +306,11 @@
 });
 </script>
 
-<!--Email mentese,nem müködik megfelelően-->
+<!--Email mentese-->
 <script>
     const emailInput = document.getElementById("email");
     const rememberMeCheckbox = document.getElementById("rememberMe");
 
-    // Oldal betöltésekor visszatöltjük az emailt, ha korábban mentve volt
     window.onload = () => {
         const savedEmail = localStorage.getItem("email");
         const remember = localStorage.getItem("rememberMe");
@@ -329,14 +323,12 @@
 
     // Bejelentkezéskor
     document.getElementById("loginForm").addEventListener("submit", function (e) {
-        e.preventDefault(); // csak teszt miatt
+        e.preventDefault(); 
 
         if (rememberMeCheckbox.checked) {
-            // Csak az email mentése
             localStorage.setItem("email", emailInput.value);
             localStorage.setItem("rememberMe", true);
         } else {
-            // Adatok törlése, ha nincs pipa
             localStorage.removeItem("email");
             localStorage.removeItem("rememberMe");
         }

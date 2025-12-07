@@ -11,7 +11,6 @@
     apiKey: "API_KEY",
     authDomain: "PROJECT_ID.firebaseapp.com",
     projectId: "PROJECT_ID",
-    // egyéb beállítások
   };
 
   const app = initializeApp(firebaseConfig);
@@ -20,7 +19,7 @@
   function sendReset() {
     const email = document.getElementById("email").value;
     sendPasswordResetEmail(auth, email, {
-      url: 'http://localhost:3000/reset-password.html' // vagy a saját domain-ed
+      url: 'http://localhost:3000/reset-password.html' 
     })
     .then(() => alert("Reset email elküldve!"))
     .catch(err => alert(err.message));
