@@ -56,19 +56,6 @@
     .btn-circle:hover {
       box-shadow: 0 0 25px rgba(0, 255, 255, 0.667), 0 0 50px rgba(0, 255, 255, 0.333) inset;
       transform: scale(1.1);
-<<<<<<< HEAD
-=======
-    }
-
-    .btn-circle .auto-label {
-      opacity: 1 !important;      /* Mindig látható, ha nincs hidden osztály */
-      transform: none !important;  /* Ne mozogjon hoverkor */
-      background: black;
-      color: yellow;
-      font-size: 14px;
-      top: 50px;
-      right: -30px;
->>>>>>> Legujabb-node-web
     }
 
     /* Átlag felirat */
@@ -128,7 +115,6 @@
 
     /* Gombok pozíciói */
 
-<<<<<<< HEAD
     /* E X T E R I O R */
     #Settings {top: 1%; right: 1%;}
     #Garage {top: 55%; right: 16%;}
@@ -138,43 +124,6 @@
     #Gate {bottom: 10%; left: 9%}
     #Security {top: 10%; right: 48.5%}
     #External_Lighting {bottom: 25.5%; left: 25%}
-=======
-    #Garage {
-      top: 55%;
-      right: 16%;
-    }
-
-    #Entrence {
-      top: 54%;
-      right: 48.5%;
-    }
-
-    #Watering {
-      bottom: 10%;
-      right: 35%;
-    }
-
-    #Roller_Shutter {
-    position: absolute;
-    top: 35%;
-    left: 47.5%;
-    }
-
-    #Gate {
-      bottom: 10%;
-      left: 9%
-    }
-
-    #Security {
-      top: 10%;
-      right: 48.5%
-    }
-
-    #External_Lighting {
-      bottom: 25.5%;
-      left: 25%
-    }
->>>>>>> Legujabb-node-web
 
     /* I N T E R I O R */
     #Living_Lighting {top: 35%; left: 65%}
@@ -187,67 +136,7 @@
     #Heating {bottom: 42%; left: 19%;}
     #Back {bottom: 2%; left: 1%}
 
-<<<<<<< HEAD
     /* Ha megnyomjuk a gombot */
-=======
-    /*Lighting*/
-    #Living_Lighting {
-      top: 35%;
-      left: 65%
-    }
-
-    #Bedroom03_Lighting {
-      bottom: 25%;
-      left: 53%
-    }
-
-    #Bedroom04_Lighting {
-      bottom: 25%;
-      left: 30%
-    }
-
-    #Kitchen_Lighting {
-      top: 30%;
-      left: 55%
-    }
-
-    #Bathroom_Lighting {
-      bottom: 22%;
-      left: 41%
-    }
-
-    #Toalett_Lighting {
-      bottom: 42%;
-      left: 43%
-    }
-
-    #Garage_Lighting {
-      top: 28%;
-      left: 25%
-    }
-
-    #Heating {
-      bottom: 42%;
-      left: 19%;
-    }
-    
-    #HeatingTemp {
-      position: absolute;
-      bottom: 43%;   
-      left: 22%;     
-      color: #030303;
-      font-size: 14px;
-      font-weight: 600;
-      pointer-events: none; 
-    }
-
-    #Back {
-      bottom: 2%;
-      left: 1%
-    }
-
-    /* világító állapot stílusa – nagyobb fénykörrel */
->>>>>>> Legujabb-node-web
     .btn-circle.active {
       border-color: rgb(0, 200, 0);
       box-shadow:
@@ -262,11 +151,8 @@
       opacity: 0.5;
       pointer-events: none;
     }
-<<<<<<< HEAD
 
     /* Ha le van tiltva a gomb, de az "Auto" feliratot mutatni kell (Redőny) */
-=======
->>>>>>> Legujabb-node-web
     .disabled .auto-label {
       opacity: 1 !important;
       pointer-events: auto !important;
@@ -437,11 +323,7 @@
     const HeatingTemp = document.getElementById("HeatingTemp");
 
     const securityControllableButtons = [Garage, Watering, Roller_Shutter, Gate, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
-<<<<<<< HEAD
-    const toggleButtons = [Garage, Heating, Watering, Roller_Shutter, Gate, Settings, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
-=======
     const toggleButtons = [Garage, Heating, Watering, Roller_Shutter, Gate, External_Lighting, Living_Lighting, Bedroom03_Lighting, Bedroom04_Lighting, Kitchen, Bathroom, Garage_Lighting, Toalett];
->>>>>>> Legujabb-node-web
     
     toggleButtons.forEach(btn => {
       btn.addEventListener("click", () => {
@@ -536,15 +418,6 @@
         Back.classList.add("hidden");
         Living_Lighting.classList.add("hidden");
         Bedroom03_Lighting.classList.add("hidden");
-<<<<<<< HEAD
-        Bedroom04_Lighting.classList.add("hidden"); //Ezt adtam hozza
-        Kitchen.classList.add("hidden"); //Ezt adtam hozza
-        Bathroom.classList.add("hidden"); //Ezt adtam hozza
-        Garage_Lighting.classList.add("hidden"); //Ezt adtam hozza
-        Toalett.classList.add("hidden"); //Ezt adtam hozza
-        Heating.classList.add("hidden");
-
-=======
         Bedroom04_Lighting.classList.add("hidden"); 
         Kitchen.classList.add("hidden"); 
         Bathroom.classList.add("hidden"); 
@@ -552,7 +425,6 @@
         Toalett.classList.add("hidden"); 
         Heating.classList.add("hidden");
         HeatingTemp.classList.add("hidden");
->>>>>>> Legujabb-node-web
 
         // Show new buttons
         Garage.classList.remove("hidden");
@@ -564,8 +436,6 @@
         External_Lighting.classList.remove("hidden");
       });
 
-<<<<<<< HEAD
-=======
     function updateHeatingTempLabel() {
       fetch("http://127.0.0.1:1880/Indoor_Temp")
         .then(res => res.json())
@@ -596,7 +466,6 @@
     setInterval(updateHeatingTempLabel, 5000);
   </script>
 
->>>>>>> Legujabb-node-web
   <style>
     /* --- háttér és panel --- */
     .settings-backdrop {
@@ -1806,7 +1675,6 @@
     </script>
     <script>
 
-<<<<<<< HEAD
     const autoRollerToggle = document.getElementById('autoRollerToggle');
     const autoLabel = document.querySelector('#Roller_Shutter .auto-label');
 
@@ -1929,9 +1797,3 @@
 
   </script>
   </body>
-<<<<<<< HEAD
-</html>
-=======
-
->>>>>>> e205bb4d80de92b3ecb6776f12e80fa59f817783
->>>>>>> Legujabb-node-web
