@@ -1187,11 +1187,12 @@
       });
 
       // Öntözés gomb
-      document.getElementById('Watering').addEventListener('click', () => {
-        fetch('http://127.0.0.1:1880/Watering', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ action: 'pressed' })})
+      Watering.addEventListener("click", () => {
+        const state = Watering.classList.contains("active") ? "on" : "off";
+        fetch('http://127.0.0.1:1880/Watering', {method: 'POST',headers: { 'Content-Type': 'application/json' },body: JSON.stringify({ state })})
           .then(res => res.json())
           .then(data => console.log('Node-RED válasz:', data))
-          .catch(err => console.error('Fetch hiba:', err));
+          .catch(err => console.error('Hiba a Node-RED hívásban:', err));
       });
 
       // Redőny gomb
