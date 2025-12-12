@@ -269,7 +269,17 @@
           await syncActivePresetFromFirebase();
 
           // 2) UI kirajzolása a friss adatokkal
-          renderPresetList();
+          renderPresetList(); 
+        
+          const presets = loadPresets();
+          const activeId = activePresetId && activePresetId();
+          if (activeId) {
+            const activePreset = presets.find(p => p.id === activeId);
+            if (activePreset && typeof dispatchPresetApplied === "function") {
+              console.log("Aktív preset visszaállítása betöltéskor:", activePreset.name);
+              dispatchPresetApplied(activePreset);
+            }
+          }
         });
       });
     </script>
