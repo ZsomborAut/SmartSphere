@@ -864,7 +864,7 @@
         "type": "function",
         "z": "e8ecf3e0486b455b",
         "name": "function 1",
-        "func": "// --- BEÁLLÍTÁS ---\n// Ennél nagyobb szélsebességnél húzza FEL a redőnyt (m/s)\nconst WIND_THRESHOLD = 8;   // írd át, ha mást szeretnél\n\n// --- ADATOK KINYERÉSE AZ API VÁLASZBÓL ---\nconst api = msg.payload;\nconst weather = api.weather?.[0]?.main || \"\";\nconst wind = (api.wind && typeof api.wind.speed === \"number\") ? api.wind.speed : null;\n\n// ha nincs érvényes széladat, ne csináljunk semmit\nif (wind === null) {\n    node.warn(\"Nincs érvényes wind.speed az API válaszban!\");\n    return null;\n}\n\n// --- DÖNTÉS: FEL VAGY LE --- \n// > threshold → FEL (on), különben LE (off)\nlet state = wind > WIND_THRESHOLD ? \"on\" : \"off\";\n\n// --- KIMENŐ ÜZENET A Roller_Shutter FELÉ ---\nmsg.payload = { state };\n\nnode.status({\n    text: `W: ${weather}, wind: ${wind} m/s, limit: ${WIND_THRESHOLD} → ${state}`\n});\n\nreturn msg;\n\n\n",
+        "func": "\nconst WIND_THRESHOLD = 8;  \n\nconst api = msg.payload;\nconst weather = api.weather?.[0]?.main || \"\";\nconst wind = (api.wind && typeof api.wind.speed === \"number\") ? api.wind.speed : null;\n\nif (wind === null) {\n    node.warn(\"Nincs érvényes wind.speed az API válaszban!\");\n    return null;\n}\n\nlet state = wind > WIND_THRESHOLD ? \"on\" : \"off\";\n\nmsg.payload = { state };\n\nnode.status({\n    text: `W: ${weather}, wind: ${wind} m/s, limit: ${WIND_THRESHOLD} → ${state}`\n});\n\nreturn msg;\n\n\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1147,7 +1147,7 @@
         "type": "function",
         "z": "e8ecf3e0486b455b",
         "name": "Simulated_Indoor_Temp",
-        "func": "// 20–25 °C közötti \"benti\" hőmérséklet szimulálása\nlet temp = 20 + Math.random() * 5;\n// kerekítsük egy tizedesre\ntemp = Math.round(temp * 10) / 10;\n\n// ezt mutatjuk a gauge-en\nmsg.payload = temp;\n\n// elmentjük flow-ba is, hogy máshol is elérjük\nflow.set(\"indoor_temp\", temp);\n\nnode.status({ text: `Indoor: ${temp} °C` });\n\nreturn msg;",
+        "func": "// 20–25 °C közötti \"benti\" hőmérséklet szimulálása\nlet temp = 20 + Math.random() * 5;\n// kerekítsük egy tizedesre\ntemp = Math.round(temp * 10) / 10;\n\n// ezt mutatjuk a gauge-en\nmsg.payload = temp;\n\n// elmentjük flow-ba is, hogy máshol is elérjük\nflow.set(\"indoor_temp\", temp);\n\nnode.status({ text: `Indoor: ${temp} °C` });\n\nflow.set(\"indoorTemp\", msg.payload);\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1191,6 +1191,55 @@
         "wires": []
     },
     {
+        "id": "30531b7a9d93c138",
+        "type": "http in",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "url": "/Indoor_Temp",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 1860,
+        "wires": [
+            [
+                "782868da5671f8d6"
+            ]
+        ]
+    },
+    {
+        "id": "782868da5671f8d6",
+        "type": "function",
+        "z": "e8ecf3e0486b455b",
+        "name": "Get_Indoor_Temp",
+        "func": "const temp = flow.get(\"indoorTemp\") || 0;\nmsg.payload = { temp: temp };\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 430,
+        "y": 1860,
+        "wires": [
+            [
+                "4892801fd9084fdc"
+            ]
+        ]
+    },
+    {
+        "id": "4892801fd9084fdc",
+        "type": "http response",
+        "z": "e8ecf3e0486b455b",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 670,
+        "y": 1860,
+        "wires": []
+    },
+    {
         "id": "ac05e8d423bdb7c9",
         "type": "ui_group",
         "name": "Smart Home / Weather",
@@ -1209,7 +1258,7 @@
         "order": 1
     },
     {
-        "id": "44338b6ce0b0f176",
+        "id": "ee1ec09a3abf3ce4",
         "type": "global-config",
         "env": [],
         "modules": {
